@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/activity_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            tools:context="com.amazonaws.youruserpools.database_colume_node">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="left"
+                    android:background="#2C1FE8"
+                    android:orientation="vertical">
+
+                        <!--<TextView-->
+                            <!--android:layout_width="fill_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/ipadddress"-->
+                            <!--android:textColor="#000"-->
+                            <!--android:background="#ffffff"-->
+                            <!--android:textSize="22sp" />-->
+                        <!--<TextView-->
+                            <!--android:layout_width="fill_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/lat"-->
+                            <!--android:background="#ffffff"-->
+                            <!--android:textColor="#000"-->
+                            <!--android:textSize="22sp" />-->
+
+
+                        <!--<TextView-->
+                            <!--android:layout_width="fill_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textSize="22sp"-->
+                            <!--android:textColor="#000"-->
+                            <!--android:background="#ffffff"-->
+                            <!--android:id="@+id/log" />-->
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/log"
+                            android:id="@+id/newPassSpace1"
+                            android:background="#000"
+                            android:layout_alignStart="@+id/log" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginRight="3dp"
+                            android:text="Column_manufacturer"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp" />
+
+                        <Spinner android:id="@+id/ColumManf"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
+                            android:textSize="24sp"
+                            />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/ColumManf"
+                            android:id="@+id/newPassSpace2"
+                            android:background="#000"
+                            android:layout_alignStart="@+id/ColumManf" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textSize="24sp"
+                            android:textColor="#ffffff"
+                            android:text="Raise And Lower" />
+
+                        <Spinner
+                            android:id="@+id/RaiseandLow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/RaiseandLow"
+                            android:textColor="#ffffff"
+                            android:id="@+id/newPassSpace3"
+                            android:background="#000"
+                            android:layout_alignStart="@+id/RaiseandLow" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp"
+                            android:text="Column Material" />
+
+                        <Spinner
+                            android:id="@+id/columeMaterial"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/columeMaterial"
+                            android:id="@+id/newPassSpace4"
+                            android:layout_alignStart="@+id/columeMaterial" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp"
+                            android:text="Column type" />
+
+                        <Spinner
+                            android:id="@+id/ColumeType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/ColumeType"
+                            android:id="@+id/newPassSpace5"
+                            android:layout_alignStart="@+id/ColumeType" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textSize="24sp"
+                            android:textColor="#ffffff"
+                            android:text="Colume Height From Ground " />
+
+                        <Spinner
+                            android:id="@+id/ColumeHeight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/ColumeHeight"
+                            android:id="@+id/newPassSpace6"
+                            android:layout_alignStart="@+id/ColumeHeight" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp"
+                            android:text="Number Of Doors" />
+
+                        <Spinner
+                            android:id="@+id/NumberDoor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/NumberDoor"
+                            android:id="@+id/newPassSpace7"
+                            android:layout_alignStart="@+id/NumberDoor" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp"
+                            android:text="Door Dimensions" />
+
+
+                        <Spinner
+                            android:id="@+id/DoorDimension"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/DoorDimension"
+                            android:id="@+id/newPassSpace8"
+                            android:layout_alignStart="@+id/DoorDimension" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp"
+                            android:text="Foundation Type" />
+
+                        <Spinner
+                            android:id="@+id/FoundatType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/FoundatType"
+                            android:id="@+id/newPassSpace9"
+                            android:layout_alignStart="@+id/FoundatType" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp"
+                            android:text="Bracket Type" />
+
+                        <Spinner
+                            android:id="@+id/BracketType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/BracketLength"
+                            android:id="@+id/newPassSpace10"
+                            android:layout_alignStart="@+id/BracketLength" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp"
+                            android:text="Bracket(s) Length" />
+
+                        <Spinner
+                            android:id="@+id/BracketLength"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/BracketLength"
+                            android:id="@+id/newPassSpac"
+                            android:layout_alignStart="@+id/BracketLength" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp"
+                            android:text="Estimated Colume Age" />
+
+                        <Spinner
+                            android:id="@+id/ColumeAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/ColumeAge"
+                            android:id="@+id/newPassSpa"
+                            android:layout_alignStart="@+id/ColumeAge" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="3dp"
+                            android:textColor="#ffffff"
+                            android:textSize="24sp"
+                            android:text="Lantern Manufacturer" />
+
+                        <Spinner
+                            android:id="@+id/lantern_manufacturer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"/>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20px"
+                            android:layout_below="@+id/lantern_manufacturer"
+                            android:id="@+id/newPassSp"
+                            android:layout_alignStart="@+id/lantern_manufacturer" />
+
+                        <Button
+                            android:id="@+id/btnSave"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="SAVE" />
+
+                </LinearLayout>
+        </ScrollView>

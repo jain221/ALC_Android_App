@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".OldScmsInstallation"
+   >
+
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50px"
+        android:layout_below="@+id/log"
+        android:id="@+id/newPassSpace1"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+
+    <Button
+        android:id="@+id/Rnode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Replace Node"
+        android:textAllCaps="false"
+        android:background="#0f7add"
+        android:onClick="ReplaceNode"
+        android:textSize="18sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Replace Lantern"
+        android:background="#0f7add"
+        android:textAllCaps="false"
+        android:onClick="ReplaceLatern"
+        android:textSize="18sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Replace Colume"
+        android:background="#0f7add"
+        android:textAllCaps="false"
+        android:onClick="ReplaceColume"
+        android:textSize="18sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Foundation Repair"
+        android:background="#0f7add"
+        android:textAllCaps="false"
+        android:onClick="FoundationRepair"
+        android:textSize="18sp" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Lantern Charateristics"
+        android:background="#0f7add"
+        android:onClick="editLatentCharch"
+        android:textAllCaps="false"
+
+        android:textSize="18sp" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20px"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+
+</LinearLayout>

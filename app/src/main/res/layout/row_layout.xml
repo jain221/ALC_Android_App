@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="75dp">
+    
+    
+    <TextView
+    android:layout_width="80dp"
+    android:layout_height="match_parent"
+    android:layout_alignParentLeft="true"
+    android:text="ashu"
+    android:gravity="center"
+    android:textAppearance="?android:textAppearanceLarge"
+    android:id="@+id/tx_name"
+    />
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:text="ashu"
+        android:layout_toRightOf="@+id/tx_name"
+        android:gravity="center"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:id="@+id/tx_email"
+        />
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:text="ashu"
+        android:layout_toRightOf="@+id/tx_email"
+        android:gravity="center"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:id="@+id/tx_contact"
+        />
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:text="ashu"
+        android:layout_toRightOf="@+id/tx_contact"
+        android:gravity="center"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:id="@+id/tx_password"
+        />
+
+</RelativeLayout>

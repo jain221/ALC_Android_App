@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.amazonaws.youruserpools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <permission
+        android:name="com.amazonaws.youruserpools.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.amazonaws.youruserpools.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.amazonaws.youruserpools.providers.gsf.permission.READ_GSERVICES" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="ISD  "
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="Lighting Colume"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCXNTs7o1r1s0JeOD1FhH13SQ3IIW45sF4" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".mapActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="MAP"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UserActivity"
+            android:label="@string/title_activity_user"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RegisterUser"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AboutApp"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/title_activity_about_app"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SignUpConfirm"
+            android:label="@string/title_activity_sign_up_confirm"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="@string/title_activity_forgot_password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:label="@string/title_activity_change_password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NewPassword"
+            android:label="@string/title_activity_new_password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".liveLocation" />
+        <activity
+            android:name=".CurrentNode"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="MAP"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".database_colume_node"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:parentActivityName=".CurrentNode" />
+        <activity
+            android:name=".showsingleData"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".AvaliableData"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:parentActivityName=".mapActivity" />
+        <activity
+            android:name=".upDateDataBase"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:parentActivityName=".AvaliableData" />
+        <activity
+            android:name=".listview"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".Displayactivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTask"
+            android:parentActivityName=".CurrentNode" />
+        <activity
+            android:name=".SingleDataBASEADDING"
+            android:label="Column Attribute Data"
+            android:parentActivityName=".NodeMapSingleData"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".NodeMapSingleData"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:parentActivityName=".mapActivity"
+            android:label="Column Map"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".Test" />
+        <activity android:name=".OldScmsInstallation" />
+        <activity android:name=".activityupdate" />
+        <activity android:name=".ReplaceNode" />
+        <activity android:name=".ReplaceLatern" />
+        <activity android:name=".ReplaceColumn"></activity>
+    </application>
+
+</manifest>
