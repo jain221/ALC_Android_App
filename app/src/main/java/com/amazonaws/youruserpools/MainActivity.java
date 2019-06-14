@@ -20,6 +20,7 @@ package com.amazonaws.youruserpools;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
@@ -59,7 +60,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPas
 import com.amazonaws.mobileconnectors.lambdainvoker.LambdaFunctionException;
 import com.amazonaws.mobileconnectors.lambdainvoker.LambdaInvokerFactory;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.youruserpools.R;
+
 
 import java.util.List;
 import java.util.Locale;
@@ -109,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
         nDrawer = (NavigationView) findViewById(R.id.nav_view);
         setNavDrawer();
 
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart", true);
+
+//        if (firstStart) {
+//            showStartDialog();
+//        }
+
+        showStartDialog();
+
         // Initialize application
         AppHelper.init(getApplicationContext());
         initApp();
@@ -116,6 +126,32 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
+
+    private void showStartDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("ISD App Proces")
+                .setMessage("Would you like to See Video for User Instruction")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent internt = new Intent(MainActivity.this, VideoPlay.class);
+                        startActivity(internt);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create().show();
+
+//        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putBoolean("firstStart", false);
+//        editor.apply();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

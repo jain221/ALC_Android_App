@@ -1,29 +1,20 @@
 package com.amazonaws.youruserpools;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.youruserpools.helper.HttpJsonParser;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
+import com.amazonaws.youruserpools.HttpJsonParser;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +27,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +36,7 @@ import java.util.Map;
 
 
 public class showsingleData extends AppCompatActivity {
+    private static Object URL = true;
     HttpParse httpParse = new HttpParse();
 
     private static final String KEY_MOVIE_ID = "ipaddress";
@@ -69,20 +62,19 @@ public class showsingleData extends AppCompatActivity {
     public static final String ID = "id";
 
 
-
     ProgressDialog pDialog;
-    String finalResult ;
-    HashMap<String,String> hashMap = new HashMap<>();
-    String ParseResult ;
-    HashMap<String,String> ResultHash = new HashMap<>();
-    String FinalJSonObject ;
-    TextView NAME,PHONE_NUMBER,CLASS;
+    String finalResult;
+    HashMap<String, String> hashMap = new HashMap<>();
+    String ParseResult;
+    HashMap<String, String> ResultHash = new HashMap<>();
+    String FinalJSonObject;
+    TextView NAME, PHONE_NUMBER, CLASS;
     String NameHolder, NumberHolder, ClassHolder;
     Button UpdateButton, DeleteButton;
     String TempItem;
     ProgressDialog progressDialog2;
 
-
+    List<Product> productList;
     TextView ipaddress;
     TextView lat;
     TextView log;
@@ -98,10 +90,12 @@ public class showsingleData extends AppCompatActivity {
     TextView bl1;
     TextView eage1;
     TextView lm1;
-    String ip,latt,logg,cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
     String e1, e2, e3;
 
-    String lat2,logg2;
+    String lat3, lng3;
+
+    String lat2, logg2;
     private static final String KEY_DATA = "data";
 
     private static final String BASE_URL = "https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData";
@@ -147,10 +141,30 @@ public class showsingleData extends AppCompatActivity {
         eage1 = (TextView) findViewById(R.id.t15);
         lm1 = (TextView) findViewById(R.id.t16);
 
+        new FetchMovieDetailsAsyncTask().execute();
+        productList = new ArrayList<>();
+//        HttpWebCall(movieId);
 
 
+        //   URL = new HTTPAsyncTask().execute("https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData");
 
-            new FetchMovieDetailsAsyncTask().execute();
+        ipaddress.setText(movieId);
+        lat.setText(lat3);
+        log.setText(lng3);
+        cl1.setText(cl);
+        rs1.setText(rs);
+        cm1.setText(cm);
+        ct1.setText(ct);
+        chg1.setText(chg);
+        nd1.setText(nd);
+        dd1.setText(dd);
+        ft1.setText(ft);
+        bt1.setText(bt);
+        bl1.setText(bl);
+        eage1.setText(eage);
+        lm1.setText(lm);
+
+        //     new FetchMovieDetailsAsyncTask().execute();
 
 
 //        updateButton = (Button) findViewById(R.id.btnUpdate);
@@ -173,9 +187,6 @@ public class showsingleData extends AppCompatActivity {
 
     }
 
-    /**
-     * Fetches single movie details from the server
-     */
     private class FetchMovieDetailsAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
@@ -193,76 +204,45 @@ public class showsingleData extends AppCompatActivity {
             HttpJsonParser httpJsonParser = new HttpJsonParser();
             Map<String, String> httpParams = new HashMap<>();
             httpParams.put(KEY_MOVIE_ID, movieId);
-            final org.json.JSONObject[] product = {httpJsonParser.makeHttpRequest(
-                    BASE_URL + "get_movie_details.php", "GET", httpParams)};
-//            try {
-//                int success = jsonObject.getInt(String.valueOf(1));
-//                JSONObject product;
-//                if (success == 1) {
-//                    //Parse the JSON response
-//
-
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, BASE_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                //converting the string to json array object
-                                JSONArray array = new JSONArray(response);
-
-                                //traversing through all the object
-                                for (int i = 0; i < array.length(); i++) {
-
-//                                    JSONObject product = array.getJSONObject(i);
-//
-//                    //traversing through all the object
-//                    for (int i = 0; i < array.length(); i++) {
-
-                                    //getting product object from json array
-                                    product[0] = array.getJSONObject(i);
-                                    lat2 = String.valueOf(Double.parseDouble(product[0].getString(LAT)));
-                                    logg2 = String.valueOf(Double.parseDouble(product[0].getString(LNG)));
-                                    cl = product[0].getString(columeManf).toString();
-                                    rs = product[0].getString(RaiseandLow).toString();
-                                    cm = product[0].getString(columeMaterial).toString();
-                                    ct = product[0].getString(ColumeType).toString();
-                                    chg = product[0].getString(ColumeHight).toString();
-                                    nd = product[0].getString(NumDoors).toString();
-                                    dd = product[0].getString(DoorDimen).toString();
-                                    ft = product[0].getString(Foundation).toString();
-                                    bt = product[0].getString(ColumeBracket).toString();
-                                    bl = product[0].getString(BracketLenth).toString();
-                                    eage = product[0].getString(EstimatedAge).toString();
-                                    lm = product[0].getString(LatenManfu).toString();
-
-
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(showsingleData.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                        }
-                    });
-
-            //adding our stringrequest to queue
-            Volley.newRequestQueue(showsingleData.this).add(stringRequest);
+            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+                    BASE_URL + "get_movie_details.php", "GET", httpParams);
+            try {
+                org.json.JSONObject jsonArray = jsonObject;
+                JSONObject product;
+                for(int i=0; i<jsonArray.length(); i++)
+                        {
+                            product  = jsonArray.getJSONObject(String.valueOf(i));
+                            lat3 = String.valueOf((Double.parseDouble(product.getString(LAT))));
+                    lng3 = String.valueOf((Double.parseDouble(product.getString(LNG))));
+                    cl = product.getString(columeManf);
+                    rs = product.getString(RaiseandLow);
+                    cm = product.getString(columeMaterial);
+                    ct = product.getString(ColumeType);
+                    chg = product.getString(ColumeHight);
+                    nd = product.getString(NumDoors);
+                    dd = product.getString(DoorDimen);
+                    ft = product.getString(Foundation);
+                    bt = product.getString(ColumeBracket);
+                    bl = product.getString(BracketLenth);
+                    eage = product.getString(EstimatedAge);
+                    lm = product.getString(LatenManfu);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
-            protected void onPostExecute(String result) {
+        protected void onPostExecute(String result) {
             pDialog.dismiss();
             runOnUiThread(new Runnable() {
                 public void run() {
                     //Populate the Edit Texts once the network activity is finished executing
+
+
                     ipaddress.setText(movieId);
-                    lat.setText(lat2);
-                    log.setText(logg2);
+                    lat.setText(lat3);
+                    log.setText(lng3);
                     cl1.setText(cl);
                     rs1.setText(rs);
                     cm1.setText(cm);
@@ -275,76 +255,492 @@ public class showsingleData extends AppCompatActivity {
                     bl1.setText(bl);
                     eage1.setText(eage);
                     lm1.setText(lm);
+
                 }
             });
         }
 
+    }
+}
 
 
+
+
+
+//
+
+//
+//
+//    private String httpPost(String myUrl) throws IOException, JSONException {
+//        String result = "";
+//
+//        URL url = new URL(myUrl);
+//
+//        // 1. create HttpURLConnection
+//        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//        conn.setRequestMethod("POST");
+//        conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+//
+//        // 2. build JSON object
+//        JSONObject jsonObject = buidJsonObject();
+//
+//        // 3. add JSON content to POST request body
+//        setPostRequestContent(conn, jsonObject);
+//
+//        // 4. make POST request to the given URL
+//        conn.connect();
+//
+//        // 5. return response message
+//        return conn.getResponseMessage() + "";
+//
+//    }
+//
+//
+//    class HTTPAsyncTask extends AsyncTask<String, Void, String> {
+//        @Override
+//        protected String doInBackground(String... urls) {
+//            // params comes from the execute() call: params[0] is the url.
+//            try {
+//                try {
+//                    return httpPost(urls[0]);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    return "Error!";
+//                }
+//            } catch (IOException e) {
+//                return "Unable to retrieve web page. URL may be invalid.";
+//            }
+//        }
+//
+//        // onPostExecute displays the results of the AsyncTask.
+//        @Override
+//        protected void onPostExecute(String result) {
+//
+//        }
+//    }
+//
+//
+//    private JSONObject buidJsonObject() throws JSONException {
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            e1 = extras.getString("doubleValue_e1");
+//        }
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("ipaddress", e1);
+//
+//        return jsonObject;
+//    }
+//
+//    private void setPostRequestContent(HttpURLConnection conn, JSONObject jsonObject) throws IOException {
+//
+//        OutputStream os = conn.getOutputStream();
+//        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+//        writer.write(jsonObject.toString());
+//        Log.i(MainActivity.class.toString(), jsonObject.toString());
+//        writer.flush();
+//        writer.close();
+//        os.close();
+//    }
+//
+//
+//
+//
+//
+//
+//
+//
+//    //
+//    //Method to show current record Current Selected Record
+//    public void HttpWebCall(final String PreviousListViewClickedItem){
+//
+//        class HttpWebCallFunction extends AsyncTask<String,Void,String> {
+//
+//            @Override
+//            protected void onPreExecute() {
+//                super.onPreExecute();
+//
+//                pDialog = ProgressDialog.show(showsingleData.this,"Loading Data",null,true,true);
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String httpResponseMsg) {
+//
+//                super.onPostExecute(httpResponseMsg);
+//
+//                pDialog.dismiss();
+//
+//                //Storing Complete JSon Object into String Variable.
+//                FinalJSonObject = httpResponseMsg ;
+//
+//                //Parsing the Stored JSOn String to GetHttpResponse Method.
+//                new GetHttpResponse(showsingleData.this).execute();
+//
+//            }
+//
+//            @Override
+//            protected String doInBackground(String... params) {
+//
+//                ResultHash.put("ipaddress2",params[0]);
+//
+//                ParseResult = httpParse.postRequest(ResultHash,BASE_URL);
+//
+//                return ParseResult;
+//            }
+//        }
+//
+//        HttpWebCallFunction httpWebCallFunction = new HttpWebCallFunction();
+//
+//        httpWebCallFunction.execute(PreviousListViewClickedItem);
+//    }
+//
+//
+//    // Parsing Complete JSON Object.
+//    private class GetHttpResponse extends AsyncTask<Void, Void, Void>
+//    {
+//        public Context context;
+//
+//        public GetHttpResponse(Context context)
+//        {
+//            this.context = context;
+//        }
+//
+//        @Override
+//        protected void onPreExecute()
+//        {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... arg0)
+//        {
+//            try
+//            {
+//                if(FinalJSonObject != null)
+//                {
+//                    JSONArray jsonArray = null;
+//
+//                    try {
+//                        jsonArray = new JSONArray(FinalJSonObject);
+//
+//                        JSONObject product ;
+//
+//                        for(int i=0; i<jsonArray.length(); i++)
+//                        {
+//                            product  = jsonArray.getJSONObject(i);
+//
+//
+//                            double lat2 = (Double.parseDouble(product.getString(LAT)));
+//                            double logg2 = (Double.parseDouble(product.getString(LNG)));
+//                            cl = product.getString(columeManf);
+//                            rs = product.getString(RaiseandLow);
+//                            cm = product.getString(columeMaterial) ;
+//                            ct = product.getString(ColumeType) ;
+//                            chg = product.getString(ColumeHight) ;
+//                            nd = product.getString(NumDoors) ;
+//                            dd = product.getString(DoorDimen) ;
+//                            ft = product.getString(Foundation) ;
+//                            bt = product.getString(ColumeBracket) ;
+//                            bl = product.getString(BracketLenth) ;
+//                            eage = product.getString(EstimatedAge) ;
+//                            lm = product.getString(LatenManfu) ;
+//                            productList.add(new Product(movieId,lat2,logg2,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm));
+//
+//                        }
+//                    }
+//                    catch (JSONException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//            catch (Exception e)
+//            {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result)
+//        {
+//
+//
+////            String lat = lat3;
+////            String lng = lng3;
+////            String c11 =String.valueOf(cl);
+////            String rs1 =String.valueOf(rs);
+////            String cm1 =String.valueOf(cm);
+////            String ct1 =String.valueOf(ct);
+////            String chg1 =String.valueOf(chg);
+////            String nd1 =String.valueOf(nd);
+////            String dd1 =String.valueOf(dd);
+////            String ft1 =String.valueOf(ft);
+////            String bt1 =String.valueOf(bt);
+////            String b11 =String.valueOf(bl);
+////            String eage1 =String.valueOf(eage);
+////            String lm1 =String.valueOf(lm);
+//
+////            ipaddress.setText(movieId);
+////            lat.setText(lat3);
+////            log.setText(lng3);
+////            cl1.setText(cl);
+////            rs1.setText(rs);
+////            cm1.setText(cm);
+////            ct1.setText(ct);
+////            chg1.setText(chg);
+////            nd1.setText(nd);
+////            dd1.setText(dd);
+////            ft1.setText(ft);
+////            bt1.setText(bt);
+////            bl1.setText(bl);
+////            eage1.setText(eage);
+////            lm1.setText(lm);
+//
+//            Product product = productList.get(1);
+//                    ipaddress.setText(product.getipaddress());
+//                    lat.setText(String.valueOf(product.getlatitude()));
+//                    log.setText(String.valueOf(product.getlongitude()));
+//                    cl1.setText(product.getColume_Manfucture());
+//                    rs1.setText(product.getRaise_and_Lower());
+//                    cm1.setText(product.getColume_Material());
+//                    ct1.setText(product.getColume_Type());
+//                    chg1.setText(product.getcolumn_height_from_ground());
+//                    nd1.setText(product.getnumber_of_door());
+//                    dd1.setText(product.getdoor_dimensions());
+//                    ft1.setText(product.getfoundation_type());
+//                    bt1.setText(product.getbracket_type());
+//                    bl1.setText(product.getbracket_length());
+//                    eage1.setText(product.getestimated_column_age());
+//                    lm1.setText(product.getlantern_manufacture());
+//        }
+//
+//
+//        }
+//
+
+//
+
+
+//
+//    /**
+//     * Fetches single movie details from the server
+//     */
+//    private class FetchMovieDetailsAsyncTask extends AsyncTask<String, String, String> {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            //Display progress bar
+//            pDialog = new ProgressDialog(showsingleData.this);
+//            pDialog.setMessage("Loading Movie Details. Please wait...");
+//            pDialog.setIndeterminate(false);
+//            pDialog.setCancelable(false);
+//            pDialog.show();
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            HttpJsonParser httpJsonParser = new HttpJsonParser();
+//            Map<String, String> httpParams = new HashMap<>();
+//            httpParams.put(KEY_MOVIE_ID, movieId);
+//            final org.json.JSONObject[] product = {httpJsonParser.makeHttpRequest(
+//                    BASE_URL + "get_movie_details.php", "GET", httpParams)};
+////            try {
+////                int success = jsonObject.getInt(String.valueOf(1));
+////                JSONObject product;
+////                if (success == 1) {
+////                    //Parse the JSON response
+////
+//
+//            StringRequest stringRequest = new StringRequest(Request.Method.GET, BASE_URL,
+//                    new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            try {
+//                                //converting the string to json array object
+//                                JSONArray array = new JSONArray(response);
+//
+//                                //traversing through all the object
+//                                for (int i = 0; i < array.length(); i++) {
+//
+////                                    JSONObject product = array.getJSONObject(i);
+////
+////                    //traversing through all the object
+////                    for (int i = 0; i < array.length(); i++) {
+//
+//                                    //getting product object from json array
+//                                    product[0] = array.getJSONObject(i);
+//                                    String ipadddress = product[0].getString(KEY_MOVIE_ID);
+//                                    double lat2 = (Double.parseDouble(product[0].getString(LAT)));
+//                                    double logg2 = (Double.parseDouble(product[0].getString(LNG)));
+//                                    cl = product[0].getString(columeManf).toString();
+//                                    rs = product[0].getString(RaiseandLow).toString();
+//                                    cm = product[0].getString(columeMaterial).toString();
+//                                    ct = product[0].getString(ColumeType).toString();
+//                                    chg = product[0].getString(ColumeHight).toString();
+//                                    nd = product[0].getString(NumDoors).toString();
+//                                    dd = product[0].getString(DoorDimen).toString();
+//                                    ft = product[0].getString(Foundation).toString();
+//                                    bt = product[0].getString(ColumeBracket).toString();
+//                                    bl = product[0].getString(BracketLenth).toString();
+//                                    eage = product[0].getString(EstimatedAge).toString();
+//                                    lm = product[0].getString(LatenManfu).toString();
+//
+//                                productList.add(new Product(ipadddress,lat2,logg2,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm));
+//
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    },
+//                    new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            Toast.makeText(showsingleData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+//
+//                        }
+//                    });
+//
+//            //adding our stringrequest to queue
+//            Volley.newRequestQueue(showsingleData.this).add(stringRequest);
+//            return null;
+//        }
+//
+//            protected void onPostExecute(final String result) {
+//            pDialog.dismiss();
+//            runOnUiThread(new Runnable() {
+//                public void run() {
+//                    //Populate the Edit Texts once the network activity is finished executing
+//
+//
+//                    ipaddress.setText(product.getipaddress());
+//                    lat.setText(String.valueOf(product.getlatitude()));
+//                    log.setText(String.valueOf(product.getlongitude()));
+//                    cl1.setText(product.getColume_Manfucture());
+//                    rs1.setText(product.getRaise_and_Lower());
+//                    cm1.setText(product.getColume_Material());
+//                    ct1.setText(product.getColume_Type());
+//                    chg1.setText(product.getcolumn_height_from_ground());
+//                    nd1.setText(product.getnumber_of_door());
+//                    dd1.setText(product.getdoor_dimensions());
+//                    ft1.setText(product.getfoundation_type());
+//                    bt1.setText(product.getbracket_type());
+//                    bl1.setText(product.getbracket_length());
+//                    eage1.setText(product.getestimated_column_age());
+//                    lm1.setText(product.getlantern_manufacture());
+//                }
+//            });
+//        }
+//
+//
+//
 
 
 //        getData();
 
 
-
-        //Calling method to filter Student Record and open selected record.
+    //Calling method to filter Student Record and open selected record.
 //        HttpWebCall(TempItem);
-    }
 
 
-
-
-
-
-
-
-    //.......................................................................................
+    //  .......................................................................................
 //    private void getData() {
 //
 //
+////        StringRequest stringRequest = new StringRequest(Request.Method.GET, (String) URL,
+////                new Response.Listener<String>() {
+////
+////                    HttpJsonParser httpJsonParser = new HttpJsonParser();
+////                    Map<String, String> httpParams = new HashMap<>();
+////                    httpParams.put(KEY_MOVIE_ID, movieId);
+////                    JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+////                            BASE_URL + "get_movie_details.php", "GET", httpParams);
+////                    @Override
+////                    public void onResponse(String response) {
+////                        try {
+////
+//////                                JSONObject product = new JSONObject(response);
+//////                                JSONArray jsonarray = product.getJSONArray(TempItem);
+//////                                JSONObject data = jsonarray.getJSONObject(0);
+////
+////
+////                            String s = new String(response);
+////                            JSONObject jsonObject = new JSONObject(s);
+////
+////                            if (jsonObject.has(" movieId")) {
+////                                JSONArray country = jsonObject.getJSONArray(" movieId");
+////                                for (int i = 0; i < country.length(); i++) {
+////                                    JSONObject product = country.getJSONObject(i);
+////                                    lat3 = String.valueOf((Double.parseDouble(product.getString(LAT))));
+////                                    lng3 = String.valueOf((Double.parseDouble(product.getString(LNG))));
+////                                    cl = product.getString(columeManf);
+////                                    rs = product.getString(RaiseandLow);
+////                                    cm = product.getString(columeMaterial);
+////                                    ct = product.getString(ColumeType);
+////                                    chg = product.getString(ColumeHight);
+////                                    nd = product.getString(NumDoors);
+////                                    dd = product.getString(DoorDimen);
+////                                    ft = product.getString(Foundation);
+////                                    bt = product.getString(ColumeBracket);
+////                                    bl = product.getString(BracketLenth);
+////                                    eage = product.getString(EstimatedAge);
+////                                    lm = product.getString(LatenManfu);
+////
+////                                }
+////
+////                            }
 //
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpURL,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
 //
-//                                JSONObject product = new JSONObject(response);
-//                                JSONArray jsonarray = product.getJSONArray(TempItem);
-//                                JSONObject data = jsonarray.getJSONObject(0);
 //
-//                                cl = product.getString(columeManf);
-//                                rs = product.getString(RaiseandLow);
-//                                cm = product.getString(columeMaterial);
-//                                ct = product.getString(ColumeType);
-//                                chg = product.getString(ColumeHight);
-//                                nd = product.getString(NumDoors);
-//                                dd = product.getString(DoorDimen);
-//                                ft = product.getString(Foundation);
-//                                bt = product.getString(ColumeBracket);
-//                                bl = product.getString(BracketLenth);
-//                                eage = product.getString(EstimatedAge);
-//                                lm = product.getString(LatenManfu);
+//        com.amazonaws.youruserpools.HttpJsonParser httpJsonParser = new HttpJsonParser();
+//        Map<String, String> httpParams = new HashMap<>();
+//        httpParams.put(KEY_MOVIE_ID, movieId);
+//        JSONObject jsonObject = httpJsonParser.makeHttpRequest(
+//                BASE_URL + "get_movie_details.php", "GET", httpParams);
+//        try {
+//            int success = jsonObject.getInt(String.valueOf(1));
+//            JSONObject product;
+//            if (success == 1) {
+//                //Parse the JSON response
+//                product = jsonObject.getJSONObject(KEY_DATA);
+//                lat3 = String.valueOf((Double.parseDouble(product.getString(LAT))));
+//                                    lng3 = String.valueOf((Double.parseDouble(product.getString(LNG))));
+//                                    cl = product.getString(columeManf);
+//                                    rs = product.getString(RaiseandLow);
+//                                    cm = product.getString(columeMaterial);
+//                                    ct = product.getString(ColumeType);
+//                                    chg = product.getString(ColumeHight);
+//                                    nd = product.getString(NumDoors);
+//                                    dd = product.getString(DoorDimen);
+//                                    ft = product.getString(Foundation);
+//                                    bt = product.getString(ColumeBracket);
+//                                    bl = product.getString(BracketLenth);
+//                                    eage = product.getString(EstimatedAge);
+//                                    lm = product.getString(LatenManfu);
 //
+//            }
 //
 //                        } catch (JSONException e) {
 //                            e.printStackTrace();
-//                        }
-//                    }
-//                },
+//
+//
+//                }
 //                new Response.ErrorListener() {
 //                    @Override
 //                    public void onErrorResponse(VolleyError error) {
 //                        Toast.makeText(showsingleData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 //
 //                    }
-//                });
 //
-//        //adding our stringrequest to queue
-//        Volley.newRequestQueue(this).add(stringRequest);
-//
-//
-//    }
+//                };
+
+        //adding our stringrequest to queue
+//        Volley.newRequestQueue(this).add(httpJsonParser);
+
+
+
+
 
 //
 //    //Method to show current record Current Selected Record
@@ -523,7 +919,7 @@ public class showsingleData extends AppCompatActivity {
 //
 
 
-    }
+
 
 //
 //    //Method to show current record Current Selected Record

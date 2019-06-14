@@ -194,14 +194,14 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         logg = getIntent().getStringExtra("doubleValue_e3");
 //
 
-        ipaddress = (TextView) findViewById(R.id.t1);
-        lat = (TextView) findViewById(R.id.t2);
-        log = (TextView) findViewById(R.id.t3);
+//        ipaddress = (TextView) findViewById(R.id.t1);
+//        lat = (TextView) findViewById(R.id.t2);
+//        log = (TextView) findViewById(R.id.t3);
 
-
-        ipaddress.setText(TempItem);
-        lat.setText(latt);
-        log.setText(logg);
+//
+//        ipaddress.setText(TempItem);
+//        lat.setText(latt);
+//        log.setText(logg);
 
         btnAddNewCategory = (Button) findViewById(R.id.btnSave);
         spinnerColumeManf = (Spinner) findViewById(R.id.ColumManf);
@@ -306,7 +306,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -354,7 +354,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
             lables.add(categoriesList1.get(i).getName1());
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -403,7 +403,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -451,7 +451,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -501,7 +501,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -552,7 +552,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -599,7 +599,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
             lables.add(categoriesList6.get(i).getName6());
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -646,7 +646,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         for (int i = 0; i < categoriesList7.size(); i++) {
             lables.add(categoriesList7.get(i).getName7());
         }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -693,7 +693,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -742,7 +742,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
             lables.add(categoriesList9.get(i).getName9());
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -788,7 +788,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
             lables.add(categoriesList10.get(i).getName10());
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.spinerrgb, lables);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter

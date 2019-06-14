@@ -231,18 +231,18 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         mPrefs = getSharedPreferences("label", 0);
         CountryName = new ArrayList<>();
 
-        TextView ipaddress = (TextView) findViewById(R.id.ipadddress);
-        TextView lat = (TextView) findViewById(R.id.lat);
-        TextView logg = (TextView) findViewById(R.id.log);
+//        TextView ipaddress = (TextView) findViewById(R.id.ipadddress);
+//        TextView lat = (TextView) findViewById(R.id.lat);
+//        TextView logg = (TextView) findViewById(R.id.log);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             e1 = extras.getString("doubleValue_e1");
             e2 = extras.getString("doubleValue_e2");
             e3 = extras.getString("doubleValue_e3");
-            ipaddress.setText("IP_Add. " + e1);
-            lat.setText("Latitude " + e2);
-            logg.setText("Longitude " + e3);
+//            ipaddress.setText("IP_Add. " + e1);
+//            lat.setText("Latitude " + e2);
+//            logg.setText("Longitude " + e3);
 
         }
         ActionBar actionBar = getSupportActionBar();
@@ -356,7 +356,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -405,7 +405,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
             lables.add(categoriesList1.get(i).getName1());
         }
 
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -455,7 +455,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -504,7 +504,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -557,7 +557,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -608,7 +608,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -654,7 +654,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
             lables.add(categoriesList6.get(i).getName6());
         }
 
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -701,7 +701,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         for (int i = 0; i < categoriesList7.size(); i++) {
             lables.add(categoriesList7.get(i).getName7());
         }
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -748,7 +748,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -796,7 +796,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
             lables.add(categoriesList9.get(i).getName9());
         }
 
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -842,7 +842,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
             lables.add(categoriesList10.get(i).getName10());
         }
 
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -886,7 +886,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         for (int i = 0; i < categoriesList11.size(); i++) {
             lables.add(categoriesList11.get(i).getName11());
         }
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter

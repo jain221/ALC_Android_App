@@ -181,7 +181,7 @@ public class ReplaceLatern extends AppCompatActivity implements AdapterView.OnIt
         for (int i = 0; i < categoriesList11.size(); i++) {
             lables.add(categoriesList11.get(i).getName11());
         }
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.spinerrgb,lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter

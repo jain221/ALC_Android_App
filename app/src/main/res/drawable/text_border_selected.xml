@@ -7,4 +7,11 @@
         android:color="@color/text_border_selected" />
     <corners android:radius="@dimen/activity_text_radius"/>
 
+    <padding
+        android:top="0dp"
+        android:right="10dp"
+        android:left="10dp"
+        android:bottom="0dp">
+    </padding>
+
 </shape>

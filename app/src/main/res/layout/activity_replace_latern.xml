@@ -9,7 +9,7 @@ android:layout_height="match_parent">
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="230dp"
     tools:context=".ReplaceLatern">
 
 
@@ -29,7 +29,7 @@ android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/t1"
-        android:layout_width="186dp"
+        android:layout_width="237dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="34dp"
@@ -42,16 +42,18 @@ android:layout_height="match_parent">
         android:textSize="18dp" />
 
     <TextView
-        android:textColor="@color/displyatext"
-        android:text="Latitude - "
+        android:id="@+id/text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
         android:layout_below="@+id/text"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="19dp"
-        android:id="@+id/text1" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="1dp"
+        android:text="Latitude - "
+        android:textColor="@color/displyatext"
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/t2"
@@ -61,7 +63,7 @@ android:layout_height="match_parent">
         android:layout_alignBottom="@+id/text1"
         android:layout_marginStart="140dp"
         android:layout_marginLeft="53dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="0dp"
         android:layout_toEndOf="@+id/textView10"
         android:layout_toRightOf="@+id/textView10"
         android:text="Latitude"
@@ -69,16 +71,18 @@ android:layout_height="match_parent">
         android:textSize="18dp" />
 
     <TextView
-        android:textColor="@color/displyatext"
-        android:text="Longitude - "
+        android:id="@+id/text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
         android:layout_below="@+id/text1"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="19dp"
-        android:id="@+id/text3" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="2dp"
+        android:text="Longitude - "
+        android:textColor="@color/displyatext"
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/t3"
@@ -102,7 +106,8 @@ android:layout_height="match_parent">
         android:id="@+id/newPassSpa" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tex11"
+        android:layout_width="373dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/newPassSpa"
         android:layout_marginLeft="5dp"
@@ -110,27 +115,28 @@ android:layout_height="match_parent">
         android:layout_marginRight="3dp"
         android:text="Lantern Manufacturer"
         android:textColor="#000"
-        android:textSize="24sp"
-        android:id="@+id/tex11"/>
+        android:textSize="20sp" />
 
     <Spinner
         android:id="@+id/lantern_manufacturer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tex11"
-        android:textSize="24sp"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="6dp"
+        android:textSize="24sp" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="50px"
-        android:layout_below="@+id/lantern_manufacturer"
-        android:id="@+id/sks" />
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_below="@+id/sks"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="167dp"
+        android:layout_height="37dp"
+        android:layout_below="@+id/lantern_manufacturer"
+        android:layout_marginStart="109dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/text"
+        android:background="@drawable/button"
+        android:gravity="center"
         android:text="SAVE" />
 
 

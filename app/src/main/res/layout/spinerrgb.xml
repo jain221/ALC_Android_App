@@ -35,9 +35,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:textSize="22dip"
+    android:textSize="17dip"
     android:gravity="left"
     android:textColor="#000"
-    android:background="#FFFFFF"
+    android:background="@drawable/spinner_selected"
 
     />

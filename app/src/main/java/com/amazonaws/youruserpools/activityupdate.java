@@ -147,29 +147,29 @@ public class activityupdate extends AppCompatActivity {
                                 JSONObject product = array.getJSONObject(i);
 
                                 //adding the product to product list
-
-                                productList.add(new Product(
-                                        product.getInt(ID),
-                                        product.getString(TITLE),
-                                        product.getDouble(LAT), product.getDouble(LNG), product.getString(columeManf),
-                                        product.getString(RaiseandLow),
-                                        product.getString(columeMaterial),
-                                        product.getString(ColumeType),
-                                        product.getString(ColumeHight),
-                                        product.getString(NumDoors),
-                                        product.getString(DoorDimen),
-                                        product.getString(Foundation),
-                                        product.getString(ColumeBracket),
-                                        product.getString(BracketLenth),
-                                        product.getString(EstimatedAge),
-                                        product.getString(LatenManfu)
-                                ));
+//
+//                                productList.add(new Product(
+//                                        product.getInt(ID),
+//                                        product.getString(TITLE),
+//                                        product.getDouble(LAT), product.getDouble(LNG), product.getString(columeManf),
+//                                        product.getString(RaiseandLow),
+//                                        product.getString(columeMaterial),
+//                                        product.getString(ColumeType),
+//                                        product.getString(ColumeHight),
+//                                        product.getString(NumDoors),
+//                                        product.getString(DoorDimen),
+//                                        product.getString(Foundation),
+//                                        product.getString(ColumeBracket),
+//                                        product.getString(BracketLenth),
+//                                        product.getString(EstimatedAge),
+//                                        product.getString(LatenManfu)
+//                                ));
 
                             }
 
                             //creating adapter object and setting it to recyclerview
-                            ProductAdapter adapter = new ProductAdapter(activityupdate.this, productList);
-                            recyclerView.setAdapter(adapter);
+//                            ProductAdapter adapter = new ProductAdapter(activityupdate.this, productList);
+//                            recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

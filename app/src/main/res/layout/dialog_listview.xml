@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="Replace Node"
         android:textAllCaps="false"
-        android:background="#0f7add"
+        android:background="@drawable/button"
         android:onClick="ReplaceNode"
         android:textSize="18sp" />
 
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Replace Lantern"
-        android:background="#0f7add"
+        android:background="@drawable/button"
         android:textAllCaps="false"
         android:onClick="ReplaceLatern"
         android:textSize="18sp" />
@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Replace Colume"
-        android:background="#0f7add"
+        android:background="@drawable/button"
         android:textAllCaps="false"
         android:onClick="ReplaceColume"
         android:textSize="18sp" />
@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Fault Correction Process"
-        android:background="#0f7add"
+        android:background="@drawable/button"
         android:textAllCaps="false"
         android:onClick="FoundationRepair"
         android:textSize="18sp" />
@@ -94,7 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Edit Lantern Charateristics"
-        android:background="#0f7add"
+        android:background="@drawable/button"
         android:onClick="editLatentCharch"
         android:textAllCaps="false"
 
@@ -107,15 +107,15 @@
         android:background="#000"
         android:layout_alignStart="@+id/log" />
 
-    <!--<Button-->
-        <!--android:id="@+id/checkcurrent"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Avaliable Attribute of Colume"-->
-        <!--android:background="#0f7add"-->
-        <!--android:onClick="editLatentCharch"-->
-        <!--android:textAllCaps="false"-->
-        <!--android:textSize="18sp" />-->
+    <Button
+        android:id="@+id/checkcurrent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Avaliable Attribute of Colume"
+        android:background="@drawable/button"
+        android:onClick="editLatentCharch"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
 
     <Space
         android:layout_width="match_parent"
@@ -127,6 +127,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/quantum_googgreen"
         android:id="@+id/btndialog"
         android:text="Cancel"/>
 

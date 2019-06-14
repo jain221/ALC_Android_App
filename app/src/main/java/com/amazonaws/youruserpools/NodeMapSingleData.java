@@ -1,5 +1,6 @@
 package com.amazonaws.youruserpools;
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,12 +9,18 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -115,10 +123,19 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     StreetViewPanorama mStreetViewPanorama;
 
     CheckBox AllData;
-
+    private NavigationView nDrawer;
+    private DrawerLayout mDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar toolbar;
+    private AlertDialog userDialog;
+    private ProgressDialog waitDialog;
+    private ListView attributesList;
 
         List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
     private TableLayout mLinearLayout;
+    private Handler mHandler;
+    Handler handler = new Handler();
+    Runnable refresh;
 
 //
 //    class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
@@ -168,7 +185,8 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         //  mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
 
-      //  tvLocInfo = (TextView)findViewById(R.id.locinfo);
+
+
 
         getLocationPermission();
         if (gMap != null) {
@@ -219,6 +237,8 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
 
     }
+
+
 
 
     @Override
@@ -315,6 +335,9 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             @Override
             public void onClick(View view) {
                 Log.d(TAG1, "onClick: clicked gps icon");
+                finish();
+                startActivity(getIntent());
+                handler.post(refresh);
                 getDeviceLocation();
             }
         });

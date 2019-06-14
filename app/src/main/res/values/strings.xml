@@ -189,6 +189,44 @@
 
     </string-array>
     <string name="column_manufacturer11">Select a planet</string>
+    <string name="title_activity_splash">splashActivity</string>
 
 
+    <style name="Widget"/>
+
+    <style name="Widget.TextInputLayout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/input_width</item>
+        <item name="android:textColorHint">@color/color_input_hint</item>
+    </style>
+
+    <style name="Widget.TextEdit">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColorHighlight">@color/color_text_highlight</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColorHint">@color/color_input_hint</item>
+        <item name="android:background">@drawable/input_state</item>
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:padding">@dimen/text_padding</item>
+    </style>
+
+    <style name="Widget.Hint">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <string name="sign_up_label">Sign Up</string>
+    <string name="log_in_label">Log In</string>
+
+    <string name="sign_up_or_label"> Sign Up </string>
+    <string name="log_in_or_label"> Log In </string>
+
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Email</string>
+    <string name="confirm_hint">Confirm Password</string>
+
+    <string name="or"> Or </string>
 </resources>

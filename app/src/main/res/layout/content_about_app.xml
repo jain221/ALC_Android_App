@@ -82,6 +82,6 @@
             android:id="@+id/aboutBack"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/space_about_3"
-            android:background="@drawable/button_selector" />
+            android:background="@drawable/button" />
     </RelativeLayout>
 </ScrollView>

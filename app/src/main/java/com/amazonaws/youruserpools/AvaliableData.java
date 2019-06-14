@@ -835,38 +835,38 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
         });
 
 
-//        Button checkcurrent = (Button) dialog.findViewById(R.id.checkcurrent);
-//        checkcurrent.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////
-////                String lat = latit;
-////                String lng = longgg;
-////                String ipaddress2 =ipaddr;
-////                Intent intent = new Intent(AvaliableData.this,showsingleData.class);
-////                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
-//////                intent.putExtra("doubleValue_e1", ipaddress2);
-//////                intent.putExtra("doubleValue_e2", lat);
-//////                intent.putExtra("doubleValue_e3", lng);
-////                dialog.dismiss();
+        Button checkcurrent = (Button) dialog.findViewById(R.id.checkcurrent);
+        checkcurrent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //
-//
-////                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
-////                String lat = latit;
-////                String lng = longgg;
-//                String ipaddress =ipaddr;
-//
+//                String lat = latit;
+//                String lng = longgg;
+//                String ipaddress2 =ipaddr;
 //                Intent intent = new Intent(AvaliableData.this,showsingleData.class);
 //                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
-//                intent.putExtra("doubleValue_e1", ipaddress);
+////                intent.putExtra("doubleValue_e1", ipaddress2);
 ////                intent.putExtra("doubleValue_e2", lat);
 ////                intent.putExtra("doubleValue_e3", lng);
-//
-//                startActivity(intent);
-//
 //                dialog.dismiss();
-//            }
-//        });
+
+
+//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
+//                String lat = latit;
+//                String lng = longgg;
+                String ipaddress =ipaddr;
+
+                Intent intent = new Intent(AvaliableData.this,showsingleData.class);
+                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
+                intent.putExtra("doubleValue_e1", ipaddress);
+//                intent.putExtra("doubleValue_e2", lat);
+//                intent.putExtra("doubleValue_e3", lng);
+
+                startActivity(intent);
+
+                dialog.dismiss();
+            }
+        });
 
         dialog.show();
 

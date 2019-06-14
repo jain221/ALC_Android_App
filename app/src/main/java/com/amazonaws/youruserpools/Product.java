@@ -18,8 +18,8 @@ public class Product {
     private String lantern_manufacture;
 
 
-    public Product(int id, String ipaddress,double latitude,double longitude,String Colume_Manfucture,String Raise_and_Lower,String Colume_Material,String Colume_Type,String column_height_from_ground ,String number_of_door,String door_dimensions,String foundation_type ,String bracket_type ,String bracket_length,String estimated_column_age ,String lantern_manufacture ) {
-        this.id = id;
+    public Product( String ipaddress,double latitude,double longitude,String Colume_Manfucture,String Raise_and_Lower,String Colume_Material,String Colume_Type,String column_height_from_ground ,String number_of_door,String door_dimensions,String foundation_type ,String bracket_type ,String bracket_length,String estimated_column_age ,String lantern_manufacture ) {
+
         this.ipaddress=ipaddress;
         this.latitude=latitude;
         this.longitude=longitude;
@@ -39,9 +39,11 @@ public class Product {
         this.longitude=longitude;
     }
 
-    public int getid() {
-        return this.id;
+    public Product() {
+
     }
+
+
     public String getipaddress() {
         return this.ipaddress;
     }
