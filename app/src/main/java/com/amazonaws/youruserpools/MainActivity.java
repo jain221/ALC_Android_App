@@ -38,6 +38,8 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     // Screen fields
     private EditText inUsername;
     private EditText inPassword;
-
+    Animation animAlpha;
     //Continuations
     private MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation;
     private ForgotPasswordContinuation forgotPasswordContinuation;
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 //        if (firstStart) {
 //            showStartDialog();
 //        }
-
+        animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
         showStartDialog();
 
         // Initialize application
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent internt = new Intent(MainActivity.this, VideoPlay.class);
+                        Intent internt = new Intent(MainActivity.this, InstructionActivity.class);
                         startActivity(internt);
                     }
                 })
@@ -146,6 +148,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .create().show();
+
+
+
+
+
+
 
 //        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
 //        SharedPreferences.Editor editor = prefs.edit();
@@ -288,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Login if a user is already present
     public void logIn(View view) {
+        view.startAnimation(animAlpha);
         signInUser();
     }
 

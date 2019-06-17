@@ -23,8 +23,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -36,9 +34,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -59,7 +57,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetail
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
 import com.amazonaws.youruserpools.R;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +77,7 @@ public class mapActivity extends AppCompatActivity {
     private CognitoUserDetails details;
 
     // User details
+    Animation animAlpha;
     private String username;
 
     // To track changes to user details
@@ -91,6 +89,8 @@ public class mapActivity extends AppCompatActivity {
 
     private Button button;
     private Context context;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +106,7 @@ public class mapActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-
+        animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
         // Set navigation drawer for this screen
         mDrawer = (DrawerLayout) findViewById(R.id.user_drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
@@ -206,43 +206,48 @@ public class mapActivity extends AppCompatActivity {
 
 
     public void avaliableNode(View view) {
+//        view.startAnimation(animAlpha);
+//        android.app.AlertDialog.Builder altdial = new android.app.AlertDialog.Builder(mapActivity.this);
+//        altdial.setMessage("New NODE Installation Data Filling ???").setCancelable(false)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent intent = new Intent(mapActivity.this,  NodeMapSingleData.class);
+//                        startActivity(intent);
+//                    }
+//                })
+//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent intent = new Intent(mapActivity.this, AvaliableData.class);
+//                        startActivity(intent);
+////                        dialog.cancel();
+//                    }
+//
+//
+//
+//                })
+//
+//                .setNeutralButton("Cancell", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    dialog.cancel();
+//
+//                }
+//                });
+//
+//        android.app.AlertDialog alert = altdial.create();
+//        alert.setTitle("Installation Process");
+//        alert.show();
 
-        android.app.AlertDialog.Builder altdial = new android.app.AlertDialog.Builder(mapActivity.this);
-        altdial.setMessage("New NODE Installation Data Filling ???").setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(mapActivity.this,  NodeMapSingleData.class);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(mapActivity.this, AvaliableData.class);
-                        startActivity(intent);
-//                        dialog.cancel();
-                    }
-
-
-
-                })
-
-                .setNeutralButton("Cancell", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    dialog.cancel();
-
-                }
-                });
-
-        android.app.AlertDialog alert = altdial.create();
-        alert.setTitle("Installation Process");
-        alert.show();
+        Intent intent = new Intent(mapActivity.this,  NodeMapSingleData.class);
+        startActivity(intent);
     }
 
     public void addData(View view) {
+
+        view.startAnimation(animAlpha);
         Intent intent = new Intent(mapActivity.this, AvaliableData.class);
         startActivity(intent);
 //                        dialog.cancel();

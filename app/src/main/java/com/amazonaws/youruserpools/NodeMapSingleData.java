@@ -26,6 +26,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -185,7 +187,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         //  mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
 
-
+        final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
 
 
         getLocationPermission();
@@ -335,9 +337,6 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             @Override
             public void onClick(View view) {
                 Log.d(TAG1, "onClick: clicked gps icon");
-                finish();
-                startActivity(getIntent());
-                handler.post(refresh);
                 getDeviceLocation();
             }
         });
@@ -711,6 +710,11 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_refresh:
+                Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
+                        .show();
+                Referesh();
+                break;
             case R.id.mapTypeNone:
                 gMap.setMapType(GoogleMap.MAP_TYPE_NONE);
                 break;
@@ -742,6 +746,12 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         startActivity(intent);
     }
 
+
+    private void Referesh(){
+        finish();
+        startActivity(getIntent());
+        handler.post(refresh);
+    }
 
     /**
      * Called when the user clicks a marker.

@@ -28,8 +28,8 @@
         <activity
             android:name=".splash"
             android:label="ISD"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,9 +47,7 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".mapActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -114,21 +112,22 @@
             android:parentActivityName=".CurrentNode" />
         <activity
             android:name=".SingleDataBASEADDING"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Column Attribute Data"
-            android:parentActivityName=".NodeMapSingleData"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:parentActivityName=".NodeMapSingleData" />
         <activity
             android:name=".NodeMapSingleData"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:parentActivityName=".mapActivity"
             android:label="Column Map"
+            android:parentActivityName=".mapActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Test" />
         <activity android:name=".OldScmsInstallation" />
         <activity android:name=".activityupdate" />
         <activity android:name=".ReplaceNode" />
         <activity android:name=".ReplaceLatern" />
-        <activity android:name=".ReplaceColumn"></activity>
+        <activity android:name=".ReplaceColumn" />
+        <activity android:name=".InstructionActivity"></activity>
     </application>
 
 </manifest>
