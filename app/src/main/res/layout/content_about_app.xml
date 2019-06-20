@@ -73,15 +73,16 @@
             android:id="@+id/space_about_3" />
 
         <Button
-            android:layout_width="match_parent"
+            android:id="@+id/aboutBack"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/space_about_3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/button"
             android:text="Back"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/activity_button_text_size"
-            android:id="@+id/aboutBack"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/space_about_3"
-            android:background="@drawable/button" />
+            android:textSize="@dimen/activity_button_text_size" />
     </RelativeLayout>
 </ScrollView>

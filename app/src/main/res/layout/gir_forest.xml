@@ -27,7 +27,7 @@
             android:src="@drawable/ic_launcher" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="303dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="2dip"
@@ -47,10 +47,10 @@
 
                 <TextView
                     android:id="@+id/tvgir"
-                    android:layout_width="wrap_content"
+                    android:layout_width="274dp"
                     android:layout_height="wrap_content"
                     android:text="IP -ADDRESS "
-                    android:textColor="@color/colorAccent"
+                    android:textColor="#fff"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -65,14 +65,15 @@
                     android:layout_width="25dip"
                     android:layout_height="25dip"
                     android:layout_marginLeft="5dip"
-                    android:background="@drawable/ic_location" />
+                    android:background="@drawable/ic_location"
+                    android:backgroundTint="#E94700" />
 
                 <TextView
                     android:id="@+id/tvd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="220dp"
+                    android:layout_height="46dp"
                     android:text="LatLong "
-                    android:textColor="@color/colorAccent"
+                    android:textColor="#fff"
                     android:textSize="15sp" />
 
             </LinearLayout>

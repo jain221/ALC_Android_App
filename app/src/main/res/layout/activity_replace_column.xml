@@ -1,832 +1,456 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/activity_main"
-android:layout_width="match_parent"
-android:background="@color/grey_100"
-android:layout_height="match_parent">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:gravity="left"
-        android:orientation="vertical">
-
-<!--<RelativeLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--tools:context=".ReplaceColumn">-->
-
-
-    <!--<TextView-->
-        <!--android:id="@+id/text"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_marginStart="2dp"-->
-        <!--android:layout_marginLeft="2dp"-->
-        <!--android:layout_marginTop="12dp"-->
-        <!--android:text="Ip Address - "-->
-        <!--android:textColor="@color/displyatext"-->
-        <!--android:textSize="19dp" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/t1"-->
-        <!--android:layout_width="186dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_marginStart="34dp"-->
-        <!--android:layout_marginLeft="34dp"-->
-        <!--android:layout_marginTop="11dp"-->
-        <!--android:layout_toEndOf="@+id/text"-->
-        <!--android:layout_toRightOf="@+id/text"-->
-        <!--android:text="Ip Address"-->
-        <!--android:textColor="@color/displyaResult"-->
-        <!--android:textSize="18dp" />-->
-
-    <!--<TextView-->
-        <!--android:textColor="@color/displyatext"-->
-        <!--android:text="Latitude - "-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="18dp"-->
-        <!--android:layout_below="@+id/text"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_marginTop="19dp"-->
-        <!--android:id="@+id/text1" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/t2"-->
-        <!--android:layout_width="89dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBaseline="@+id/text1"-->
-        <!--android:layout_alignBottom="@+id/text1"-->
-        <!--android:layout_marginStart="140dp"-->
-        <!--android:layout_marginLeft="53dp"-->
-        <!--android:layout_marginBottom="4dp"-->
-        <!--android:layout_toEndOf="@+id/textView10"-->
-        <!--android:layout_toRightOf="@+id/textView10"-->
-        <!--android:text="Latitude"-->
-        <!--android:textColor="@color/displyaResult"-->
-        <!--android:textSize="18dp" />-->
-
-    <!--<TextView-->
-        <!--android:textColor="@color/displyatext"-->
-        <!--android:text="Longitude - "-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="18dp"-->
-        <!--android:layout_below="@+id/text1"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_marginTop="19dp"-->
-        <!--android:id="@+id/text3" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/t3"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBaseline="@+id/text3"-->
-        <!--android:layout_alignBottom="@+id/text3"-->
-        <!--android:layout_marginStart="47dp"-->
-        <!--android:layout_marginLeft="47dp"-->
-        <!--android:layout_marginBottom="1dp"-->
-        <!--android:layout_toEndOf="@+id/text3"-->
-        <!--android:layout_toRightOf="@+id/text3"-->
-        <!--android:text="Longitude"-->
-        <!--android:textColor="@color/displyaResult"-->
-        <!--android:textSize="18dp" />-->
-
-<!--</RelativeLayout>-->
-
-        <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/log"-->
-        <!--android:id="@+id/newPassSpace1"-->
-        <!--android:background="#000"-->
-        <!--android:layout_alignStart="@+id/log" />-->
-
-    <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textColor="#000"-->
-        <!--android:text="Column_manufacturer"-->
-        <!--android:textSize="20sp" />-->
-
-    <!--<Spinner android:id="@+id/ColumManf"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textSize="24sp"-->
-        <!--/>-->
-
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/ColumManf"-->
-        <!--android:id="@+id/newPassSpace2"-->
-        <!--android:background="#000"-->
-        <!--android:layout_alignStart="@+id/ColumManf" />-->
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textSize="20sp"-->
-        <!--android:textColor="#000"-->
-        <!--android:text="Raise And Lower" />-->
-
-    <!--<Spinner-->
-        <!--android:id="@+id/RaiseandLow"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="24sp"/>-->
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/RaiseandLow"-->
-        <!--android:textColor="#ffffff"-->
-        <!--android:id="@+id/newPassSpace3"-->
-        <!--android:background="#000"-->
-        <!--android:layout_alignStart="@+id/RaiseandLow" />-->
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textColor="#000"-->
-        <!--android:textSize="20sp"-->
-        <!--android:text="Column Material" />-->
-
-    <!--<Spinner-->
-        <!--android:id="@+id/columeMaterial"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="20sp"/>-->
-
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/columeMaterial"-->
-        <!--android:id="@+id/newPassSpace4"-->
-        <!--android:layout_alignStart="@+id/columeMaterial" />-->
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textColor="#000"-->
-        <!--android:textSize="24sp"-->
-        <!--android:text="Column type" />-->
-
-    <!--<Spinner-->
-        <!--android:id="@+id/ColumeType"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="20sp"/>-->
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/ColumeType"-->
-        <!--android:id="@+id/newPassSpace5"-->
-        <!--android:layout_alignStart="@+id/ColumeType" />-->
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textSize="24sp"-->
-        <!--android:textColor="#000"-->
-        <!--android:text="Colume Height From Ground " />-->
-
-    <!--<Spinner-->
-        <!--android:id="@+id/ColumeHeight"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="24sp"/>-->
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/ColumeHeight"-->
-        <!--android:id="@+id/newPassSpace6"-->
-        <!--android:layout_alignStart="@+id/ColumeHeight" />-->
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textColor="#000"-->
-        <!--android:textSize="24sp"-->
-        <!--android:text="Number Of Doors" />-->
-
-    <!--<Spinner-->
-        <!--android:id="@+id/NumberDoor"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="24sp"/>-->
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/NumberDoor"-->
-        <!--android:id="@+id/newPassSpace7"-->
-        <!--android:layout_alignStart="@+id/NumberDoor" />-->
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textColor="#000"-->
-        <!--android:textSize="24sp"-->
-        <!--android:text="Door Dimensions" />-->
-
-
-    <!--<Spinner-->
-        <!--android:id="@+id/DoorDimension"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="24sp"/>-->
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/DoorDimension"-->
-        <!--android:id="@+id/newPassSpace8"-->
-        <!--android:layout_alignStart="@+id/DoorDimension" />-->
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textColor="#000"-->
-        <!--android:textSize="24sp"-->
-        <!--android:text="Foundation Type" />-->
-
-    <!--<Spinner-->
-        <!--android:id="@+id/FoundatType"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="24sp"/>-->
-
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/FoundatType"-->
-        <!--android:id="@+id/newPassSpace9"-->
-        <!--android:layout_alignStart="@+id/FoundatType" />-->
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textColor="#000"-->
-        <!--android:textSize="24sp"-->
-        <!--android:text="Bracket Type" />-->
-
-    <!--<Spinner-->
-        <!--android:id="@+id/BracketType"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="24sp"/>-->
-
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/BracketLength"-->
-        <!--android:id="@+id/newPassSpace10"-->
-        <!--android:layout_alignStart="@+id/BracketLength" />-->
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textColor="#000"-->
-        <!--android:textSize="24sp"-->
-        <!--android:text="Bracket(s) Length" />-->
-
-    <!--<Spinner-->
-        <!--android:id="@+id/BracketLength"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="24sp"/>-->
-
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/BracketLength"-->
-        <!--android:id="@+id/newPassSpac"-->
-        <!--android:layout_alignStart="@+id/BracketLength" />-->
-
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="3dp"-->
-        <!--android:textColor="#000"-->
-        <!--android:textSize="24sp"-->
-        <!--android:text="Estimated Colume Age" />-->
-
-    <!--<Spinner-->
-        <!--android:id="@+id/ColumeAge"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="24sp"/>-->
-
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20px"-->
-        <!--android:layout_below="@+id/ColumeAge"-->
-        <!--android:id="@+id/newPassSpa"-->
-        <!--android:layout_alignStart="@+id/ColumeAge" />-->
-
-
-
-
-    <!--<Space-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50px"-->
-        <!--android:layout_below="@+id/lantern_manufacturer"-->
-        <!--android:id="@+id/sks" />-->
-
-        <!--<Button-->
-            <!--android:id="@+id/btnSave"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/sks"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:background="@drawable/button"-->
-            <!--android:text="SAVE" />-->
-
-
-
-    <!--</LinearLayout>-->
-<!--</ScrollView>-->
-
-
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f5f4f5">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="25dp"
-        android:text="Column_manufacturer - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-
-    <Spinner
-        android:id="@+id/ColumManf"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-3dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:prompt="@string/column_manufacturer6"
-        android:text="ColumManf1"
-        android:textSize="15dp" />
-
-    <Space
-        android:id="@+id/sks1"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-1dp" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks1"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="1dp"
-        android:text="Raise And Lower - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/RaiseandLow"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="45dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginBottom="-35dp"
-        android:layout_toEndOf="@+id/textView3"
-        android:layout_toRightOf="@+id/textView3"
-        android:textColor="@color/displyaResult"
-        android:textSize="15dp" />
-
-    <Space
-        android:id="@+id/sks2"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks2"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="-9dp"
-        android:text="Column Material - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/columeMaterial"
-        android:layout_width="200dp"
-        android:layout_height="25dp"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-67dp"
-        android:layout_toRightOf="@+id/textView"
-        android:textColor="@color/displyaResult"
-        android:textSize="15dp" />
-
-    <Space
-        android:id="@+id/sks3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView5"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks3"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
-        android:text="Column type - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/ColumeType"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-102dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:textColor="@color/displyaResult"
-        android:textSize="15dp" />
-
-    <Space
-        android:id="@+id/sks4"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView6"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks4"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="-9dp"
-        android:text="Colume Height Ground - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/ColumeHeight"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-136dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:text="Colume Height - "
-        android:textSize="15dp" />
-
-
-    <Space
-        android:id="@+id/sks5"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView7"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks5"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="-7dp"
-        android:text="Number Of Doors - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/NumberDoor"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-172dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:text="Number of Door "
-        android:textSize="15dp" />
-
-
-    <Space
-        android:id="@+id/sks6"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView8"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="2dp" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks6"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="-1dp"
-        android:text="Door Dimensions - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/DoorDimension"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-207dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:text="Door Dimension "
-        android:textSize="15dp" />
-
-    <Space
-        android:id="@+id/sks7"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView9"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks7"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="-8dp"
-        android:text="Foundation Type - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/FoundatType"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-243dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:text="Foundat Type "
-        android:textColor="@color/displyaResult"
-        android:textSize="15dp" />
-
-
-    <Space
-        android:id="@+id/sks8"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView10"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-1dp" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks8"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="1dp"
-        android:text="Bracket Type - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/BracketType"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-281dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:text="BracketType "
-        android:textColor="@color/displyaResult"
-        android:textSize="15dp" />
-
-    <Space
-        android:id="@+id/sks9"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView11"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks9"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="-9dp"
-        android:text="Bracket(s) Length -"
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/BracketLength"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-314dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:text="BracketLength"
-        android:textColor="@color/displyaResult"
-        android:textSize="15dp" />
-
-
-    <Space
-        android:id="@+id/sks10"
-        android:layout_width="match_parent"
-        android:layout_height="50px"
-        android:layout_below="@+id/textView12"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks10"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="-23dp"
-        android:text="Est. Colume Age -"
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/ColumeAge"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-346dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:text="Colume Age "
-        android:textColor="@color/displyaResult"
-        android:textSize="15dp" />
-
-    <Space
-        android:id="@+id/sks12"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView13"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sks12"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="-11dp"
-        android:text="Lantern Manufacturer - "
-        android:textColor="@color/displyatext"
-        android:textSize="17dp" />
-
-    <Spinner
-        android:id="@+id/lantern_manufacturer"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="-379dp"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:text="Class Show Here "
-        android:textColor="@color/displyaResult"
-        android:textSize="18dp" />
-
-    <Space
-        android:id="@+id/sks"
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/textView14"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp" />
-
-</RelativeLayout>
-
-
-<Button
-android:id="@+id/btnSave"
-android:layout_width="123dp"
-android:layout_height="wrap_content"
-android:layout_marginLeft="130dp"
-android:background="@drawable/button"
-android:text="SAVE" />
-
-    </LinearLayout>
-    </ScrollView>
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/activity_main"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="#f5f4f5"
+            tools:context=".ReplaceColumn">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="left"
+                android:background="#f5f4f5"
+                android:orientation="vertical">
+
+                <!--<TextView-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/ipadddress"-->
+                <!--android:textColor="#fff"-->
+                <!--android:background="#000"-->
+                <!--android:textSize="22sp" />-->
+                <!--<TextView-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/lat"-->
+                <!--android:background="#ffffff"-->
+                <!--android:textColor="#000"-->
+                <!--android:textSize="22sp" />-->
+
+
+                <!--<TextView-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="22sp"-->
+                <!--android:textColor="#000"-->
+                <!--android:background="#ffffff"-->
+                <!--android:id="@+id/log" />-->
+
+                <RelativeLayout
+                    android:layout_width="623dp"
+                    android:layout_height="450dp">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="25dp"
+                        android:text="Column_manufacturer - "
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+
+                    <Spinner
+                        android:id="@+id/ColumManf"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="91dp"
+                        android:layout_marginLeft="90dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView"
+                        android:prompt="@string/column_manufacturer6"
+                        android:text="ColumManf1"
+                        android:textSize="15dp" />
+
+                    <Space
+                        android:id="@+id/sks1"
+                        android:layout_width="match_parent"
+                        android:layout_height="20px"
+                        android:layout_below="@+id/textView"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="-1dp" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks1"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-5dp"
+                        android:text="Raise And Lower - "
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/RaiseandLow"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="91dp"
+                        android:layout_marginLeft="138dp"
+                        android:layout_marginBottom="-32dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView3"
+                        android:textColor="@color/displyaResult"
+                        android:textSize="15dp" />
+
+                    <Space
+                        android:id="@+id/sks2"
+                        android:layout_width="match_parent"
+                        android:layout_height="20px"
+                        android:layout_below="@+id/textView3"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="10dp" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks2"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-14dp"
+                        android:text="Column Material - "
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/columeMaterial"
+                        android:layout_width="200dp"
+                        android:layout_height="25dp"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginLeft="91dp"
+                        android:layout_marginBottom="-67dp"
+                        android:layout_toRightOf="@+id/textView"
+                        android:textColor="@color/displyaResult"
+                        android:textSize="15dp" />
+
+                    <Space
+                        android:id="@+id/sks3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView5"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="10dp" />
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks3"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginTop="1dp"
+                        android:text="Column type - "
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/ColumeType"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="91dp"
+                        android:layout_marginLeft="90dp"
+                        android:layout_marginBottom="-139dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView"
+                        android:textColor="@color/displyaResult"
+                        android:textSize="15dp" />
+
+                    <Space
+                        android:id="@+id/sks4"
+                        android:layout_width="match_parent"
+                        android:layout_height="20px"
+                        android:layout_below="@+id/textView6"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="10dp" />
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks4"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-14dp"
+                        android:text="Colume Height Ground - "
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/ColumeHeight"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="91dp"
+                        android:layout_marginLeft="88dp"
+                        android:layout_marginBottom="-102dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView"
+                        android:text="Colume Height - "
+                        android:textSize="15dp" />
+
+
+                    <Space
+                        android:id="@+id/sks5"
+                        android:layout_width="match_parent"
+                        android:layout_height="20px"
+                        android:layout_below="@+id/textView7"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="9dp" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks5"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-16dp"
+                        android:text="Number Of Doors - "
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/NumberDoor"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="91dp"
+                        android:layout_marginLeft="86dp"
+                        android:layout_marginBottom="-171dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView"
+                        android:text="Number of Door "
+                        android:textSize="15dp" />
+
+
+                    <Space
+                        android:id="@+id/sks6"
+                        android:layout_width="match_parent"
+                        android:layout_height="20px"
+                        android:layout_below="@+id/textView8"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="2dp" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks6"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-3dp"
+                        android:text="Door Dimensions - "
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/DoorDimension"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="91dp"
+                        android:layout_marginLeft="90dp"
+                        android:layout_marginBottom="-209dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView"
+                        android:text="Door Dimension "
+                        android:textSize="15dp" />
+
+                    <Space
+                        android:id="@+id/sks7"
+                        android:layout_width="match_parent"
+                        android:layout_height="20px"
+                        android:layout_below="@+id/textView9"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="10dp" />
+
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks7"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-14dp"
+                        android:text="Foundation Type - "
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/FoundatType"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="91dp"
+                        android:layout_marginLeft="84dp"
+                        android:layout_marginBottom="-243dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView"
+                        android:text="Foundat Type "
+                        android:textColor="@color/displyaResult"
+                        android:textSize="15dp" />
+
+
+                    <Space
+                        android:id="@+id/sks8"
+                        android:layout_width="match_parent"
+                        android:layout_height="20px"
+                        android:layout_below="@+id/textView10"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="-1dp" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks8"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="-2dp"
+                        android:text="Bracket Type - "
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/BracketType"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="91dp"
+                        android:layout_marginLeft="87dp"
+                        android:layout_marginBottom="-277dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView"
+                        android:text="BracketType "
+                        android:textColor="@color/displyaResult"
+                        android:textSize="15dp" />
+
+                    <Space
+                        android:id="@+id/sks9"
+                        android:layout_width="match_parent"
+                        android:layout_height="20px"
+                        android:layout_below="@+id/textView11"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="10dp" />
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks9"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-14dp"
+                        android:text="Bracket(s) Length -"
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/BracketLength"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="91dp"
+                        android:layout_marginLeft="85dp"
+                        android:layout_marginBottom="-316dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView"
+                        android:text="BracketLength"
+                        android:textColor="@color/displyaResult"
+                        android:textSize="15dp" />
+
+
+                    <Space
+                        android:id="@+id/sks10"
+                        android:layout_width="match_parent"
+                        android:layout_height="20px"
+                        android:layout_below="@+id/textView12"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="16dp" />
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sks10"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-16dp"
+                        android:text="Est. Colume Age -"
+                        android:textColor="@color/displyatext"
+                        android:textSize="17dp" />
+
+                    <Spinner
+                        android:id="@+id/ColumeAge"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView"
+                        android:layout_marginStart="90dp"
+                        android:layout_marginLeft="90dp"
+                        android:layout_marginBottom="-356dp"
+                        android:layout_toEndOf="@+id/textView"
+                        android:layout_toRightOf="@+id/textView"
+                        android:text="Colume Age "
+                        android:textColor="@color/displyaResult"
+                        android:textSize="15dp" />
+
+
+
+
+
+                </RelativeLayout>
+
+                <Button
+
+                    android:id="@+id/btnSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/button"
+                    android:text="SAVE" />
+
+
+
+            </LinearLayout>
+        </ScrollView>

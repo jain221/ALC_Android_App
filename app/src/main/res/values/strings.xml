@@ -12,7 +12,7 @@
     <string name="pick_MFA">MFA Options</string>
     <string name="title_activity_about_app">AboutApp</string>
     <string name="about">This APP is used to Send the Colume Attribute details into the Database.</string>
-    <string name="more_info">For any help from Admin customer can contact us on 01639852502 </string>
+    <string name="more_info">For any help from Admin, User can contact us on 01639852502 </string>
     <string name="title_activity_sign_up_confirm">SignUpConfirm</string>
     <string name="title_activity_mfa">MFAActivity</string>
     <string name="title_activity_choose_mfa">ChooseMFA</string>

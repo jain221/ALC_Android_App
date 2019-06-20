@@ -551,17 +551,17 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             Address address = list.get(0);
             String locality = address.getLocality();
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            gMap.addMarker(new MarkerOptions().position(latLng).title("Find Pro"));
+//            gMap.addMarker(new MarkerOptions().position(latLng).title("Find Pro"));
             gMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
-            if(myMarker != null)
-                myMarker.remove();
-            myMarker = gMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(locality)
-                    .snippet("Latitude:" + latLng.latitude + ",Longitude" + latLng.longitude)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
-            ;
+//            if(myMarker != null)
+//                myMarker.remove();
+//            myMarker = gMap.addMarker(new MarkerOptions()
+//                    .position(latLng)
+//                    .title(locality)
+//                    .snippet("Latitude:" + latLng.latitude + ",Longitude" + latLng.longitude)
+//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
+//            ;
 
         }else {
             Toast.makeText(NodeMapSingleData.this, "Check Spelling Or Try Again !", Toast.LENGTH_SHORT).show();
