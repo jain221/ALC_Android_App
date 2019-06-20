@@ -343,6 +343,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(aboutAppActivity);
                 break;
 
+            case R.id.nav_contact:
+                // For the inquisitive
+                Intent contact = new Intent(this, emailActivity.class);
+                startActivity(contact);
+                break;
+
         }
     }
 

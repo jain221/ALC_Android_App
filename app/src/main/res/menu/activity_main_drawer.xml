@@ -34,6 +34,15 @@
     </group>
 
     <group
+        android:id="@+id/group_main_contact"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_contact"
+            android:title="Email" />
+    </group>
+
+
+    <group
         android:id="@+id/group_main_end"
         android:checkableBehavior="single">
         <item

@@ -119,9 +119,9 @@ public class mapActivity extends AppCompatActivity {
         View navigationHeader = nDrawer.getHeaderView(0);
         TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
         navHeaderSubTitle.setText(username);
-
+        currentlocation();
         if (isServicesOK()) {
-            //currentlocation();
+
         }
 //        button =(Button) findViewById(R.id.button);
 //        button.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +169,7 @@ public class mapActivity extends AppCompatActivity {
 //        btnMap.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                Intent intent = new Intent(mapActivity.this,  listview.class);
+//                Intent intent = new Intent(mapActivity.this,  emailActivity.class);
 //                startActivity(intent);
 //            }
 //        });
@@ -366,6 +366,12 @@ public class mapActivity extends AppCompatActivity {
                 // For the inquisitive
                 Intent aboutAppActivity = new Intent(this, AboutApp.class);
                 startActivity(aboutAppActivity);
+                break;
+
+            case R.id.nav_user_email:
+                // For the inquisitive
+                Intent contact = new Intent(this, emailActivity.class);
+                startActivity(contact);
                 break;
         }
     }

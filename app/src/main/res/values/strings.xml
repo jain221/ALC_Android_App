@@ -229,4 +229,5 @@
     <string name="confirm_hint">Confirm Password</string>
 
     <string name="or"> Or </string>
+    <string name="title_activity_email">emailActivity</string>
 </resources>

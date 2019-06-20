@@ -125,9 +125,9 @@
             <!--android:layout_below="@+id/addData"-->
             <!--android:layout_marginStart="0dp"-->
             <!--android:layout_marginLeft="0dp"-->
-            <!--android:layout_marginTop="-7dp"-->
+            <!--android:layout_marginTop="43dp"-->
             <!--android:layout_marginBottom="-58dp"-->
-            <!--android:text=" Current Location"-->
+            <!--android:text=" email"-->
             <!--android:textSize="18sp" />-->
 
 
