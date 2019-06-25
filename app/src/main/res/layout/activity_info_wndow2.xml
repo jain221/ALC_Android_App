@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toplayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dip"
+       tools:context=".InfoWndow2">
+
+
+    <LinearLayout
+        android:layout_width="303dp"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="2dip"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/splash2" />
+
+            <TextView
+                android:id="@+id/tvgir1"
+                android:layout_width="274dp"
+                android:layout_height="wrap_content"
+                android:text="IP -ADDRESS "
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/ic_location"
+                android:backgroundTint="#E94700" />
+
+            <TextView
+                android:id="@+id/tvd1"
+                android:layout_width="290dp"
+                android:layout_height="250dp"
+                android:text="LatLong "
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

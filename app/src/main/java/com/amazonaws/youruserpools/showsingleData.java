@@ -1,14 +1,22 @@
 package com.amazonaws.youruserpools;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.youruserpools.HttpJsonParser;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -28,7 +36,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +71,11 @@ public class showsingleData extends AppCompatActivity {
 
     public static final String ID = "id";
 
-
+    private JSONArray result;
+    Spinner spinner;
+    String EmpName;
+    private ArrayList<String> arrayList;
+    TextView employeename, mailid;
     ProgressDialog pDialog;
     String finalResult;
     HashMap<String, String> hashMap = new HashMap<>();
@@ -91,16 +105,13 @@ public class showsingleData extends AppCompatActivity {
     TextView eage1;
     TextView lm1;
     String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
-    String e1, e2, e3;
 
-    String lat3, lng3;
-
-    String lat2, logg2;
     private static final String KEY_DATA = "data";
 
-    private static final String BASE_URL = "https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData";
+    private static final String url = "https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData";
     private String movieId;
-
+    private LinkedList<StringRequest> queue;
+    Product product1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,24 +119,8 @@ public class showsingleData extends AppCompatActivity {
         setContentView(R.layout.activity_showsingle_data);
 //        TempItem = getIntent().getStringExtra("ListViewValue");
 
-        movieId = getIntent().getStringExtra("doubleValue_e1");
-//        latt = getIntent().getStringExtra("doubleValue_e2");
-//        logg = getIntent().getStringExtra("doubleValue_e3");
-//        cl = getIntent().getStringExtra("doubleValue_e14");
-////        cl = getIntent().getStringExtra("ListViewValue");
-//        rs= getIntent().getStringExtra("doubleValue_e15");
-//        cm = getIntent().getStringExtra("doubleValue_e4");
-//        ct= getIntent().getStringExtra("doubleValue_e5");
-//        chg = getIntent().getStringExtra("doubleValue_e6");
-//        nd= getIntent().getStringExtra("doubleValue_e7");
-//        dd = getIntent().getStringExtra("doubleValue_e8");
-//        ft = getIntent().getStringExtra("doubleValue_e9");
-//        bt= getIntent().getStringExtra("doubleValue_e10");
-//        bl= getIntent().getStringExtra("doubleValue_e11");
-//        eage = getIntent().getStringExtra("doubleValue_e12");
-//        lm = getIntent().getStringExtra("doubleValue_e13");
 
-        ipaddress = (TextView) findViewById(R.id.t1);
+        ipaddress = (TextView) findViewById(R.id.spnrEmployee);
         lat = (TextView) findViewById(R.id.t2);
         log = (TextView) findViewById(R.id.t3);
         cl1 = (TextView) findViewById(R.id.t5);
@@ -140,128 +135,321 @@ public class showsingleData extends AppCompatActivity {
         bl1 = (TextView) findViewById(R.id.t14);
         eage1 = (TextView) findViewById(R.id.t15);
         lm1 = (TextView) findViewById(R.id.t16);
+        TempItem = getIntent().getStringExtra("ListViewValue");
 
-        new FetchMovieDetailsAsyncTask().execute();
+        //HttpWebCall(TempItem);
+
+
+
+        ip = getIntent().getStringExtra("doubleValue_e1");
+        latt = getIntent().getStringExtra("doubleValue_e2");
+        logg = getIntent().getStringExtra("doubleValue_e3");
+        cl = getIntent().getStringExtra("doubleValue_e14");
+//        cl = getIntent().getStringExtra("ListViewValue");
+        rs= getIntent().getStringExtra("doubleValue_e15");
+        cm = getIntent().getStringExtra("doubleValue_e4");
+        ct= getIntent().getStringExtra("doubleValue_e5");
+        chg = getIntent().getStringExtra("doubleValue_e6");
+        nd= getIntent().getStringExtra("doubleValue_e7");
+        dd = getIntent().getStringExtra("doubleValue_e8");
+        ft = getIntent().getStringExtra("doubleValue_e9");
+        bt= getIntent().getStringExtra("doubleValue_e10");
+        bl= getIntent().getStringExtra("doubleValue_e11");
+        eage = getIntent().getStringExtra("doubleValue_e12");
+        lm = getIntent().getStringExtra("doubleValue_e13");
+
+
+        arrayList = new ArrayList<String>();
+        //getdata();
+
+//        new FetchMovieDetailsAsyncTask().execute();
         productList = new ArrayList<>();
-//        HttpWebCall(movieId);
+//        HttpWebCall(ip);
+////
+//        String c12 = product1.getColume_Manfucture();
+//        String rs2 = product1.getRaise_and_Lower();
+//        String cm2 = product1.getColume_Material();
+//        String ct2 = product1.getColume_Type();
+//        String chg2 = product1.getcolumn_height_from_ground();
+//        String nd2 = product1.getnumber_of_door();
+//        String dd2 = product1.getdoor_dimensions();
+//        String ft2 = product1.getfoundation_type();
+//        String bt2 = product1.getbracket_type();
+//        String b12 = product1.getbracket_length();
+//        String eage2 = product1.getestimated_column_age();
+//        String lm2 = product1.getlantern_manufacture();
+//
+//        ipaddress.setText(movieId);
+//        lat.setText(latt);
+//        log.setText(logg);
+//        cl1.setText(c12);
+//        rs1.setText(rs2);
+//        cm1.setText(cm2);
+//        ct1.setText(ct2);
+//        chg1.setText(chg2);
+//        nd1.setText(nd2);
+//        dd1.setText(dd2);
+//        ft1.setText(ft2);
+//        bt1.setText(bt2);
+//        bl1.setText(b12);
+//        eage1.setText(eage2);
+//        lm1.setText(lm2);
+//
 
+            ipaddress.setText(ip);
+            lat.setText(latt);
+            log.setText(logg);
+            cl1.setText(cl);
+            rs1.setText(rs);
+            cm1.setText(cm);
+            ct1.setText(ct);
+            chg1.setText(chg);
+            nd1.setText(nd);
+            dd1.setText(dd);
+            ft1.setText(ft);
+            bt1.setText(bt);
+            bl1.setText(bl);
+            eage1.setText(eage);
+            lm1.setText(lm);
 
-        //   URL = new HTTPAsyncTask().execute("https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData");
-
-        ipaddress.setText(movieId);
-        lat.setText(lat3);
-        log.setText(lng3);
-        cl1.setText(cl);
-        rs1.setText(rs);
-        cm1.setText(cm);
-        ct1.setText(ct);
-        chg1.setText(chg);
-        nd1.setText(nd);
-        dd1.setText(dd);
-        ft1.setText(ft);
-        bt1.setText(bt);
-        bl1.setText(bl);
-        eage1.setText(eage);
-        lm1.setText(lm);
-
-        //     new FetchMovieDetailsAsyncTask().execute();
-
-
-//        updateButton = (Button) findViewById(R.id.btnUpdate);
-//        updateButton.setOnClickListener(new View.OnClickListener() {
+    }
+//
+//    private void getdata() {
+//
+//
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 //            @Override
-//            public void onClick(View view) {
-//                if (CheckNetworkStatus.isNetworkAvailable(getApplicationContext())) {
-//                    updateMovie();
+//            public void onResponse(String response) {
+//                try {
+//                    JSONObject jsonobject = new JSONObject(response);
+//                    JSONArray jsonArray = jsonobject.getJSONArray("results");
+//                    JSONObject product = jsonArray.getJSONObject(0);
 //
-//                } else {
-//                    Toast.makeText(MovieUpdateDeleteActivity.this,
-//                            "Unable to connect to internet",
-//                            Toast.LENGTH_LONG).show();
+//                    double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
+//                    double lng3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
+//                    cl = product.getString(columeManf).toString();
+//                    rs = product.getString(RaiseandLow).toString();
+//                    cm = product.getString(columeMaterial).toString();
+//                    ct = product.getString(ColumeType).toString();
+//                    chg = product.getString(ColumeHight).toString();
+//                    nd = product.getString(NumDoors).toString();
+//                    dd = product.getString(DoorDimen).toString();
+//                    ft = product.getString(Foundation).toString();
+//                    bt = product.getString(ColumeBracket).toString();
+//                    bl = product.getString(BracketLenth).toString();
+//                    eage = product.getString(EstimatedAge).toString();
+//                    lm = product.getString(LatenManfu).toString();
+//                    product1 = new Product(lat3, lng3, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm);
 //
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
 //                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(showsingleData.this, "Something went wrong", Toast.LENGTH_LONG).show();
+//                error.printStackTrace();
+//            }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> parameters = new HashMap<String, String>();
+//                parameters.put("ipaddress", ip);
+//                return parameters;
+//            }
+//        };
+//        queue.add(stringRequest);
+//    }
+
+//
+//    //Method to show current record Current Selected Record
+//    public void HttpWebCall(final String PreviousListViewClickedItem) {
+//
+//        class HttpWebCallFunction extends AsyncTask<String, Void, String> {
+//
+//            @Override
+//            protected void onPreExecute() {
+//                super.onPreExecute();
+//
+//                pDialog = ProgressDialog.show(showsingleData.this, "Loading Data", null, true, true);
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String httpResponseMsg) {
+//
+//                super.onPostExecute(httpResponseMsg);
+//
+//                pDialog.dismiss();
+//
+//                //Storing Complete JSon Object into String Variable.
+//                FinalJSonObject = httpResponseMsg;
+//
+//                //Parsing the Stored JSOn String to GetHttpResponse Method.
+//                new GetHttpResponse(showsingleData.this).execute();
 //
 //            }
-//        });
-
-
+//
+//            @Override
+//            protected String doInBackground(String... params) {
+//
+//                ResultHash.put("ipaddress", params[0]);
+//
+//                ParseResult = httpParse.postRequest(ResultHash,url);
+//
+//                return ParseResult;
+//            }
+//        }
+//
+//        HttpWebCallFunction httpWebCallFunction = new HttpWebCallFunction();
+//
+//        httpWebCallFunction.execute(PreviousListViewClickedItem);
+//    }
+//
+//
+//    // Parsing Complete JSON Object.
+//    private class GetHttpResponse extends AsyncTask<Void, Void, Void> {
+//        public Context context;
+//
+//        public GetHttpResponse(Context context) {
+//            this.context = context;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... arg0) {
+//            try {
+//                if (FinalJSonObject != null) {
+//                    JSONArray jsonArray = null;
+//
+//                    try {
+//                        jsonArray = new JSONArray(FinalJSonObject);
+//
+//                        JSONObject product ;
+//
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            product  = jsonArray.getJSONObject(i);
+//                            ip = product.getString("ipaddress");
+//                            double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
+//                            double lng3= Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
+//                            cl = product.getString(columeManf).toString() ;
+//                            rs = product.getString(RaiseandLow).toString() ;
+//                            cm = product.getString(columeMaterial).toString() ;
+//                            ct = product.getString(ColumeType).toString() ;
+//                            chg = product.getString(ColumeHight).toString() ;
+//                            nd = product.getString(NumDoors).toString() ;
+//                            dd = product.getString(DoorDimen).toString() ;
+//                            ft = product.getString(Foundation).toString() ;
+//                            bt = product.getString(ColumeBracket).toString() ;
+//                            bl = product.getString(BracketLenth).toString() ;
+//                            eage = product.getString(EstimatedAge).toString() ;
+//                            lm = product.getString(LatenManfu).toString() ;
+//                        }
+//                    } catch (JSONException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }
+//            } catch (Exception e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//
+//                    // Setting Student Name, Phone Number, Class into TextView after done all process .
+//            latt = getIntent().getStringExtra("doubleValue_e2");
+//            logg = getIntent().getStringExtra("doubleValue_e3");
+//            ipaddress.setText(ip);
+//            lat.setText(latt);
+//            log.setText(logg);
+//            cl1.setText(cl);
+//            rs1.setText(rs);
+//            cm1.setText(cm);
+//            ct1.setText(ct);
+//            chg1.setText(chg);
+//            nd1.setText(nd);
+//            dd1.setText(dd);
+//            ft1.setText(ft);
+//            bt1.setText(bt);
+//            bl1.setText(bl);
+//            eage1.setText(eage);
+//            lm1.setText(lm);
+//        }
     }
 
-    private class FetchMovieDetailsAsyncTask extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //Display progress bar
-            pDialog = new ProgressDialog(showsingleData.this);
-            pDialog.setMessage("Loading Movie Details. Please wait...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            HttpJsonParser httpJsonParser = new HttpJsonParser();
-            Map<String, String> httpParams = new HashMap<>();
-            httpParams.put(KEY_MOVIE_ID, movieId);
-            JSONObject jsonObject = httpJsonParser.makeHttpRequest(
-                    BASE_URL + "get_movie_details.php", "GET", httpParams);
-            try {
-                org.json.JSONObject jsonArray = jsonObject;
-                JSONObject product;
-                for(int i=0; i<jsonArray.length(); i++)
-                        {
-                            product  = jsonArray.getJSONObject(String.valueOf(i));
-                            lat3 = String.valueOf((Double.parseDouble(product.getString(LAT))));
-                    lng3 = String.valueOf((Double.parseDouble(product.getString(LNG))));
-                    cl = product.getString(columeManf);
-                    rs = product.getString(RaiseandLow);
-                    cm = product.getString(columeMaterial);
-                    ct = product.getString(ColumeType);
-                    chg = product.getString(ColumeHight);
-                    nd = product.getString(NumDoors);
-                    dd = product.getString(DoorDimen);
-                    ft = product.getString(Foundation);
-                    bt = product.getString(ColumeBracket);
-                    bl = product.getString(BracketLenth);
-                    eage = product.getString(EstimatedAge);
-                    lm = product.getString(LatenManfu);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onPostExecute(String result) {
-            pDialog.dismiss();
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    //Populate the Edit Texts once the network activity is finished executing
 
 
-                    ipaddress.setText(movieId);
-                    lat.setText(lat3);
-                    log.setText(lng3);
-                    cl1.setText(cl);
-                    rs1.setText(rs);
-                    cm1.setText(cm);
-                    ct1.setText(ct);
-                    chg1.setText(chg);
-                    nd1.setText(nd);
-                    dd1.setText(dd);
-                    ft1.setText(ft);
-                    bt1.setText(bt);
-                    bl1.setText(bl);
-                    eage1.setText(eage);
-                    lm1.setText(lm);
 
-                }
-            });
-        }
 
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

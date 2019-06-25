@@ -353,8 +353,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signUpNewUser() {
-        Intent registerActivity = new Intent(this, RegisterUser.class);
-        startActivityForResult(registerActivity, 1);
+//        Intent registerActivity = new Intent(this, RegisterUser.class);
+//        startActivityForResult(registerActivity, 1);
     }
 
     private void signInUser() {
@@ -402,15 +402,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void getForgotPasswordCode(ForgotPasswordContinuation forgotPasswordContinuation) {
         this.forgotPasswordContinuation = forgotPasswordContinuation;
-        Intent intent = new Intent(this, ForgotPasswordActivity.class);
-        intent.putExtra("destination",forgotPasswordContinuation.getParameters().getDestination());
-        intent.putExtra("deliveryMed", forgotPasswordContinuation.getParameters().getDeliveryMedium());
-        startActivityForResult(intent, 3);
+//        Intent intent = new Intent(this, ForgotPasswordActivity.class);
+//        intent.putExtra("destination",forgotPasswordContinuation.getParameters().getDestination());
+//        intent.putExtra("deliveryMed", forgotPasswordContinuation.getParameters().getDeliveryMedium());
+//        startActivityForResult(intent, 3);
     }
 
     private void firstTimeSignIn() {
-        Intent newPasswordActivity = new Intent(this, NewPassword.class);
-        startActivityForResult(newPasswordActivity, 6);
+//        Intent newPasswordActivity = new Intent(this, NewPassword.class);
+//        startActivityForResult(newPasswordActivity, 6);
     }
 
 
@@ -447,9 +447,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void confirmUser() {
-        Intent confirmActivity = new Intent(this, SignUpConfirm.class);
-        confirmActivity.putExtra("source","main");
-        startActivityForResult(confirmActivity, 2);
+//        Intent confirmActivity = new Intent(this, SignUpConfirm.class);
+//        confirmActivity.putExtra("source","main");
+//        startActivityForResult(confirmActivity, 2);
 
     }
 

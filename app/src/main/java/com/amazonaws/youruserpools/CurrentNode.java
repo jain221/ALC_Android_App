@@ -789,9 +789,9 @@ public class CurrentNode extends AppCompatActivity  implements OnMapReadyCallbac
 //        startActivity(intent);
 //        startActivity(new Intent(CurrentNode.this,ListViewMappActivity.class));
 
-        Intent intent = new Intent(CurrentNode.this, listview.class);
-//                intent.putStringArrayListExtra("doubleValue_e1",addData);
-        startActivity(intent);
+//        Intent intent = new Intent(CurrentNode.this, listview.class);
+////                intent.putStringArrayListExtra("doubleValue_e1",addData);
+//        startActivity(intent);
 
 
         return true ;
@@ -827,17 +827,17 @@ public class CurrentNode extends AppCompatActivity  implements OnMapReadyCallbac
     @Override
     public void onClusterItemInfoWindowClick(Items items) {
 
-        Toast.makeText(this, items.getTitle() , Toast.LENGTH_SHORT).show();
-        double lat = items.getPosition().latitude;
-        double lng = items.getPosition().longitude;
-        String ipaddress =items.getTitle();
-        String lng1 = String.valueOf(lat);
-        String logg = String.valueOf(lng);
-        Intent intent = new Intent(CurrentNode.this, Displayactivity.class);
-        intent.putExtra("doubleValue_e1", ipaddress);
-        intent.putExtra("doubleValue_e2", lng1);
-        intent.putExtra("doubleValue_e3", logg);
-        startActivity(intent);
+//        Toast.makeText(this, items.getTitle() , Toast.LENGTH_SHORT).show();
+//        double lat = items.getPosition().latitude;
+//        double lng = items.getPosition().longitude;
+//        String ipaddress =items.getTitle();
+//        String lng1 = String.valueOf(lat);
+//        String logg = String.valueOf(lng);
+//        Intent intent = new Intent(CurrentNode.this, Displayactivity.class);
+//        intent.putExtra("doubleValue_e1", ipaddress);
+//        intent.putExtra("doubleValue_e2", lng1);
+//        intent.putExtra("doubleValue_e3", logg);
+//        startActivity(intent);
 
     }
 }

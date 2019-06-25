@@ -119,7 +119,7 @@ public class mapActivity extends AppCompatActivity {
         View navigationHeader = nDrawer.getHeaderView(0);
         TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
         navHeaderSubTitle.setText(username);
-        currentlocation();
+       // currentlocation();
         if (isServicesOK()) {
 
         }
@@ -596,8 +596,8 @@ public class mapActivity extends AppCompatActivity {
 
     public void databaseAdd(View view) {
 
-        Intent intent = new Intent(mapActivity.this, database_colume_node.class);
-
-        startActivity(intent);
+//        Intent intent = new Intent(mapActivity.this, database_colume_node.class);
+//
+//        startActivity(intent);
     }
 }

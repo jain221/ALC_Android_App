@@ -957,10 +957,10 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 //        Intent intent = new Intent(CurrentNode.this, ListViewMappActivity.class);
 //        startActivity(intent);
 //        startActivity(new Intent(CurrentNode.this,ListViewMappActivity.class));
-
-        Intent intent = new Intent(NodeMapSingleData.this, listview.class);
-//                intent.putStringArrayListExtra("doubleValue_e1",addData);
-        startActivity(intent);
+//
+//        Intent intent = new Intent(NodeMapSingleData.this, listview.class);
+////                intent.putStringArrayListExtra("doubleValue_e1",addData);
+//        startActivity(intent);
 
 
         return true ;

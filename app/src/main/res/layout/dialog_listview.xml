@@ -108,23 +108,6 @@
         android:layout_alignStart="@+id/log" />
 
     <Button
-        android:id="@+id/checkcurrent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Avaliable Attribute of Colume"
-        android:background="@drawable/button"
-        android:onClick="editLatentCharch"
-        android:textAllCaps="false"
-        android:textSize="18sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/log"
-        android:background="#000"
-        android:layout_alignStart="@+id/log" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/quantum_googgreen"
