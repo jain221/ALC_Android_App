@@ -2,6 +2,7 @@ package com.amazonaws.youruserpools;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -64,6 +65,10 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
     private Spinner spinnerlaternManuf;
     // array list for spinner adapter
     private Switch switch1;
+    Multiple item ;
+    String[] e11;
+    String[] e12;
+    String[] e13;
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String TE = "text";
@@ -231,16 +236,16 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         mPrefs = getSharedPreferences("label", 0);
         CountryName = new ArrayList<>();
 
-//        TextView ipaddress = (TextView) findViewById(R.id.ipadddress);
+        TextView ipaddress = (TextView) findViewById(R.id.ipadddress);
 //        TextView lat = (TextView) findViewById(R.id.lat);
 //        TextView logg = (TextView) findViewById(R.id.log);
-
+//
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             e1 = extras.getString("doubleValue_e1");
-            e2 = extras.getString("doubleValue_e2");
-            e3 = extras.getString("doubleValue_e3");
-//            ipaddress.setText("IP_Add. " + e1);
+//            e2 = extras.getString("doubleValue_e2");
+//            e3 = extras.getString("doubleValue_e3");
+            ipaddress.setText("IP_Add. " + e1);
 //            lat.setText("Latitude " + e2);
 //            logg.setText("Longitude " + e3);
 
@@ -337,6 +342,13 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
 
 
     }
+
+//    public void onBackPressed() {
+//
+//       Intent intent = new Intent(this,NodeMapSingleData.class);
+//       startActivity(intent);
+//    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -1578,9 +1590,60 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
             e2 = extras.getString("doubleValue_e2");
             e3 = extras.getString("doubleValue_e3");
         }
+            Intent intent = getIntent();
+////            ArrayList<String> myList = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e1");
+////            ArrayList<String> myList1 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e2");
+////            ArrayList<String> myList2 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e3");
+//        final ArrayList<String> myList = getIntent().getStringArrayListExtra("doubleValue_e1");
+//        final ArrayList<String> myList1 = getIntent().getStringArrayListExtra("doubleValue_e2");
+//        final ArrayList<String> myList2 = getIntent().getStringArrayListExtra("doubleValue_e3");
+//            e11= intent.getStringArrayExtra("doubleValue_e1");
+//            e12= intent.getStringArrayExtra("doubleValue_e2");
+//            e13= intent.getStringArrayExtra("doubleValue_e3");
+////        }
+//        ArrayList<String> myList= new ArrayList<String>();
+//        int size = getIntent().getIntExtra("userlist_size" , 0);
+//        for(int i=0; i<size ; i++){
+//            myList.add((String) (getIntent().getSerializableExtra("doubleValue_e1"+i)));
+//        }
+//
+//        ArrayList<String> myList1= new ArrayList<String>();
+//         size = getIntent().getIntExtra("userlist_size1" , 0);
+//        for(int i=0; i<size ; i++){
+//            myList1.add((String) (getIntent().getSerializableExtra("doubleValue_e2"+i)));
+//        }
+//
+//        ArrayList<String> myList2= new ArrayList<String>();
+//        size = getIntent().getIntExtra("userlist_size2" , 0);
+//        for(int i=0; i<size ; i++){
+//            myList2.add((String) (getIntent().getSerializableExtra("doubleValue_e3"+i)));
+//        }
+//        jsonObject.put("ipaddress", multiple.getIpaddress1());
+//        jsonObject.put("latitude", multiple.getLattitude1());
+//        jsonObject.put("longitude", multiple.getLongitude1());
+//        jsonObject.put("ipaddress", e11);
+//        jsonObject.put("latitude", e12);
+//        jsonObject.put("longitude", e13);
+
+//        ArrayList<Multiple> myList= new ArrayList<Multiple>();
+//        int size = getIntent().getIntExtra("userlist_size" , 0);
+//        for(int i=0; i<size ; i++){
+//            myList.add((Multiple)(getIntent().getParcelableExtra("userlist_"+i)));
+//        }
+////        Multiple multiple;
+//////        ArrayList<Multiple> myList= new ArrayList<Multiple>();
+////        multiple = getIntent().getParcelableExtra("userlist");
+//        Bundle bundle = getIntent().getExtras();
+//        ArrayList<Multiple> item = (ArrayList<Multiple>) bundle.getSerializable("test");
+
+
         JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("ipaddress",myList);
+//        jsonObject.put("latitude",  myList1);
+//        jsonObject.put("longitude", myList2);
+
         jsonObject.put("ipaddress", e1);
-        jsonObject.put("latitude", e2);
+        jsonObject.put("latitude",  e2);
         jsonObject.put("longitude", e3);
         jsonObject.accumulate("Colume_Manfucture", spinnerColumeManf.getSelectedItem().toString());
         jsonObject.accumulate("Raise_and_Lower", spinnerRaiseandLow.getSelectedItem().toString());
