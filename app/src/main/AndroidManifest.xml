@@ -39,7 +39,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCXNTs7o1r1s0JeOD1FhH13SQ3IIW45sF4" />
+            android:value="AIzaSyB6dGDjIx9GMeMJEsYiyGlNvmHxMBzHuso" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -73,7 +73,6 @@
             android:name=".upDateDataBase"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:parentActivityName=".AvaliableData" />
-
         <activity
             android:name=".SingleDataBASEADDING"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -93,7 +92,8 @@
             android:name=".emailActivity"
             android:label="@string/title_activity_email"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".InfoWndow2"></activity>
+        <activity android:name=".InfoWndow2" />
+        <activity android:name=".StreetViewMap"></activity>
     </application>
 
 </manifest>

@@ -815,7 +815,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                                 lm =displayData.get(i).get(LatenManfu).toString();
 
 //                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door: "+nd+" \n Door Dimen: "+dd+"\n Foundation type: "+ft+
+//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
 //                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
 //                                gMap.addMarker(marker);
 

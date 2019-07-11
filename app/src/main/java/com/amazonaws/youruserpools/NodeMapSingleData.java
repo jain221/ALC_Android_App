@@ -3,6 +3,7 @@ import android.Manifest;
 import android.app.LauncherActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -72,6 +73,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +86,9 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     String ip;
     String l;
     String lg;
-
+    ArrayList<ArrayList<String>> myList = new ArrayList<>();
+    String lat2 ;
+    String lng2;
     GoogleMap gMap;
     MarkerOptions markerOptions = new MarkerOptions();
     CameraPosition cameraPosition;
@@ -106,9 +110,13 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 17f;
-
+    double latt1 ;
+    double lonn;
     double latit,longgg;
     String ipaddr;
+
+    ArrayList<Multiple> array ;
+    Multiple multiple;
     //vars
     private ArrayList<SuggestGetSet> List;
     //    private SuggestionAdapter mSuggestionAdapter;
@@ -120,6 +128,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     private java.util.List<Items> items =new ArrayList<>();
     private ImageView mGps;
     private ImageView menu;
+    private ImageView addAllData, streetView;
     String data;
 
     AutoCompleteTextView et;
@@ -134,7 +143,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     int count =0;
 
     StreetViewPanorama mStreetViewPanorama;
-    Multiple multiple;
+
     CheckBox AllData;
     private NavigationView nDrawer;
     private DrawerLayout mDrawer;
@@ -197,6 +206,8 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
         mGps = (ImageView) findViewById(R.id.ic_gps);
         menu= (ImageView) findViewById(R.id.sattel);
+        addAllData= (ImageView) findViewById(R.id.sat);
+        streetView= (ImageView) findViewById(R.id.streetView);
         //  mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
 
@@ -264,8 +275,6 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         Log.d(TAG1, "onMapReady: map is ready");
         // Mengarahkan ke alun-alun Demak
         center = new LatLng(51.52042, -3.23113);
-
-
         mClusterManager = new ClusterManager<>(this, gMap);
         gMap.setOnCameraIdleListener(mClusterManager);
         gMap.setOnMarkerClickListener(mClusterManager);
@@ -279,47 +288,8 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
 //        // Set a listener for marker click.
         gMap.setOnMarkerClickListener(this);
+//        multipledata();
 
-
-        onMarkerClick(new GoogleMap.OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-
-                // TODO Auto-generated method stub
-
-//                              final int len = thumbnailsselection.length;
-//                              int cnt = 0;
-//                              String selectImages = "";
-//                              ArrayList<Integer> pics = new ArrayList(thumbnailsselection.length);
-//                              for (int i = 0; i < len; i++)
-//                                  if (thumbnailsselection[i]) {
-//                                  pics.add(i);
-//                                      cnt++;
-//                                      selectImages = selectImages + arrPath[i] + "|";
-//
-//                                  }
-//                              if (cnt == 0) {
-//                                  Toast.makeText(getApplicationContext(),
-//                                          "Please select at least one image",
-//                                          Toast.LENGTH_LONG).show();
-//                              } else {
-//                                  Toast.makeText(getApplicationContext(),
-//                                          "You've selected Total " + cnt + " image(s).",
-//                                          Toast.LENGTH_LONG).show();
-//                                  Log.d("SelectedImages", selectImages);
-//                                  Intent myIntent = new Intent(NodeMapSingleData.this, Test.class);
-//                                  myIntent.putIntegerArrayListExtra("arr", pics);//pics is your array with id-s of bitmaps
-//                                  startActivity(myIntent);
-//                              }
-                return false;
-            }
-
-        });
-
-
-
-        multipledata();
         cameraPosition = new CameraPosition.Builder().target(center).zoom(5).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
@@ -354,6 +324,17 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             }
         });
 
+        addAllData.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+          //      showDialog(NodeMapSingleData.this);
+
+                multipledata();
+            }
+
+        });
+
 //        mGps.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -362,35 +343,47 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 //        });
 
 
-//
-//        menu.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                gMap.setMapType(gMap.MAP_TYPE_NORMAL);
-//
-//            }
-//
-//        });
-
-        gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+        streetView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onMapLongClick(LatLng latLng) {
-                CircleOptions options = new CircleOptions();
-                options.center( latLng );
-                //Radius in meters
-                options.radius( 10 );
-                options.fillColor( getResources()
-                        .getColor(android.R.color.background_light ) );
-                options.strokeColor( getResources()
-                        .getColor( android.R.color.holo_blue_dark ) );
-                options.strokeWidth( 10 );
-                gMap.addCircle(options);
+            public void onClick(View v) {
+                Log.d(TAG1, "onClick: StreetView");
+                Streetview1();
 
             }
         });
 
-        // onBackPressed();
+        menu.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG1, "onClick: clicked gps icon");
+
+                run1();
+
+            }
+
+        });
+        menu.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+
+                gMap.setMapType(gMap.MAP_TYPE_NORMAL);
+                return true;
+
+            }
+
+        });
+
+//        gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+//            @Override
+//            public void onMapLongClick(LatLng latLng) {
+//                Intent intent = new Intent(NodeMapSingleData.this, AvaliableData.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        onBackPressed();
         final CustomClusterRenderer renderer = new CustomClusterRenderer(this, gMap, mClusterManager);
 
         mClusterManager.setRenderer(renderer);
@@ -399,6 +392,8 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
 
     }
+
+
 
     private void onMarkerClick(GoogleMap.OnMarkerClickListener onMarkerClickListener) {
     }
@@ -450,6 +445,26 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             Log.e(TAG1, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
     }
+//    private void showDialog(NodeMapSingleData nodeMapSingleData) {
+//
+//
+//        new AlertDialog.Builder(this)
+//                .setTitle("ISD App Proces")
+//                .setMessage("Are you Sure you Want to add Data to Selected Marker")
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        multipledata();
+//                    }
+//                })
+//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .create().show();
+//    }
 
 
 
@@ -515,33 +530,6 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
-
-//    public void findLocation(View v) throws IOException {
-//
-////        EditText et = (EditText) findViewById(R.id.editText);
-//
-//
-//        String location = et.getText().toString();
-//        Geocoder geocoder = new Geocoder(this);
-//        List<Address> list = geocoder.getFromLocationName(location, 1);
-//        Address add = list.get(0);
-//        String locality = add.getLocality();
-//        LatLng ll = new LatLng(add.getLatitude(), add.getLongitude());
-//        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, 17);
-//        hideSoftKeyboard();
-//        //    et.setError("Wrong Search! ");
-//        gMap.moveCamera(update);
-//        if(myMarker != null)
-//            myMarker.remove();
-//        myMarker = gMap.addMarker(new MarkerOptions()
-//                .position(ll)
-//                .title(locality)
-//                .snippet("Latitude:" + ll.latitude + ",Longitude" + ll.longitude)
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
-//        ;
-//
-//
-//    }
 
 
     public void findLocation(View v) throws IOException {
@@ -671,30 +659,9 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         latit = marker.getPosition().latitude;
         longgg = marker.getPosition().longitude;
 //        final Multiple multiple = new Multiple(ipaddr,latit,longgg);
-
-
-
         ipaddress2.add(ipaddr);
         latitude2.add(String.valueOf(latit));
         longitude2.add(String.valueOf(longgg));
-//        multiple.setIpaddress1(ipaddr);
-//        multiple.setLattitude1(latit);
-//        multiple.setLongitude1(longgg);
-
-//        multipledata(ipaddr1,latit1,longgg1);
-
-//
-//        mStreetViewPanorama.setPosition(SAN_FRAN);
-//
-//        // Keeping the zoom and tilt. Animate bearing by 60 degrees in 1000 milliseconds.
-//        long duration = 1000;
-//        StreetViewPanoramaCamera camera =
-//                new StreetViewPanoramaCamera.Builder()
-//                        .zoom(mStreetViewPanorama.getPanoramaCamera().zoom)
-//                        .tilt(mStreetViewPanorama.getPanoramaCamera().tilt)
-//                        .bearing(mStreetViewPanorama.getPanoramaCamera().bearing - 60)
-//                        .build();
-//        mStreetViewPanorama.animateTo(camera, duration);
 
 
 
@@ -704,225 +671,57 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
     }
 
-    private void multipledata() {
 
-//        final String ipaddress1 =ipaddr;
-//        final double lat1 = latit;
-//        final double lng1 = longgg;
+    private void Streetview1() {
 
+        double l = latit;
+        double lg = longgg;
+        Intent intent = new Intent(NodeMapSingleData.this, StreetViewMap.class);
+        intent.putExtra("doubleValue_e1", l);
+        intent.putExtra("doubleValue_e2", lg);
 
-
-//        latitude2.add(latit);
-//        longitude2.add(longgg);
-//        ipaddress2.add(ipaddr);
-//
-//        final Multiple multiple = new Multiple(ipaddress2,latitude2,longitude2);
-//
-//        multiple.setIpaddress1(ipaddress2);
-//        multiple.setLattitude1(latitude2);
-//        multiple.setLongitude1(longitude2);
-        menu.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-//                Log.d(TAG1, "onClick: clicked gps icon");
-//                run1();
-//
-//                ipaddress2.add(ipaddress1);
-//                latitude2.add(Double.valueOf(lat1));
-//                longitude2.add(Double.valueOf(lng1));
-//                final Multiple multiple = new Multiple(ipaddress2,latitude2,longitude2);
-//
-//                multiple.setIpaddress1(ipaddress2);
-//                multiple.setLattitude1(latitude2);
-//                multiple.setLongitude1(longitude2);
-
-                //      ArrayList array = new ArrayList();
-
-//                for(int i =0; i<= array. ;i++){
-//
-//                    ArrayList ll = (ArrayList) arrayList.get(i);
-//                    ip = ll.toArray().toString(ipaddr);
-//
-//                }
-//
-//               Multiple multiple = new Multiple();
-//
-//               multiple.setIpaddress1(ipaddr);
-//               multiple.setLongitude1(latit);
-//               multiple.setLattitude1(logg);
-//
-//                ArrayList<Multiple> userlist = new ArrayList<Multiple>();
-//
-//                userlist.add(multiple);
-//
-//                Bundle bundle=new Bundle();
-//                bundle.putParcelable("test", (Parcelable) userlist);
-
-//                JSONArray array = new JSONArray();
-//
-//                //traversing through all the object
-//                for (int i = 0; i < array.length(); i++) {
-//
-//                    //getting product object from json array
-//
-//
-//
-//                    ip = array.getJSONArray(i).getString(ipaddr);
-//                    l = product.getString(String.valueOf(latit)),
-//                    lg=product.getString(String.valueOf(longgg));
-//
-//
-
-
-//                if(onMarkerClick(marker)==true){
-//
-//                    count = +count;
-//                }
-
-
-//                List<LauncherActivity.ListItem> items = listManager.getList(categoryTitle);
-
-                ArrayList<ArrayList<String>> myList = new ArrayList<>();
-                myList.add(ipaddress2);
-//
-//                ArrayList<String> latt = new ArrayList<String>();
-                myList.add(latitude2);
-//
-                // ArrayList<String> lgg = new ArrayList<String>();
-                myList.add(longitude2);
-
-//            ArrayList<String> userlist = new ArrayList<String>();
-//                ipaddress2.add(ipaddr);
-//                ipaddress2.add(String.valueOf(latit));
-//                ipaddress2.add(String.valueOf(longgg));
-//
-//                 userlist.add(String.valueOf(ipaddress2));
-//
-//                for(int i=0; i<userlist.size();i++){
-//                for(int i =0; i<= myList.size() ;i++) {
-//
-//                    ArrayList ll = (ArrayList) arrayList.get(i);
-//                    ip = ll.toArray().toString(ipaddr);
-
-
-//                       ip = ipaddress2.get(i);
-//                        l= latitude2.get(i);
-//                        lg= longitude2.get(i);
-////
-//                }
-
-
-                Intent intent = new Intent(NodeMapSingleData.this, SingleDataBASEADDING.class);
-//                for (int i = 0; i<= ipaddress2.size(); i++)
-//                intent.putStringArrayListExtra("doubleValue_e1", ipaddress2.get(i));
-//                for (int i = 0; i<= latitude2.size(); i++)
-//                intent.putStringArrayListExtra("doubleValue_e2", latitude2.get(i));
-//                for (int i = 0; i<= longitude2.size(); i++)
-//                intent.putStringArrayListExtra("doubleValue_e3", longitude2.get(i));
-
-                for(int i=0; i< myList.size(); i++){
-                    intent.putExtra("doubleValue_e1", ipaddress2.get(i));
-                    intent.putExtra("doubleValue_e2", latitude2.get(i));
-                    intent.putExtra("doubleValue_e3", longitude2.get(i));
-                    startActivity(intent);
-
-                }
-
-
-//                for (int i = 0; i < ipaddress2.size(); i++)
-//                    intent.putExtra("doubleValue_e1", ipaddress2.get(i));
-//                for (int i = 0; i < latitude2.size(); i++)
-//                    intent.putExtra("doubleValue_e2", latitude2.get(i));
-//                for (int i = 0; i < longitude2.size(); i++)
-//                    intent.putExtra("doubleValue_e3", longitude2.get(i));
-
-//                    intent.putExtra("doubleValue_e1", ip);
-//                    intent.putExtra("doubleValue_e2", l);
-//                    intent.putExtra("doubleValue_e3", lg);
-
-//                    intent.putExtra("doubleValue_e1", ip);
-//                    intent.putExtra("doubleValue_e2", l);
-//                    intent.putExtra("doubleValue_e3", lg);
-
-
-
-//
-//                }
-
-//                for(int i=0;i<ipaddress2.size();i++){
-////                    multiple.setIpaddress1(ipaddress2.get(i));
-//                    ip = ipaddress2.get(i).toString();
-//                }
-//
-//                for(int i=0;i<latitude2.size();i++){
-//
-//                    l = Double.parseDouble(latitude2.get(i).toString());
-//                }
-//
-//                for(int i=0;i<longitude2.size();i++){
-////                    multiple.setLongitude1(longitude2.get(i));
-//                    lg = Double.parseDouble(longitude2.get(i).toString());
-//                }
-
-//                Intent intent = new Intent(NodeMapSingleData.this, SingleDataBASEADDING.class);
-//
-////                intent.putExtra("doubleValue_e1", multiple.getIpaddress1() );
-////                intent.putExtra("doubleValue_e3",multiple.getLattitude1());
-////                intent.putExtra("doubleValue_e2",multiple.getLongitude1());
-//
-////                intent.putStringArrayListExtra("doubleValue_e1",ipaddress2);
-////                intent.putStringArrayListExtra("doubleValue_e2", latitude2);
-////                intent.putStringArrayListExtra("doubleValue_e3", longitude2);
-//
-//                intent.putExtra("doubleValue_e1", ip);
-//                intent.putExtra("doubleValue_e2", l);
-//                intent.putExtra("doubleValue_e3", lg);
-////                for (int i = 0; i<bundle.size(); i++)
-////                    intent.putExtra("userlist_"+i , String.valueOf(bundle.get(String.valueOf(i))));
-////                intent.putExtra("userlist_size" , userlist.size());
-//
-//                startActivity(intent);
-//                finish();
-
-//                intent.putExtra("doubleValue_e1", ipaddress1 );
-//                intent.putExtra("doubleValue_e3",lat1);
-//                intent.putExtra("doubleValue_e2", lng1);
-//                for (int i = 0; i<ipaddress2.size(); i++)
-//                intent.putExtra("doubleValue_e1", ipaddress2.get(i) );
-//                intent.putExtra("userlist_size" ,  ipaddress2.size());
-//                for (int i = 0; i<latitude2.size(); i++)
-//                intent.putExtra("doubleValue_e2",latitude2.get(i));
-//                intent.putExtra("userlist_size1" ,  latitude2.size());
-//                for (int i = 0; i<longitude2.size(); i++)
-//                intent.putExtra("doubleValue_e3", longitude2.get(i));
-//                intent.putExtra("userlist_size2" ,  longitude2.size());
-
-
-
-
-
-            }
-
-        });
+        startActivity(intent);
     }
 
 
-//    @Override
-//    public void onInfoWindowClick(Marker marker) {
-//        Toast.makeText(this, "Gir Forest Clicked!!!!", Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, getTitle() , Toast.LENGTH_SHORT).show();
-//        double lat = marker.getPosition().latitude;
-//        double lng = marker.getPosition().longitude;
-//        String ipaddress =marker.getTitle();
-//        String lng1 = String.valueOf(lat);
-//        String logg = String.valueOf(lng);
+
+    private void multipledata() {
+
+        myList.add(ipaddress2);
+        myList.add(latitude2);
+        myList.add(longitude2);
+
+        Intent intent = new Intent(NodeMapSingleData.this, SingleDataBASEADDING.class);
+        for(int i=0; i< myList.size(); i++){
+            intent.putExtra("doubleValue_e1", ipaddress2.get(i));
+            intent.putExtra("doubleValue_e2", latitude2.get(i));
+            intent.putExtra("doubleValue_e3", longitude2.get(i));
+            startActivity(intent);
+
+        }
+
+//        ipaddress2.add(ipaddr);
+//        latitude2.add(String.valueOf(latit));
+//        longitude2.add(String.valueOf(longgg));
+//        multiple = new Multiple();
+//        array = new ArrayList<Multiple>();
+//        array.add(new Multiple( ipaddress2,latitude2,longitude2));
+//
+//        for (int i =0 ; i< array.size();i++){
+//
+//            multiple.setIpaddress1(array.get(i).getIpaddress1());
+//            multiple.setLattitude1(array.get(i).getLattitude1());
+//            multiple.setLongitude1(array.get(i).getLongitude1());
+//        }
+//
+//
+//        ArrayList<Multiple> object = new ArrayList<Multiple>();
 //        Intent intent = new Intent(NodeMapSingleData.this, SingleDataBASEADDING.class);
-//        intent.putExtra("doubleValue_e1", ipaddress);
-//        intent.putExtra("doubleValue_e2", lng1);
-//        intent.putExtra("doubleValue_e3", logg);
+//        Bundle args = new Bundle();
+//        args.putSerializable("ARRAYLIST",(Serializable)array);
+//        intent.putExtra("BUNDLE",args);
 //        startActivity(intent);
-//    }
+    }
 
 
     public class CustomClusterRenderer extends DefaultClusterRenderer<Items> {
@@ -941,13 +740,6 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         }
-
-//
-//
-//        @Override
-//        protected boolean shouldRenderAsCluster(Cluster<Items> cluster){
-//            return cluster.getSize() > 1;
-//        }
 
     }
 
@@ -1175,54 +967,9 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     @Override
     public boolean onClusterClick(Cluster<Items> cluster) {
 
-//        //Toast.makeText(this, cluster.getSize()+ " (including " + title + ")" , Toast.LENGTH_SHORT).show();
-//
-//        Log.e(TAG1, "onClusterClick");
-//
-//        // Show a toast with some info when the cluster is clicked.
-//        String firstName = cluster.getItems().iterator().next().getTitle();
-//       // Toast.makeText(this, cluster.getSize() + " (including " + firstName + ")", Toast.LENGTH_SHORT).show();
-//
-//
-//
-//        // Zoom in the cluster. Need to create LatLngBounds and including all the cluster items
-//        // inside of bounds, then animate to center of the bounds.
-//
-//        // Create the builder to collect all essential cluster items for the bounds.
-//        LatLngBounds.Builder builder = LatLngBounds.builder();
-//        for (ClusterItem item : cluster.getItems()) {
-//            builder.include(item.getPosition());
-//        }
-//        // Get the LatLngBounds
-//        final LatLngBounds bounds = builder.build();
-//
-//        // Animate camera to the bounds
-//        try {
-//            gMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        Intent intent = new Intent(CurrentNode.this, ListViewMappActivity.class);
-//        startActivity(intent);
-//        startActivity(new Intent(CurrentNode.this,ListViewMappActivity.class));
-//
-//        Intent intent = new Intent(NodeMapSingleData.this, listview.class);
-////                intent.putStringArrayListExtra("doubleValue_e1",addData);
-//        startActivity(intent);
-
-
         return true ;
     }
-//
-//    private void getDataDisplay(LatLng latLng, String title) {
-//
-//        String ipaddress = title;
-//
-//        Intent intent = new Intent(CurrentNode.this, ListViewMappActivity.class);
-//        intent.putExtra("array_list", ipaddress);
-//        startActivity(intent);
-//    }
+
 
     @Override
     public void onClusterInfoWindowClick(Cluster<Items> cluster) {
