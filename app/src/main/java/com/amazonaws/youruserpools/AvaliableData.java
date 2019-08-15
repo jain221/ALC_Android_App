@@ -3,18 +3,19 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -56,6 +57,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.ClusterRenderer;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 import org.json.JSONArray;
@@ -66,8 +68,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
-public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, ClusterManager.OnClusterItemInfoWindowClickListener<Items>, GoogleMap.OnMarkerClickListener {
+public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, ClusterManager.OnClusterItemInfoWindowClickListener<Items>, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     HttpParse httpParse = new HttpParse();
     String HttpURL = "https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData";
@@ -85,6 +88,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
     public static final String TITLE = "ipaddress";
     public static final String LAT = "latitude";
     public static final String LNG = "longitude";
+    public static final String columeNumber = "colume_number";
     public static final String Station11 = "Station";
     public static final String columeManf = "Colume_Manfucture";
     public static final String RaiseandLow = "Raise_and_Lower";
@@ -98,7 +102,8 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
     public static final String BracketLenth = "bracket_length";
     public static final String EstimatedAge = "estimated_column_age";
     public static final String LatenManfu = "lantern_manufacturer";
-    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+    Marker marker1;
+    String ip, latt, logg,cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
     private Marker myMarker;
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -111,9 +116,13 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
     //    private SuggestionAdapter mSuggestionAdapter;
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    private static final String URL_PRODUCTS = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/ISDgetAllData";
+//    private static final String URL_PRODUCTS = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/ISDgetAllData";
+    private static final String URL_AMBER = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectedamberColor";
+    private static final String URL_GREEN = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectGreenColor";
+    private static final String URL_RED = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectRedColor";
     private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
     private ClusterManager<Items> mClusterManager;
+    private ClusterManager<Items> mClusterManagerR;
     private List<Items> items = new ArrayList<>();
     private ImageView mGps;
     private ImageView menu;
@@ -215,6 +224,16 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
         mClusterManager.setOnClusterItemClickListener(this);
         mClusterManager.setOnClusterItemInfoWindowClickListener(this);
         mClusterManager.cluster();
+
+        mClusterManagerR = new ClusterManager<Items>(this, gMap);
+        gMap.setOnCameraIdleListener(mClusterManagerR);
+        gMap.setOnMarkerClickListener(mClusterManagerR);
+        gMap.setOnInfoWindowClickListener(mClusterManagerR);
+        mClusterManagerR.setOnClusterClickListener(this);
+        mClusterManagerR.setOnClusterInfoWindowClickListener(this);
+        mClusterManagerR.setOnClusterItemClickListener(this);
+        mClusterManagerR.setOnClusterItemInfoWindowClickListener(this);
+        mClusterManagerR.cluster();
         InfoWndow2 markerInfoWindowAdapter = new InfoWndow2(getApplicationContext());
         googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
         // Set a listener for marker click.
@@ -236,7 +255,11 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
 
         }
 
-        getMarkers();
+        gMap.setOnInfoWindowClickListener(this);
+
+        getMarkersAmber();
+        getMarkersGreen();
+        getMarkersRed();
 //        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
         gMap.setMapType(gMap.MAP_TYPE_NORMAL);
         //   gMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) mClusterManager);
@@ -274,18 +297,22 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
 
         });
 
-        gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                Intent intent = new Intent(AvaliableData .this, NodeMapSingleData.class);
-                startActivity(intent);
-            }
-        });
+//        gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+//            @Override
+//            public void onMapLongClick(LatLng latLng) {
+//                Intent intent = new Intent(AvaliableData .this, NodeMapSingleData.class);
+//                startActivity(intent);
+//            }
+//        });
 
         onBackPressed();
         final CustomClusterRenderer renderer = new CustomClusterRenderer(this, gMap, mClusterManager);
 
         mClusterManager.setRenderer(renderer);
+
+        final CustomClusterRenderer rendererR = new CustomClusterRenderer(this, gMap, mClusterManagerR);
+
+        mClusterManagerR.setRenderer(rendererR);
 
         onBackPressed();
 
@@ -445,92 +472,12 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
 
 
 
-    private void addMarker(final LatLng latLng, final String title) {
 
-
-
-        double lat =latLng.latitude;
-        double lng = latLng.longitude;
-        // Set he title and snippet strings.
-
-
-        final String snippet = (" Lat: "+lat+",Longitude: "+lng+" \n Colume Manf: "+ cl+"\n Raise & Lower: "+rs+
-                "\n Colume Material: "+cm+" \n Colume Type: "+ ct +" \n Colume Height: "+chg +" \n Number of Door: "+nd+" \n Door Dimen: "+dd+"\n Foundation type: "+ft+
-                "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-
-// Create a cluster item for the marker and set the title and snippet using the constructor.
-        Items infoWindowItem = new Items(lat,lng, title, snippet);
-
-//
-// Add the cluster item (marker) to the cluster manager.
-        mClusterManager.addItem(infoWindowItem);
-
-        mClusterManager.setRenderer(new CustomClusterRenderer(AvaliableData.this, gMap, mClusterManager));
-//
-
-        mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<Items>() {
-            @Override
-            public boolean onClusterClick(Cluster<Items> cluster) {
-
-                String firstName = cluster.getItems().iterator().next().getTitle();
-                //     Create the builder to collect all essential cluster items for the bounds.
-                LatLngBounds.Builder builder = LatLngBounds.builder();
-                String array = null;
-                for (ClusterItem item : cluster.getItems()) {
-                    builder.include(item.getPosition());
-                    array = item.getTitle();
-                }
-                // Get the LatLngBounds
-                final LatLngBounds bounds = builder.build();
-
-                // Animate camera to the bounds
-                try {
-                    gMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-//                for (ClusterItem item : cluster.getItems()) {
-//                  data = (item.getTitle());
-//                }
-
-                ArrayList<String> addData = new ArrayList<String>();
-
-                addData.add(title);
-
-
-                return true;
-            }
-        });
-
-
-    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-
-
-    public class CustomClusterRenderer extends DefaultClusterRenderer<Items> {
-
-        public CustomClusterRenderer(Context context, GoogleMap map, ClusterManager<Items> clusterManager) {
-            super(context, map, clusterManager);
-        }
-
-        @Override
-        protected int getColor(int clusterSize) {
-//            return Color.parseColor("#567238");
-            return Color.BLUE ;// Return any color you want here. You can base it on clusterSize.
-        }
-
-        @Override
-        protected void onBeforeClusterItemRendered(Items item, MarkerOptions markerOptions) {
-
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-        }
-    }
-
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -582,7 +529,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
         // Return false to indicate that we have not consumed the event and that we wish
         // for the default behavior to occur (which is for the camera to move such that the
         // marker is centered and for the marker's info window to open, if it has one).
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         latit = String.valueOf(marker.getPosition().latitude);
         longgg = String.valueOf(marker.getPosition().longitude);
         ipaddr = marker.getTitle();
@@ -605,6 +552,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
             public void onClick(View v) {
 
                 dialog.dismiss();
+                showStartDialog();
             }
         });
 
@@ -632,6 +580,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                 startActivity(intent);
 
                 dialog.dismiss();
+                showStartDialog();
             }
         });
 
@@ -649,7 +598,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                 String lng = longgg;
                 String ipaddress =ipaddr;
 
-                Intent intent = new Intent(AvaliableData.this,ReplaceLatern.class);
+                Intent intent = new Intent(AvaliableData.this,editeColumeNumber.class);
                 //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
                 intent.putExtra("doubleValue_e1", ipaddress);
                 intent.putExtra("doubleValue_e2", lat);
@@ -658,6 +607,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                 startActivity(intent);
 
                 dialog.dismiss();
+                showStartDialog();
             }
         });
 
@@ -679,6 +629,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                 startActivity(intent);
 
                 dialog.dismiss();
+                showStartDialog();
             }
         });
 
@@ -704,6 +655,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                 startActivity(intent);
 
                 dialog.dismiss();
+                showStartDialog();
             }
         });
 
@@ -729,6 +681,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                 startActivity(intent);
 
                 dialog.dismiss();
+                showStartDialog();
             }
         });
 
@@ -755,12 +708,9 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
         getRequestQueue().add(req);
     }
 
+    private void getMarkersAmber() {
 
-
-
-    private void getMarkers() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_PRODUCTS,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,  URL_AMBER,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -778,6 +728,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                                 double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
                                 double lng3= Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
                                 //adding the product to product list
+                                cnum=product.getString(columeNumber);
                                 cl = product.getString(columeManf);
                                 rs = product.getString(RaiseandLow);
                                 cm = product.getString(columeMaterial);
@@ -790,7 +741,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                                 bl = product.getString(BracketLenth);
                                 eage = product.getString(EstimatedAge);
                                 lm = product.getString(LatenManfu);
-                                addMarker(latLng, title);
+                                addMarker2(latLng, title);
                                 displayData.add(product);
                                 // onMarkerClick(latLng);
 //                                product1 = new Product(title,lat3,lng3,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm);
@@ -801,6 +752,7 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
                                 double  latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
                                 double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
                                 ip = displayData.get(i).get(TITLE).toString();
+                                cnum = displayData.get(i).get(columeNumber).toString();
                                 cl = displayData.get(i).get(columeManf).toString();
                                 rs =displayData.get(i).get(RaiseandLow).toString();
                                 cm =displayData.get(i).get(columeMaterial).toString();
@@ -841,6 +793,343 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
         Volley.newRequestQueue(this).add(stringRequest);
 
     }
+
+    private void addMarker2(LatLng latLng, String title) {
+        double lat =latLng.latitude;
+        double lng = latLng.longitude;
+        // Set he title and snippet strings.
+
+
+
+        final String snippet = (" Status : Amber "+" \n Column : "+ cnum+" \n Lat: "+lat+",Longitude: "+lng+" \n Colume Manf: "+ cl+"\n Raise & Lower: "+rs+
+                "\n Colume Material: "+cm+" \n Colume Type: "+ ct +" \n Colume Height: "+chg +" \n Number of Door: "+nd+" \n Door Dimen: "+dd+"\n Foundation type: "+ft+
+                "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
+
+// Create a cluster item for the marker and set the title and snippet using the constructor.
+        //  Items infoWindowItem = new Items(lat,lng, title, snippet);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .snippet(snippet)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+        gMap.addMarker(markerOptions);
+
+        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Toast.makeText(AvaliableData.this, marker.getTitle() , Toast.LENGTH_SHORT).show();
+                showDialog(AvaliableData.this);
+
+            }
+        });
+    }
+
+
+
+    private void getMarkersGreen() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GREEN,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject product = array.getJSONObject(i);
+                                title = product.getString(TITLE);
+                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
+                                double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
+                                double lng3= Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
+                                //adding the product to product list
+                                cnum=product.getString(columeNumber);
+                                cl = product.getString(columeManf);
+                                rs = product.getString(RaiseandLow);
+                                cm = product.getString(columeMaterial);
+                                ct = product.getString(ColumeType);
+                                chg = product.getString(ColumeHight);
+                                nd = product.getString(NumDoors);
+                                dd = product.getString(DoorDimen);
+                                ft = product.getString(Foundation);
+                                bt = product.getString(ColumeBracket);
+                                bl = product.getString(BracketLenth);
+                                eage = product.getString(EstimatedAge);
+                                lm = product.getString(LatenManfu);
+                                addMarker(latLng, title);
+                                displayData.add(product);
+                                // onMarkerClick(latLng);
+//                                product1 = new Product(title,lat3,lng3,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm);
+
+                            }
+                            for(int i = 0; i < displayData.size(); i++) {
+                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+                                double  latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
+                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
+                                ip = displayData.get(i).get(TITLE).toString();
+                                cnum = displayData.get(i).get(columeNumber).toString();
+                                cl = displayData.get(i).get(columeManf).toString();
+                                rs =displayData.get(i).get(RaiseandLow).toString();
+                                cm =displayData.get(i).get(columeMaterial).toString();
+                                ct = displayData.get(i).get(ColumeType).toString();
+                                chg =displayData.get(i).get(ColumeHight).toString();
+                                nd =displayData.get(i).get(NumDoors).toString();
+                                dd = displayData.get(i).get(DoorDimen).toString();
+                                ft =displayData.get(i).get(Foundation).toString();
+                                bt =displayData.get(i).get(ColumeBracket).toString();
+                                bl = displayData.get(i).get(BracketLenth).toString();
+                                eage =displayData.get(i).get(EstimatedAge).toString();
+                                lm =displayData.get(i).get(LatenManfu).toString();
+
+//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
+//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
+//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
+//                                gMap.addMarker(marker);
+
+                            }
+                            //creating adapter object and setting it to recyclerview
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(AvaliableData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+
+    }
+
+    private void addMarker(final LatLng latLng, final String title) {
+
+
+
+        double lat =latLng.latitude;
+        double lng = latLng.longitude;
+        // Set he title and snippet strings.
+
+
+
+        final String snippet = (" Status : Green "+" \n Column : "+ cnum+" \n Lat: "+lat+",Longitude: "+lng+" \n Colume Manf: "+ cl+"\n Raise & Lower: "+rs+
+                "\n Colume Material: "+cm+" \n Colume Type: "+ ct +" \n Colume Height: "+chg +" \n Number of Door: "+nd+" \n Door Dimen: "+dd+"\n Foundation type: "+ft+
+                "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
+
+// Create a cluster item for the marker and set the title and snippet using the constructor.
+        Items infoWindowItem = new Items(lat,lng, title, snippet);
+
+
+// Add the cluster item (marker) to the cluster manager.
+        mClusterManager.addItem(infoWindowItem);
+
+        mClusterManager.setRenderer(new CustomClusterRenderer(AvaliableData.this, gMap, mClusterManager));
+//
+
+        mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<Items>() {
+            @Override
+            public boolean onClusterClick(Cluster<Items> cluster) {
+
+                String firstName = cluster.getItems().iterator().next().getTitle();
+                //     Create the builder to collect all essential cluster items for the bounds.
+                LatLngBounds.Builder builder = LatLngBounds.builder();
+                String array = null;
+                for (ClusterItem item : cluster.getItems()) {
+                    builder.include(item.getPosition());
+                    array = item.getTitle();
+                }
+                // Get the LatLngBounds
+                final LatLngBounds bounds = builder.build();
+
+                // Animate camera to the bounds
+                try {
+                    gMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+//                for (ClusterItem item : cluster.getItems()) {
+//                  data = (item.getTitle());
+//                }
+
+                ArrayList<String> addData = new ArrayList<String>();
+
+                addData.add(title);
+
+
+                return true;
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+    }
+
+    public class CustomClusterRenderer extends DefaultClusterRenderer<Items> {
+
+        public CustomClusterRenderer(Context context, GoogleMap map, ClusterManager<Items> clusterManager) {
+            super(context, map, clusterManager);
+        }
+
+        @Override
+        protected int getColor(int clusterSize) {
+//            return Color.parseColor("#567238");
+            return Color.BLUE ;// Return any color you want here. You can base it on clusterSize.
+        }
+
+        @Override
+        protected void onBeforeClusterItemRendered(Items item, MarkerOptions markerOptions) {
+
+//            BitmapDescriptor descriptor
+//                    = BitmapDescriptorFactory.fromResource(R.drawable.amber);
+//            // Replace  R.drawable.ic_map_icon with your drawable 
+//
+//            markerOptions.icon(descriptor);
+
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+//            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.amber));
+        }
+//        @Override
+//        protected void onBeforeClusterRendered(Cluster<Items> cluster, MarkerOptions markerOptions) {
+//
+//            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.amber));
+//
+//        }
+    }
+
+    private void getMarkersRed() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_RED,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject product = array.getJSONObject(i);
+                                title = product.getString(TITLE);
+                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
+                                double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
+                                double lng3= Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
+                                //adding the product to product list
+                                cnum=product.getString(columeNumber);
+                                cl = product.getString(columeManf);
+                                rs = product.getString(RaiseandLow);
+                                cm = product.getString(columeMaterial);
+                                ct = product.getString(ColumeType);
+                                chg = product.getString(ColumeHight);
+                                nd = product.getString(NumDoors);
+                                dd = product.getString(DoorDimen);
+                                ft = product.getString(Foundation);
+                                bt = product.getString(ColumeBracket);
+                                bl = product.getString(BracketLenth);
+                                eage = product.getString(EstimatedAge);
+                                lm = product.getString(LatenManfu);
+                                addMarker1(latLng, title);
+                                displayData.add(product);
+                                // onMarkerClick(latLng);
+//                                product1 = new Product(title,lat3,lng3,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm);
+
+                            }
+                            for(int i = 0; i < displayData.size(); i++) {
+                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+                                double  latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
+                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
+                                ip = displayData.get(i).get(TITLE).toString();
+                                cnum = displayData.get(i).get(columeNumber).toString();
+                                cl = displayData.get(i).get(columeManf).toString();
+                                rs =displayData.get(i).get(RaiseandLow).toString();
+                                cm =displayData.get(i).get(columeMaterial).toString();
+                                ct = displayData.get(i).get(ColumeType).toString();
+                                chg =displayData.get(i).get(ColumeHight).toString();
+                                nd =displayData.get(i).get(NumDoors).toString();
+                                dd = displayData.get(i).get(DoorDimen).toString();
+                                ft =displayData.get(i).get(Foundation).toString();
+                                bt =displayData.get(i).get(ColumeBracket).toString();
+                                bl = displayData.get(i).get(BracketLenth).toString();
+                                eage =displayData.get(i).get(EstimatedAge).toString();
+                                lm =displayData.get(i).get(LatenManfu).toString();
+
+//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
+//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
+//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
+//                                gMap.addMarker(marker);
+
+                            }
+                            //creating adapter object and setting it to recyclerview
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(AvaliableData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+
+    }
+
+    private void addMarker1(LatLng latLng, final String title) {
+        double lat =latLng.latitude;
+        double lng = latLng.longitude;
+        // Set he title and snippet strings.
+
+
+
+        final String snippet = (" Status : Red "+" \n Column : "+ cnum+" \n Lat: "+lat+",Longitude: "+lng+" \n Colume Manf: "+ cl+"\n Raise & Lower: "+rs+
+                "\n Colume Material: "+cm+" \n Colume Type: "+ ct +" \n Colume Height: "+chg +" \n Number of Door: "+nd+" \n Door Dimen: "+dd+"\n Foundation type: "+ft+
+                "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
+
+// Create a cluster item for the marker and set the title and snippet using the constructor.
+      //  Items infoWindowItem = new Items(lat,lng, title, snippet);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .snippet(snippet)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        gMap.addMarker(markerOptions);
+        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Toast.makeText(AvaliableData.this, marker.getTitle() , Toast.LENGTH_SHORT).show();
+                showDialog(AvaliableData.this);
+
+            }
+        });
+
+    }
+
+
+
+
 
     private void getAutoComlete() {
 
@@ -964,7 +1253,24 @@ public class AvaliableData extends AppCompatActivity  implements OnMapReadyCallb
 
         Toast.makeText(this, items.getTitle() , Toast.LENGTH_SHORT).show();
         showDialog(AvaliableData.this);
+        showStartDialog();
 
     }
+
+    private void showStartDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Refresh Page")
+                .setMessage("Please type Yes button to Refresh page")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Referesh();
+                    }
+                })
+
+                .create().show();
+
+    }
+
 }
 

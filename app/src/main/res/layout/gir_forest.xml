@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:id="@+id/toplayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="101dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -70,11 +70,11 @@
 
                 <TextView
                     android:id="@+id/tvd"
-                    android:layout_width="220dp"
+                    android:layout_width="273dp"
                     android:layout_height="46dp"
                     android:text="LatLong "
                     android:textColor="#fff"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

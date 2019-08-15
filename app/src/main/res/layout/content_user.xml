@@ -118,17 +118,15 @@
             <!--app:srcCompat="@drawable/splash3" />-->
 
 
-        <!--<Button-->
-            <!--android:id="@+id/currentlocation"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/addData"-->
-            <!--android:layout_marginStart="0dp"-->
-            <!--android:layout_marginLeft="0dp"-->
-            <!--android:layout_marginTop="43dp"-->
-            <!--android:layout_marginBottom="-58dp"-->
-            <!--android:text=" email"-->
-            <!--android:textSize="18sp" />-->
+        <Button
+            android:id="@+id/logTokenButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addData"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="120dp"
+            android:text="Log Token"
+            android:textSize="18sp" />
 
 
 

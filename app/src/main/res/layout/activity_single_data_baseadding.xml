@@ -44,8 +44,10 @@
         <!--android:id="@+id/log" />-->
 
         <RelativeLayout
+            android:id="@+id/Rl"
             android:layout_width="623dp"
-            android:layout_height="512dp">
+            android:layout_height="600dp">
+
 
             <TextView
                 android:id="@+id/textView"
@@ -67,9 +69,9 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView"
-                android:layout_marginStart="91dp"
-                android:layout_marginLeft="90dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginStart="86dp"
+                android:layout_marginLeft="86dp"
+                android:layout_marginBottom="4dp"
                 android:layout_toEndOf="@+id/textView"
                 android:layout_toRightOf="@+id/textView"
                 android:prompt="@string/column_manufacturer6"
@@ -474,6 +476,44 @@
                 android:text="Class Show Here "
                 android:textColor="@color/displyaResult"
                 android:textSize="18dp" />
+            <Space
+                android:id="@+id/sks13"
+                android:layout_width="589dp"
+                android:layout_height="13dp"
+                android:layout_below="@+id/textView13"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sks13"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="42dp"
+                android:text="Enter Column Number - "
+                android:textColor="@color/displyatext"
+                android:textSize="17dp" />
+
+            <EditText
+                android:id="@+id/editName"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textView"
+                android:layout_marginStart="83dp"
+                android:layout_marginLeft="83dp"
+                android:layout_marginBottom="-440dp"
+                android:layout_toEndOf="@+id/textView"
+                android:layout_toRightOf="@+id/textView"
+                android:hint="Enter Number "
+                android:textColor="@color/displyaResult"
+                android:textSize="18dp" />
+
+
 
             <Button
 
@@ -482,11 +522,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView14"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="205dp"
-                android:layout_marginTop="26dp"
+                android:layout_marginStart="195dp"
+                android:layout_marginTop="97dp"
                 android:background="@drawable/button"
                 android:text="SAVE" />
-
 
 
         </RelativeLayout>

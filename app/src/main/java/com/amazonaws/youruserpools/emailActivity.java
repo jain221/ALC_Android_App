@@ -32,6 +32,7 @@ public class emailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendMail();
+                onBackPressed();
             }
         });
     }
@@ -44,7 +45,7 @@ public class emailActivity extends AppCompatActivity {
         String message = mEditTextMessage.getText().toString();
 //
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"sgodha111@gmail.com"});
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, message);
 

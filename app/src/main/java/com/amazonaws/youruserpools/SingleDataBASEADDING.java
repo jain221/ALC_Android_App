@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -124,7 +125,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
     private SharedPreferences sharedPreferences;
     private int position =0;
     private int spinnerValue = 0;
-
+    EditText StudentName;
     SharedPreferences mPrefs;
 
     //........................
@@ -232,7 +233,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         spinnerBracketLength = (Spinner) findViewById(R.id.BracketLength);
         spinnerEstimatedColAGE = (Spinner) findViewById(R.id.ColumeAge);
         spinnerlaternManuf = (Spinner) findViewById(R.id.lantern_manufacturer);
-
+        StudentName = (EditText)findViewById(R.id.editName);
         mPrefs = getSharedPreferences("label", 0);
         CountryName = new ArrayList<>();
 
@@ -1645,6 +1646,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         jsonObject.put("ipaddress", e1);
         jsonObject.put("latitude",  e2);
         jsonObject.put("longitude", e3);
+        jsonObject.put("colume_number", StudentName.getText().toString());
         jsonObject.accumulate("Colume_Manfucture", spinnerColumeManf.getSelectedItem().toString());
         jsonObject.accumulate("Raise_and_Lower", spinnerRaiseandLow.getSelectedItem().toString());
         jsonObject.accumulate("Colume_Material", spinnerColumeMat.getSelectedItem().toString());

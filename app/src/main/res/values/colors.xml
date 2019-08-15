@@ -32,7 +32,7 @@
 
     <color name="white_trans">#b3fffcfc</color>
     <color name="color_text">#fafafa</color>
-
+    <color name="Amber_Status">#ffbf00</color>
     <color name="color_input_hint">#FFF</color>
     <color name="color_text_highlight">#fafafa</color>
 </resources>

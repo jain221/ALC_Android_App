@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 //        editor.apply();
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Open/Close the navigation drawer when menu icon is selected

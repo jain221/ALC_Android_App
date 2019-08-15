@@ -25,6 +25,7 @@
         android:label="ISD  "
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".editeColumeNumber"></activity>
         <activity
             android:name=".splash"
             android:label="ISD"
@@ -37,6 +38,28 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification" />
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/displyaResult" /> <!-- [END fcm_default_icon] -->
+        <!-- [START fcm_default_channel] -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB6dGDjIx9GMeMJEsYiyGlNvmHxMBzHuso" />
@@ -93,7 +116,7 @@
             android:label="@string/title_activity_email"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".InfoWndow2" />
-        <activity android:name=".StreetViewMap"></activity>
+        <activity android:name=".StreetViewMap" />
     </application>
 
 </manifest>

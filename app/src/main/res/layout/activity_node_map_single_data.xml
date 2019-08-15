@@ -73,21 +73,21 @@ android:layout_height="match_parent">
 
         android:layout_alignEnd="@+id/relLayout1"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="177dp"
-        android:layout_marginEnd="453dp"
+        android:layout_marginTop="280dp"
+        android:layout_marginEnd="18dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_mapview" />
 
-    <ImageView
-        android:id="@+id/sat"
-        android:layout_width="46dp"
-        android:layout_height="43dp"
-        android:layout_alignEnd="@+id/relLayout1"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="91dp"
-        android:layout_marginEnd="452dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/reperesh" />
+    <!--<ImageView-->
+        <!--android:id="@+id/sat"-->
+        <!--android:layout_width="46dp"-->
+        <!--android:layout_height="43dp"-->
+        <!--android:layout_alignEnd="@+id/relLayout1"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginTop="189dp"-->
+        <!--android:layout_marginEnd="20dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@drawable/reperesh" />-->
 
     <ImageView
         android:id="@+id/streetView"
@@ -95,7 +95,7 @@ android:layout_height="match_parent">
         android:layout_height="43dp"
         android:layout_alignEnd="@+id/relLayout1"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="625dp"
+        android:layout_marginTop="177dp"
         android:layout_marginEnd="19dp"
         android:scaleType="centerCrop"
         android:src="@drawable/streetview" />

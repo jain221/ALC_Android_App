@@ -83,20 +83,12 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     public static String[] arrPath;
     private Context context;
     MapFragment mapFragment;
-    String ip;
-    String l;
-    String lg;
     ArrayList<ArrayList<String>> myList = new ArrayList<>();
-    String lat2 ;
-    String lng2;
     GoogleMap gMap;
     MarkerOptions markerOptions = new MarkerOptions();
     CameraPosition cameraPosition;
     LatLng center, latLng;
     String title;
-    private CheckBox infoCheckBox;
-    private Bitmap[] thumbnails;
-    boolean[] thumbnailsselection;
     private RequestQueue mRequestQueue;
     public static final String TAG1 = CurrentNode.class.getSimpleName();
     public static final String ID = "id";
@@ -110,13 +102,9 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 17f;
-    double latt1 ;
-    double lonn;
     double latit,longgg;
     String ipaddr;
 
-    ArrayList<Multiple> array ;
-    Multiple multiple;
     //vars
     private ArrayList<SuggestGetSet> List;
     //    private SuggestionAdapter mSuggestionAdapter;
@@ -132,13 +120,11 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     String data;
 
     AutoCompleteTextView et;
-    String tag_json_obj = "json_obj_req";
-    private AutoCompleteTextView mSearchText;
-    ArrayList<String> displayData = new ArrayList<String>();
-    private static final LatLng MOUNTAIN_VIEW = new LatLng(37.4, -122.1);
-    private Marker locationMarker;
+
+
+
     double latt ,logg;
-    private Marker marker;
+
 
     int count =0;
 
@@ -161,40 +147,6 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     ArrayList<String> latitude2 = new ArrayList<String>();
     ArrayList<String> longitude2 = new ArrayList<String>();
     ArrayList<String> ipaddress2 = new ArrayList<String>();
-//
-//    class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-//
-//        private final View myContentsView;
-//
-//        MyInfoWindowAdapter(){
-//            myContentsView = getLayoutInflater().inflate(R.layout.custom_info_contents, null);
-//        }
-//
-//        @Override
-//        public View getInfoContents(Marker marker) {
-//
-//            TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.title));
-//            tvTitle.setText(marker.getTitle());
-//            TextView tvSnippet = ((TextView)myContentsView.findViewById(R.id.snippet));
-//            tvSnippet.setText(marker.getSnippet());
-//
-//            return myContentsView;
-//        }
-//
-//        @Override
-//        public View getInfoWindow(Marker marker) {
-//            // TODO Auto-generated method stub
-//            return null;
-//        }
-//
-//    }
-//
-//    final int RQS_GooglePlayServices = 1;
-//    TextView tvLocInfo;
-//
-//
-
-
 
 
 
@@ -204,9 +156,13 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_node_map_single_data);
 
+//        this.mHandler = new Handler();
+//
+//        this.mHandler.postDelayed(m_Runnable,5000);
+
         mGps = (ImageView) findViewById(R.id.ic_gps);
         menu= (ImageView) findViewById(R.id.sattel);
-        addAllData= (ImageView) findViewById(R.id.sat);
+//        addAllData= (ImageView) findViewById(R.id.sat);
         streetView= (ImageView) findViewById(R.id.streetView);
         //  mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
@@ -264,6 +220,18 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
     }
 
+//    private final Runnable m_Runnable = new Runnable()
+//    {
+//        public void run()
+//
+//        {
+//            Toast.makeText(NodeMapSingleData.this,"in runnable",Toast.LENGTH_SHORT).show();
+//
+//            NodeMapSingleData.this.mHandler.postDelayed(m_Runnable, 5000);
+//        }
+//
+//    };//runnable
+//
 
 
 
@@ -324,16 +292,17 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             }
         });
 
-        addAllData.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-          //      showDialog(NodeMapSingleData.this);
-
-                multipledata();
-            }
-
-        });
+//        addAllData.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//          //      showDialog(NodeMapSingleData.this);
+//
+//                multipledata();
+//                showStartDialog();
+//            }
+//
+//        });
 
 //        mGps.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -654,18 +623,37 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
+        Toast.makeText(NodeMapSingleData.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
+        Integer clickCount = (Integer) marker.getTag();
 
-        ipaddr = marker.getTitle();
-        latit = marker.getPosition().latitude;
-        longgg = marker.getPosition().longitude;
-//        final Multiple multiple = new Multiple(ipaddr,latit,longgg);
-        ipaddress2.add(ipaddr);
-        latitude2.add(String.valueOf(latit));
-        longitude2.add(String.valueOf(longgg));
+        if (clickCount == null) {
+            clickCount = 0;
+        }
 
+        clickCount = clickCount + 1;
 
+        if(clickCount ==2){
+
+            Toast.makeText(this, "Refersh the page you cliced many times " + clickCount + " times.", Toast.LENGTH_SHORT).show();
+            showStartDialog();
+        }
+//        marker.setTag(clickCount
+        else {
+
+            ipaddr = marker.getTitle();
+            latit = marker.getPosition().latitude;
+            longgg = marker.getPosition().longitude;
+            ipaddress2.add(ipaddr);
+            latitude2.add(String.valueOf(latit));
+            longitude2.add(String.valueOf(longgg));
+
+        }
+
+//        return true;
 
         return false;
+
+
 
 
 
@@ -687,12 +675,16 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
     private void multipledata() {
 
+
+
         myList.add(ipaddress2);
         myList.add(latitude2);
         myList.add(longitude2);
 
+
+
         Intent intent = new Intent(NodeMapSingleData.this, SingleDataBASEADDING.class);
-        for(int i=0; i< myList.size(); i++){
+        for(int i = 0; i < myList.size(); i++){
             intent.putExtra("doubleValue_e1", ipaddress2.get(i));
             intent.putExtra("doubleValue_e2", latitude2.get(i));
             intent.putExtra("doubleValue_e3", longitude2.get(i));
@@ -751,6 +743,13 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.add:
+                Toast.makeText(this, "Multiple data is selected", Toast.LENGTH_SHORT)
+                        .show();
+                multipledata();
+                showStartDialog();
+                break;
             case R.id.action_refresh:
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
                         .show();
@@ -1011,6 +1010,39 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         intent.putExtra("doubleValue_e3", logg);
         startActivity(intent);
 
+        showStartDialog();
+
     }
+
+    private void showStartDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Referesh Page")
+                .setMessage("Please type Yes button to Referesh page")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Referesh();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create().show();
+
+
+
+
+
+
+
+//        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putBoolean("firstStart", false);
+//        editor.apply();
+    }
+
 }
 
