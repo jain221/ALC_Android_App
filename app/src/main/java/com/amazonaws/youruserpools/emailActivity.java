@@ -34,7 +34,7 @@ public class emailActivity extends AppCompatActivity {
                 sendMail();
                 onBackPressed();
             }
-        });
+      });
     }
 
     private void sendMail() {

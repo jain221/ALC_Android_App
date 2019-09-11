@@ -111,7 +111,7 @@ public class CurrentNode extends AppCompatActivity  implements OnMapReadyCallbac
         setContentView(R.layout.activity_current_node);
 
         mGps = (ImageView) findViewById(R.id.ic_gps);
-        menu= (ImageView) findViewById(R.id.sattel);
+//        menu= (ImageView) findViewById(R.id.sattel);
       //  mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
         getLocationPermission();
@@ -204,18 +204,18 @@ public class CurrentNode extends AppCompatActivity  implements OnMapReadyCallbac
             }
         });
 
-        menu.setOnClickListener(new View.OnClickListener() {
+//        menu.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//                Log.d(TAG1, "onClick: clicked gps icon");
+//                run1();
+//
+//
+//
+//            }
 
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG1, "onClick: clicked gps icon");
-                run1();
-
-
-
-            }
-
-                });
+//                });
 
         menu.setOnLongClickListener(new View.OnLongClickListener() {
 
@@ -232,7 +232,7 @@ public class CurrentNode extends AppCompatActivity  implements OnMapReadyCallbac
         gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                Intent intent = new Intent(CurrentNode.this, AvaliableData.class);
+                Intent intent = new Intent(CurrentNode.this, CurrentLocation.class);
                 startActivity(intent);
             }
         });
@@ -573,19 +573,12 @@ public class CurrentNode extends AppCompatActivity  implements OnMapReadyCallbac
                 gMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 break;
 
-            case R.id.mapTypestree:
-                StoredData();
-                break;
+
             default:
                 break;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void StoredData() {
-        Intent intent = new Intent(CurrentNode.this, AvaliableData.class);
-        startActivity(intent);
     }
 
 

@@ -1,9 +1,10 @@
 package com.amazonaws.youruserpools;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,14 +24,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 //
 //public class database_colume_node extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
-public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
+public class AddUnssignedData extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
 
 
     TextView ipaddress,lat,logg ;
@@ -90,7 +91,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
     private ArrayList<Category9> categoriesList9;
     private ArrayList<Category10> categoriesList10;
     private ArrayList<Category11> categoriesList11;
-
+    private ArrayList<SuggestGetSet> List;
     public static final String ID = "id";
     public static final String columeManf = "manufacturer_name";
     public static final String RaiseandLow = "flag";
@@ -127,9 +128,11 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
     private int spinnerValue = 0;
     EditText StudentName;
     SharedPreferences mPrefs;
+    AutoCompleteTextView AutostationName;
 
     //........................
-
+    public static final String ID1 = "Id";
+    public static final String Station11 = "Station";
 
     //* Fields to contain the current position and display contents of the spinner
 
@@ -151,15 +154,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
     protected ArrayAdapter<CharSequence> mAdapter10;
     protected ArrayAdapter<CharSequence> mAdapter11;
     /**
-     *  The initial position of the spinner when it is first installed.
-     */
-    public static final int DEFAULT_POSITION = 2;
-    /**
-     * The name of a properties file that stores the position and
-     * selection when the activity is not loaded.
-     */
-    public static final String PREFERENCES_FILE = "SpinnerPrefs";
-    /**
+
      * These values are used to read and write the properties file.
      * PROPERTY_DELIMITER delimits the key and value in a Java properties file.
      * The "marker" strings are used to write the properties into the file
@@ -214,7 +209,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
     public static final String SHARED_PREFS12 = "sharedPrefs11";
     public static final String TEXT12 = "text11";
 
-
+    private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,16 +232,19 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         mPrefs = getSharedPreferences("label", 0);
         CountryName = new ArrayList<>();
 
+        AutostationName = (AutoCompleteTextView) findViewById(R.id.editStationName);
+
+
         TextView ipaddress = (TextView) findViewById(R.id.ipadddress);
 //        TextView lat = (TextView) findViewById(R.id.lat);
 //        TextView logg = (TextView) findViewById(R.id.log);
 //
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            e1 = extras.getString("doubleValue_e1");
+            e1 = extras.getString("ListViewValue");
 //            e2 = extras.getString("doubleValue_e2");
 //            e3 = extras.getString("doubleValue_e3");
-            ipaddress.setText("IP_Add. " + e1);
+            ipaddress.setText("Unassigned Column " );
 //            lat.setText("Latitude " + e2);
 //            logg.setText("Longitude " + e3);
 
@@ -272,6 +270,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         categoriesList9 = new ArrayList<Category9>();
         categoriesList10 = new ArrayList<Category10>();
         categoriesList11 = new ArrayList<Category11>();
+        List = new ArrayList<SuggestGetSet>();
 
         // spinner item select listener
         spinnerColumeManf.setOnItemSelectedListener(this);
@@ -305,7 +304,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
 
 
 
-
+        getAutoComlete();
         GetCategories();
         GetCategories1();
         GetCategories2();
@@ -324,14 +323,14 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(SingleDataBASEADDING.this, "Data Saved SuccessFully!!!", Toast.LENGTH_SHORT).show();
-                //      saveData();
-                //    perform HTTP POST request
+                Toast.makeText(AddUnssignedData.this, "Saved", Toast.LENGTH_SHORT).show();
+//                      saveData();
+//                    perform HTTP POST request
                 if (checkNetworkConnection()) {
                     new HTTPAsyncTask().execute(" https://8jpt28d8fk.execute-api.eu-west-1.amazonaws.com/SendData/ISD");
                     onBackPressed();
                 } else
-                    Toast.makeText(SingleDataBASEADDING.this, "Not Connected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddUnssignedData.this, "Not Connected!", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -340,6 +339,82 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
 
 
 
+
+
+    }
+
+//    public void findLocation(View v) throws IOException {
+//
+////        EditText et = (EditText) findViewById(R.id.editText);
+//
+//
+////        String location = et.getText().toString();
+//
+//        String location = AutostationName.getText().toString();
+//        AutostationName.getText().clear();
+//
+//
+//
+//
+//    }
+
+    private void getAutoComlete() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_Data,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject catobj= array.getJSONObject(i);
+                                SuggestGetSet colman = new  SuggestGetSet(catobj.getString(ID1), catobj.getString(Station11));
+//                                ListData.add(new SuggestGetSet(r.getString("Id"),r.getString("Station")));
+                                List.add(colman);
+//                                populateSpinner();
+                                getData();
+
+                            }
+                            //creating adapter object and setting it to recyclerview
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+
+
+
+    }
+
+    private void getData() {
+        List<String> lables = new ArrayList<String>();
+
+        //txtCategory.setText("");
+
+        for (int i = 0; i < List.size(); i++) {
+            lables.add(List.get(i).getStation());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,lables );
+        adapter.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
+        AutostationName.setAdapter(adapter);
 
 
     }
@@ -972,7 +1047,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1017,7 +1092,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1059,7 +1134,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1101,7 +1176,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1141,7 +1216,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1182,7 +1257,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1223,7 +1298,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1265,7 +1340,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1304,7 +1379,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1346,7 +1421,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1388,7 +1463,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1430,7 +1505,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SingleDataBASEADDING.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1591,59 +1666,9 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
             e2 = extras.getString("doubleValue_e2");
             e3 = extras.getString("doubleValue_e3");
         }
-            Intent intent = getIntent();
-////            ArrayList<String> myList = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e1");
-////            ArrayList<String> myList1 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e2");
-////            ArrayList<String> myList2 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e3");
-//        final ArrayList<String> myList = getIntent().getStringArrayListExtra("doubleValue_e1");
-//        final ArrayList<String> myList1 = getIntent().getStringArrayListExtra("doubleValue_e2");
-//        final ArrayList<String> myList2 = getIntent().getStringArrayListExtra("doubleValue_e3");
-//            e11= intent.getStringArrayExtra("doubleValue_e1");
-//            e12= intent.getStringArrayExtra("doubleValue_e2");
-//            e13= intent.getStringArrayExtra("doubleValue_e3");
-////        }
-//        ArrayList<String> myList= new ArrayList<String>();
-//        int size = getIntent().getIntExtra("userlist_size" , 0);
-//        for(int i=0; i<size ; i++){
-//            myList.add((String) (getIntent().getSerializableExtra("doubleValue_e1"+i)));
-//        }
-//
-//        ArrayList<String> myList1= new ArrayList<String>();
-//         size = getIntent().getIntExtra("userlist_size1" , 0);
-//        for(int i=0; i<size ; i++){
-//            myList1.add((String) (getIntent().getSerializableExtra("doubleValue_e2"+i)));
-//        }
-//
-//        ArrayList<String> myList2= new ArrayList<String>();
-//        size = getIntent().getIntExtra("userlist_size2" , 0);
-//        for(int i=0; i<size ; i++){
-//            myList2.add((String) (getIntent().getSerializableExtra("doubleValue_e3"+i)));
-//        }
-//        jsonObject.put("ipaddress", multiple.getIpaddress1());
-//        jsonObject.put("latitude", multiple.getLattitude1());
-//        jsonObject.put("longitude", multiple.getLongitude1());
-//        jsonObject.put("ipaddress", e11);
-//        jsonObject.put("latitude", e12);
-//        jsonObject.put("longitude", e13);
-
-//        ArrayList<Multiple> myList= new ArrayList<Multiple>();
-//        int size = getIntent().getIntExtra("userlist_size" , 0);
-//        for(int i=0; i<size ; i++){
-//            myList.add((Multiple)(getIntent().getParcelableExtra("userlist_"+i)));
-//        }
-////        Multiple multiple;
-//////        ArrayList<Multiple> myList= new ArrayList<Multiple>();
-////        multiple = getIntent().getParcelableExtra("userlist");
-//        Bundle bundle = getIntent().getExtras();
-//        ArrayList<Multiple> item = (ArrayList<Multiple>) bundle.getSerializable("test");
-
 
         JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("ipaddress",myList);
-//        jsonObject.put("latitude",  myList1);
-//        jsonObject.put("longitude", myList2);
-
-        jsonObject.put("ipaddress", e1);
+        jsonObject.put("iccid", e1);
         jsonObject.put("latitude",  e2);
         jsonObject.put("longitude", e3);
         jsonObject.put("colume_number", StudentName.getText().toString());
@@ -1659,6 +1684,7 @@ public class SingleDataBASEADDING extends AppCompatActivity  implements AdapterV
         jsonObject.accumulate("bracket_length", spinnerBracketLength.getSelectedItem().toString());
         jsonObject.accumulate("estimated_column_age", spinnerEstimatedColAGE.getSelectedItem().toString());
         jsonObject.accumulate("lantern_manufacturer", spinnerlaternManuf.getSelectedItem().toString());
+        jsonObject.put("station_name", AutostationName.getText().toString());
         return jsonObject;
     }
 

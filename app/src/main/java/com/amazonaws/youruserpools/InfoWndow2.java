@@ -31,7 +31,7 @@ public class InfoWndow2 implements GoogleMap.InfoWindowAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.activity_info_wndow2, null);
 
-        TextView tvGir = (TextView) v.findViewById(R.id.tvgir1);
+//        TextView tvGir = (TextView) v.findViewById(R.id.tvgir1);
         TextView tvDetails = (TextView) v.findViewById(R.id.tvd1);
 //        infoButton = (Button) v.findViewById(R.id.button);
 //        AllData = (CheckBox) v.findViewById(R.id.check);
@@ -44,7 +44,7 @@ public class InfoWndow2 implements GoogleMap.InfoWindowAdapter {
 //        tvDetails.setText(Items.);
         //tvLng.setText("Longitude:"+ latLng.longitude);
 
-        tvGir.setText(marker.getTitle());
+//        tvGir.setText(marker.getTitle());
         tvDetails.setText(marker.getSnippet());
 
         return v;

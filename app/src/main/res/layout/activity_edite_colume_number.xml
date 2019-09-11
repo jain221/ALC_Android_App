@@ -113,7 +113,7 @@ android:layout_height="match_parent">
         android:layout_marginLeft="5dp"
         android:layout_marginTop="0dp"
         android:layout_marginRight="3dp"
-        android:text="Lantern Manufacturer"
+        android:text="Edit Column Number"
         android:textColor="#000"
         android:textSize="20sp" />
 
@@ -123,9 +123,7 @@ android:layout_height="match_parent">
         android:layout_height="wrap_content"
         android:layout_below="@+id/tex11"
         android:layout_alignBottom="@+id/textView"
-        android:layout_marginStart="83dp"
-        android:layout_marginLeft="83dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="-440dp"
         android:layout_toEndOf="@+id/textView"
         android:layout_toRightOf="@+id/textView"
@@ -138,10 +136,10 @@ android:layout_height="match_parent">
         android:id="@+id/btnSave"
         android:layout_width="236dp"
         android:layout_height="37dp"
+        android:layout_marginLeft="80dp"
         android:layout_marginTop="193dp"
         android:background="@drawable/button"
         android:gravity="center"
-        android:layout_marginLeft="80dp"
         android:text="SAVE" />
 
 

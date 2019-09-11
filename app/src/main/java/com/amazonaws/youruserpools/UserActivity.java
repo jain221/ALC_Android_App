@@ -318,6 +318,9 @@ public class UserActivity extends AppCompatActivity {
         }
     };
 
+
+
+
     GenericHandler trustedDeviceHandler = new GenericHandler() {
         @Override
         public void onSuccess() {
@@ -419,3 +422,7 @@ public class UserActivity extends AppCompatActivity {
         finish();
     }
 }
+
+
+
+

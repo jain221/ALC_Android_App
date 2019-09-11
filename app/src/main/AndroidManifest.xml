@@ -25,7 +25,11 @@
         android:label="ISD  "
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".editeColumeNumber"></activity>
+        <activity android:name=".StationList"
+            android:parentActivityName=".mapActivity"
+            android:label="STATION LIST"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".editeColumeNumber" />
         <activity
             android:name=".splash"
             android:label="ISD"
@@ -33,7 +37,6 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -85,24 +88,31 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_about_app"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StationLocation"
+            android:label="STATION MAP"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity
             android:name=".showsingleData"
+            android:label="T"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".AvaliableData"
+            android:name=".CurrentLocation"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:parentActivityName=".mapActivity" />
+            android:parentActivityName=".mapActivity"
+            android:label="ISD MAP"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".upDateDataBase"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:parentActivityName=".AvaliableData" />
+            android:parentActivityName=".CurrentLocation" />
         <activity
-            android:name=".SingleDataBASEADDING"
+            android:name=".AddUnssignedData"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Column Attribute Data"
-            android:parentActivityName=".NodeMapSingleData" />
+            android:parentActivityName=".UnAssignedData" />
         <activity
-            android:name=".NodeMapSingleData"
+            android:name=".UnAssignedData"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Column Map"
             android:parentActivityName=".mapActivity"

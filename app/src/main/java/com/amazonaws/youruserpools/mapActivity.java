@@ -58,7 +58,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
-import com.amazonaws.youruserpools.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -306,14 +305,14 @@ public class mapActivity extends AppCompatActivity {
 //        alert.setTitle("Installation Process");
 //        alert.show();
 
-        Intent intent = new Intent(mapActivity.this,  NodeMapSingleData.class);
+        Intent intent = new Intent(mapActivity.this,  UnAssignedData.class);
         startActivity(intent);
     }
 
     public void addData(View view) {
 
         view.startAnimation(animAlpha);
-        Intent intent = new Intent(mapActivity.this, AvaliableData.class);
+        Intent intent = new Intent(mapActivity.this, CurrentLocation.class);
         startActivity(intent);
 //                        dialog.cancel();
     }
@@ -661,8 +660,10 @@ public class mapActivity extends AppCompatActivity {
 
     public void databaseAdd(View view) {
 
-//        Intent intent = new Intent(mapActivity.this, database_colume_node.class);
-//
-//        startActivity(intent);
+        Intent intent = new Intent(mapActivity.this, StationList.class);
+
+        startActivity(intent);
     }
+
+
 }

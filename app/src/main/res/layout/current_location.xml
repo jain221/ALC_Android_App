@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.amazonaws.youruserpools.MapWrapperLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_relative_layout"
+    android:layout_width="match_parent"
+    android:background="@color/grey"
+    android:layout_height="match_parent"
+    >
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:tools="http://schemas.android.com/tools"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:id="@+id/map"-->
+<!--tools:context=".CurrentNode"-->
+<!--android:name="com.google.android.gms.maps.SupportMapFragment" />-->
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="601dp"
+        android:layout_height="855dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-2dp"
+        android:layout_marginTop="106dp"
+        tools:context=".CurrentLocation" />
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:elevation="10dp"
+    android:background="@drawable/all_rounded"
+    android:id="@+id/relLayout1">
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="34dp"
+        android:layout_height="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/ic_action_name"
+        android:onClick="findLocation" />
+
+
+    <AutoCompleteTextView
+        android:id="@+id/editText"
+        android:layout_width="531dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="6dp"
+        android:layout_toRightOf="@+id/button"
+        android:background="@null"
+        android:hint="  Enter Address, City or Postcode"
+        android:textColor="@color/toolbar_background"
+        android:textColorHint="@color/toolbar_background"
+
+        android:textSize="20sp" />
+    <!--android:imeOptions="actionSearch"/>-->
+
+
+
+</RelativeLayout>
+
+<ImageView
+    android:id="@+id/ic_gps"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_alignParentRight="true"
+    android:layout_marginTop="65dp"
+    android:layout_marginRight="10dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/ic_gps" />
+
+
+    <ImageView
+        android:id="@+id/ic_addData"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="65dp"
+        android:layout_marginRight="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/add" />
+
+    <Button
+        android:id="@+id/assign"
+        android:layout_width="68dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="481dp"
+        android:layout_marginTop="65dp"
+        android:text="Assigned"
+        android:visibility="invisible" />
+
+    <!--<Button-->
+        <!--android:id="@+id/unassigned"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/assign"-->
+        <!--android:layout_marginLeft="159dp"-->
+        <!--android:layout_marginTop="65dp"-->
+        <!--android:text="UnAssigned" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/alldata"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/unassigned"-->
+        <!--android:layout_marginTop="65dp"-->
+        <!--android:layout_marginLeft="164dp"-->
+        <!--android:text="All" />-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/sattel"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--android:layout_below="@id/ic_gps"-->
+    <!--android:layout_marginTop="-40dp"-->
+    <!--android:layout_marginEnd="4dp"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:src="@drawable/ic_mapview" />-->
+
+
+</RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="445dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:checkedButton="@+id/radioButton3"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="Assigned Mode        "
+            android:textColor="@color/toolbar_background"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:text="Unassigned Mode          "
+            android:textColor="@color/toolbar_background"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:text="All Data"
+            android:textColor="@color/toolbar_background"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+    </RadioGroup>
+
+</com.amazonaws.youruserpools.MapWrapperLayout>

@@ -48,7 +48,7 @@ public class InfoWndowAdapter implements InfoWindowAdapter {
 //        tvDetails.setText(Items.);
         //tvLng.setText("Longitude:"+ latLng.longitude);
 
-        tvGir.setText(marker.getTitle());
+//        tvGir.setText(marker.getTitle());
         tvDetails.setText(marker.getSnippet());
 
         return v;

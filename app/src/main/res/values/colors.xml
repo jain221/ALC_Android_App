@@ -16,6 +16,7 @@
     <color name="grey_400">#5A5D5E</color>
     <color name="grey_500">#404142</color>
     <color name="grey_600">#303232</color>
+    <color name="grey">#808080</color>
     <color name="black">#1D1E1E</color>
     <color name="backgroundSpiner">#6495ed</color>
     <color name="displyatext">#6495ed</color>

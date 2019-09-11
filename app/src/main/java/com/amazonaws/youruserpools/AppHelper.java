@@ -125,15 +125,6 @@ public class AppHelper {
             // Create a user pool with default ClientConfiguration
             userPool = new CognitoUserPool(context, userPoolId, clientId, clientSecret, cognitoRegion);
 
-            // This will also work
-            /*
-            ClientConfiguration clientConfiguration = new ClientConfiguration();
-            AmazonCognitoIdentityProvider cipClient = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), clientConfiguration);
-            cipClient.setRegion(Region.getRegion(cognitoRegion));
-            userPool = new CognitoUserPool(context, userPoolId, clientId, clientSecret, cipClient);
-            */
-
-
         }
 
         phoneVerified = false;

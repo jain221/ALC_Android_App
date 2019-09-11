@@ -13,7 +13,7 @@ android:layout_height="match_parent">
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        tools:context=".NodeMapSingleData" />
+        tools:context=".UnAssignedData" />
 
 
 <RelativeLayout
@@ -48,7 +48,7 @@ android:layout_height="match_parent">
         android:textColor="#000"
         android:id="@+id/editText"
         android:background="@null"
-        android:hint="  Enter Address, City or Zip Code"/>
+        android:hint="  Enter Address, City or Postcode"/>
     <!--android:imeOptions="actionSearch"/>-->
 
 
@@ -65,18 +65,28 @@ android:layout_height="match_parent">
         android:layout_marginRight="29dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_gps" />
-
     <ImageView
-        android:id="@+id/sattel"
-        android:layout_width="46dp"
-        android:layout_height="43dp"
-
-        android:layout_alignEnd="@+id/relLayout1"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="280dp"
-        android:layout_marginEnd="18dp"
+        android:id="@+id/ic_addData"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/relLayout1"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="90dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_mapview" />
+        android:src="@drawable/add" />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/sattel"-->
+        <!--android:layout_width="46dp"-->
+        <!--android:layout_height="43dp"-->
+
+        <!--android:layout_alignEnd="@+id/relLayout1"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginTop="280dp"-->
+        <!--android:layout_marginEnd="18dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@drawable/ic_mapview" />-->
 
     <!--<ImageView-->
         <!--android:id="@+id/sat"-->
@@ -89,16 +99,16 @@ android:layout_height="match_parent">
         <!--android:scaleType="centerCrop"-->
         <!--android:src="@drawable/reperesh" />-->
 
-    <ImageView
-        android:id="@+id/streetView"
-        android:layout_width="46dp"
-        android:layout_height="43dp"
-        android:layout_alignEnd="@+id/relLayout1"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="177dp"
-        android:layout_marginEnd="19dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/streetview" />
+    <!--<ImageView-->
+        <!--android:id="@+id/streetView"-->
+        <!--android:layout_width="46dp"-->
+        <!--android:layout_height="43dp"-->
+        <!--android:layout_alignEnd="@+id/relLayout1"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginTop="177dp"-->
+        <!--android:layout_marginEnd="19dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@drawable/streetview" />-->
 
 </RelativeLayout>
 

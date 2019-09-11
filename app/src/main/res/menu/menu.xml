@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item
-        android:id="@+id/add"
-        android:orderInCategory="200"
-        android:title="Update"
-        android:icon="@drawable/add"
-        app:showAsAction="ifRoom"></item>
+    <!--<item-->
+        <!--android:id="@+id/add"-->
+        <!--android:orderInCategory="200"-->
+        <!--android:title="Update"-->
+        <!--android:icon="@drawable/add"-->
+        <!--app:showAsAction="ifRoom"></item>-->
 
     <item
         android:id="@+id/action_refresh"
@@ -34,8 +34,8 @@
         android:id="@+id/mapTypeHybrid"
         android:title="@string/map_type_hybrid"/>
     <item
-        android:id="@+id/mapTypestree"
-        android:title="Data Stored"/>
+        android:id="@+id/stationList"
+        android:title="Station List"/>
 
 
 </menu>

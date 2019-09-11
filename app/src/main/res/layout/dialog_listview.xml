@@ -4,35 +4,37 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:gravity="center"
+    android:background="@color/grey"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:text="Editing the Attribute"
         android:textColor="@color/black"
-        android:text="Editing the Attribute"/>
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
 
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="50px"
-        android:layout_below="@+id/log"
-        android:id="@+id/newPassSpace1"
-        android:background="#000"
-        android:layout_alignStart="@+id/log" />
+    <!--<Space-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50px"-->
+        <!--android:layout_below="@+id/log"-->
+        <!--android:id="@+id/newPassSpace1"-->
+        <!--android:background="#000"-->
+        <!--android:layout_alignStart="@+id/log" />-->
 
-    <Button
-        android:id="@+id/Rnode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Replace Node"
-        android:textAllCaps="false"
-        android:background="@drawable/button"
-        android:onClick="ReplaceNode"
-        android:textSize="18sp" />
+    <!--<Button-->
+        <!--android:id="@+id/Rnode"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/button"-->
+        <!--android:onClick="ReplaceNode"-->
+        <!--android:text="Add data in Unassigned Node"-->
+        <!--android:textAllCaps="false"-->
+        <!--android:textSize="18sp" />-->
 
     <Space
         android:layout_width="match_parent"

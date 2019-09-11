@@ -1,13 +1,14 @@
 package com.amazonaws.youruserpools;
 import android.Manifest;
-import android.app.LauncherActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -28,11 +29,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,6 +48,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -56,7 +57,6 @@ import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -73,11 +73,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, GoogleMap.OnMarkerClickListener, ClusterManager.OnClusterItemInfoWindowClickListener<Items> {
+public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, GoogleMap.OnMarkerClickListener, ClusterManager.OnClusterItemInfoWindowClickListener<Items> {
 
     private int ii;
     public static String[] arrPath;
@@ -93,7 +92,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     public static final String TAG1 = CurrentNode.class.getSimpleName();
     public static final String ID = "id";
     public static final String ID1 = "Id";
-    public static final String TITLE = "ipaddress";
+    public static final String TITLE = "iccid";
     public static final String LAT = "latitude";
     public static final String LNG = "longitude";
     public static final String Station11 = "Station";
@@ -121,11 +120,12 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
     AutoCompleteTextView et;
 
-
+    private LatLngBounds bounds;
+    private LatLngBounds.Builder builder;
 
     double latt ,logg;
 
-
+    String TempItem;
     int count =0;
 
     StreetViewPanorama mStreetViewPanorama;
@@ -139,7 +139,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     private ProgressDialog waitDialog;
     private ListView attributesList;
 
-    List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
+//    List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
     private TableLayout mLinearLayout;
     private Handler mHandler;
     Handler handler = new Handler();
@@ -147,28 +147,17 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     ArrayList<String> latitude2 = new ArrayList<String>();
     ArrayList<String> longitude2 = new ArrayList<String>();
     ArrayList<String> ipaddress2 = new ArrayList<String>();
-
-
+    LatLngBounds.Builder builder1;
+    ImageView  resetButton ;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_node_map_single_data);
-
-//        this.mHandler = new Handler();
-//
-//        this.mHandler.postDelayed(m_Runnable,5000);
+        setContentView(R.layout.unassigneddata);
 
         mGps = (ImageView) findViewById(R.id.ic_gps);
-        menu= (ImageView) findViewById(R.id.sattel);
-//        addAllData= (ImageView) findViewById(R.id.sat);
-        streetView= (ImageView) findViewById(R.id.streetView);
-        //  mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
-
-        final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
-
 
         getLocationPermission();
         if (gMap != null) {
@@ -176,7 +165,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
-                    Geocoder geocoder = new Geocoder(NodeMapSingleData.this);
+                    Geocoder geocoder = new Geocoder(UnAssignedData.this);
                     List<Address> list;
                     try {
                         list = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
@@ -200,48 +189,161 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
         List = new ArrayList<SuggestGetSet>();
         getAutoComlete();
+        resetButton =(ImageView) findViewById(R.id.ic_addData);
+        resetButton.setOnClickListener(new View.OnClickListener() {
 
-//        gMap.getUiSettings().setZoomControlsEnabled(true);
-//        gMap.getUiSettings().setCompassEnabled(true);
-//        gMap.getUiSettings().setMyLocationButtonEnabled(true);
-//
-//        gMap.getUiSettings().setRotateGesturesEnabled(true);
-//        gMap.getUiSettings().setScrollGesturesEnabled(true);
-//        gMap.getUiSettings().setTiltGesturesEnabled(true);
-//        gMap.getUiSettings().setZoomGesturesEnabled(true);
-        //or myMap.getUiSettings().setAllGesturesEnabled(true);
-
-//        gMap.setTrafficEnabled(true);
-
-
-//
-//        gMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
-
-
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                Toast.makeText(UnAssignedData.this,"Multiple data is been selected", Toast.LENGTH_LONG).show();
+                multipledata();
+                showStartDialog();
+            }
+        });
     }
 
-//    private final Runnable m_Runnable = new Runnable()
-//    {
-//        public void run()
-//
-//        {
-//            Toast.makeText(NodeMapSingleData.this,"in runnable",Toast.LENGTH_SHORT).show();
-//
-//            NodeMapSingleData.this.mHandler.postDelayed(m_Runnable, 5000);
-//        }
-//
-//    };//runnable
-//
 
+//
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//
+//        gMap = googleMap;
+//        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
+//        Log.d(TAG1, "onMapReady: map is ready");
+//        // Mengarahkan ke alun-alun Demak
+////        center = new LatLng(51.52042, -3.23113);
+//        mClusterManager = new ClusterManager<>(this, gMap);
+//        gMap.setOnCameraIdleListener(mClusterManager);
+//        gMap.setOnMarkerClickListener(mClusterManager);
+//        gMap.setOnInfoWindowClickListener(mClusterManager);
+//        mClusterManager.setOnClusterClickListener(this);
+//        mClusterManager.setOnClusterInfoWindowClickListener(this);
+//        mClusterManager.setOnClusterItemClickListener(this);
+//        mClusterManager.setOnClusterItemInfoWindowClickListener(this);
+//        mClusterManager.cluster();
+//
+//
+//        gMap.setOnMarkerClickListener(this);
+//
+////        builder = new LatLngBounds.Builder();
+////        bounds = builder.build();
+////        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 0);
+////        gMap.animateCamera(cu);
+//
+////        if (mLocationPermissionsGranted) {
+////            getDeviceLocation();
+////
+////            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+////                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+////                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+////                return;
+////            }
+////            gMap.setMyLocationEnabled(true);
+////            gMap.getUiSettings().setMyLocationButtonEnabled(false);
+////
+////        }
+//
+////        LatLngBounds bounds = builder.build();
+////        int padding = 0; // offset from edges of the map in pixels
+////        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+////
+////        gMap.moveCamera(cu);
+////        // Setting a custom info window adapter for the google map
+//        InfoWndowAdapter markerInfoWindowAdapter = new InfoWndowAdapter(getApplicationContext());
+//        googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
+//
+////        googleMap.setOnInfoWindowClickListener(this);
+//
+//        getMarkers();
+////        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
+//        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
+////           gMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) mClusterManager);
+//
+//        mGps.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d(TAG1, "onClick: clicked gps icon");
+//                getDeviceLocation();
+//            }
+//        });
+//
+////        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,20));
+//
+////        addAllData.setOnClickListener(new View.OnClickListener() {
+////
+////            @Override
+////            public void onClick(View view) {
+////          //      showDialog(NodeMapSingleData.this);
+////
+////                multipledata();
+////                showStartDialog();
+////            }
+////
+////        });
+//
+////        mGps.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                marker.hideInfoWindow();
+////            }
+////        });
+//
+//
+////        streetView.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                Log.d(TAG1, "onClick: StreetView");
+////                Streetview1();
+////
+////            }
+////        });
+//
+////        menu.setOnClickListener(new View.OnClickListener() {
+////
+////            @Override
+////            public void onClick(View view) {
+////                Log.d(TAG1, "onClick: clicked gps icon");
+////
+////                run1();
+////
+////            }
+////
+////        });
+////        menu.setOnLongClickListener(new View.OnLongClickListener() {
+////
+////            @Override
+////            public boolean onLongClick(View v) {
+////
+////                gMap.setMapType(gMap.MAP_TYPE_NORMAL);
+////                return true;
+////
+////            }
+////
+////        });
+//
+////        gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+////            @Override
+////            public void onMapLongClick(LatLng latLng) {
+////                Intent intent = new Intent(NodeMapSingleData.this, AvaliableData.class);
+////                startActivity(intent);
+////            }
+////        });
+//
+////        onBackPressed();
+//        final CustomClusterRenderer renderer = new CustomClusterRenderer(this, gMap, mClusterManager);
+//
+//        mClusterManager.setRenderer(renderer);
+//
+////        onBackPressed();
+//
+//
+//    }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         gMap = googleMap;
-        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
-        Log.d(TAG1, "onMapReady: map is ready");
-        // Mengarahkan ke alun-alun Demak
         center = new LatLng(51.52042, -3.23113);
         mClusterManager = new ClusterManager<>(this, gMap);
         gMap.setOnCameraIdleListener(mClusterManager);
@@ -252,37 +354,40 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         mClusterManager.setOnClusterItemClickListener(this);
         mClusterManager.setOnClusterItemInfoWindowClickListener(this);
         mClusterManager.cluster();
-
-
-//        // Set a listener for marker click.
-        gMap.setOnMarkerClickListener(this);
-//        multipledata();
-
-        cameraPosition = new CameraPosition.Builder().target(center).zoom(5).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        if (mLocationPermissionsGranted) {
-            getDeviceLocation();
-
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            gMap.setMyLocationEnabled(true);
-            gMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-        }
-//        // Setting a custom info window adapter for the google map
+        builder = new LatLngBounds.Builder();
+//        builder = new LatLngBounds.Builder();
         InfoWndowAdapter markerInfoWindowAdapter = new InfoWndowAdapter(getApplicationContext());
         googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
-
-//        googleMap.setOnInfoWindowClickListener(this);
-
+//
+        // Set a listener for marker click.
+        gMap.setOnMarkerClickListener(this);
         getMarkers();
+
+
+
+//        getLocation();
+//        if (mLocationPermissionsGranted) {
+//            getDeviceLocation();
+//
+////                getLocation();
+//
+//
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                return;
+//            }
+//            gMap.setMyLocationEnabled(true);
+//            gMap.getUiSettings().setMyLocationButtonEnabled(false);
+//
+//        }
+
+
+
+
 //        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
-        gMap.setMapType(gMap.MAP_TYPE_NORMAL);
-//           gMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) mClusterManager);
+        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
+        //   gMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) mClusterManager);
 
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -292,76 +397,38 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             }
         });
 
-//        addAllData.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View view) {
-//          //      showDialog(NodeMapSingleData.this);
-//
-//                multipledata();
-//                showStartDialog();
-//            }
-//
-//        });
-
-//        mGps.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                marker.hideInfoWindow();
-//            }
-//        });
-
-
-        streetView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG1, "onClick: StreetView");
-                Streetview1();
-
-            }
-        });
-
-        menu.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG1, "onClick: clicked gps icon");
-
-                run1();
-
-            }
-
-        });
-        menu.setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-
-                gMap.setMapType(gMap.MAP_TYPE_NORMAL);
-                return true;
-
-            }
-
-        });
-
-//        gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-//            @Override
-//            public void onMapLongClick(LatLng latLng) {
-//                Intent intent = new Intent(NodeMapSingleData.this, AvaliableData.class);
-//                startActivity(intent);
-//            }
-//        });
-
-        onBackPressed();
-        final CustomClusterRenderer renderer = new CustomClusterRenderer(this, gMap, mClusterManager);
+                final CustomClusterRenderer renderer = new CustomClusterRenderer(this, gMap, mClusterManager);
 
         mClusterManager.setRenderer(renderer);
 
-        onBackPressed();
+
 
 
     }
 
+    private void getLocation() {
+
+//        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+//        builder.include(marker.getPosition());
+//        CameraPosition cameraPosition = new CameraPosition.Builder()
+//                .target(latLng)      // Sets the center of the map to Mountain View
+//                .zoom(10)                   // Sets the zoom
+////                .bearing(180)                // Sets the orientation of the camera to east
+////                .tilt(90)                   // Sets the tilt of the camera to 30 degrees
+//                .build();                   // Creates a CameraPosition from the builder
+//        gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        LatLngBounds bounds = builder.build();
+
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+
+        gMap.animateCamera(cu);
+
+    }
 
 
     private void onMarkerClick(GoogleMap.OnMarkerClickListener onMarkerClickListener) {
@@ -384,7 +451,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     private void getDeviceLocation() {
         Log.d(TAG1, "getDeviceLocation: getting the devices current location");
 
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(NodeMapSingleData.this);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(UnAssignedData.this);
 
         try {
             if (mLocationPermissionsGranted) {
@@ -405,7 +472,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
                         } else {
                             Log.d(TAG1, "onComplete: current location is null");
-                            Toast.makeText(NodeMapSingleData.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UnAssignedData.this, "unable to get current location", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -414,28 +481,6 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             Log.e(TAG1, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
     }
-//    private void showDialog(NodeMapSingleData nodeMapSingleData) {
-//
-//
-//        new AlertDialog.Builder(this)
-//                .setTitle("ISD App Proces")
-//                .setMessage("Are you Sure you Want to add Data to Selected Marker")
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        multipledata();
-//                    }
-//                })
-//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .create().show();
-//    }
-
-
 
 
 
@@ -457,19 +502,21 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng)      // Sets the center of the map to Mountain View
                 .zoom(17)                   // Sets the zoom
-                .bearing(90)                // Sets the orientation of the camera to east
-                .tilt(90)                   // Sets the tilt of the camera to 30 degrees
+//                .bearing(180)                // Sets the orientation of the camera to east
+//                .tilt(90)                   // Sets the tilt of the camera to 30 degrees
                 .build();                   // Creates a CameraPosition from the builder
         gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
-        //        hideSoftKeyboard();
+
+
+                hideSoftKeyboard();
     }
 
     private void initMap() {
         Log.d(TAG1, "initMap: initializing map");
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(NodeMapSingleData.this);
+        mapFragment.getMapAsync(UnAssignedData.this);
 
 //        StreetViewPanoramaFragment streetViewPanoramaFragment = (StreetViewPanoramaFragment) getFragmentManager().findFragmentById(R.id.streetviewpanorama);
 //        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
@@ -503,10 +550,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
     public void findLocation(View v) throws IOException {
 
-//        EditText et = (EditText) findViewById(R.id.editText);
 
-
-//        String location = et.getText().toString();
 
         String location = et.getText().toString();
         et.getText().clear();
@@ -530,7 +574,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 //            ;
 
         }else {
-            Toast.makeText(NodeMapSingleData.this, "Check Spelling Or Try Again !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UnAssignedData.this, "Check Spelling Or Try Again !", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -555,6 +599,24 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 //        MarkerOptions markerOptions = new MarkerOptions();
 //        markerOptions.position(latLng);
 //        // marker.showInfoWindow();
+        builder.include(latLng);
+        LatLngBounds bounds = builder.build();
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.10); // offset from edges of the map 10% of screen
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+
+        gMap.animateCamera(cu);
+//        CameraPosition cameraPosition = new CameraPosition.Builder()
+//                .target(latLng)      // Sets the center of the map to Mountain View
+//                .zoom(10)                   // Sets the zoom
+////                .bearing(180)                // Sets the orientation of the camera to east
+////                .tilt(90)                   // Sets the tilt of the camera to 30 degrees
+//                .build();                   // Creates a CameraPosition from the builder
+//        gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
 
         double lat =latLng.latitude;
         double lng = latLng.longitude;
@@ -565,12 +627,12 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
 // Create a cluster item for the marker and set the title and snippet using the constructor.
         Items infoWindowItem = new Items(lat,lng, title, snippet);
-
+//        builder.include(latLng);
 //
 // Add the cluster item (marker) to the cluster manager.
         mClusterManager.addItem(infoWindowItem);
 
-        mClusterManager.setRenderer(new CustomClusterRenderer(NodeMapSingleData.this, gMap, mClusterManager));
+        mClusterManager.setRenderer(new CustomClusterRenderer(UnAssignedData.this, gMap, mClusterManager));
 
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<Items>() {
             @Override
@@ -613,6 +675,8 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
     }
 
+
+
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
@@ -620,25 +684,25 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        marker.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
+//        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
-        Toast.makeText(NodeMapSingleData.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
-        Integer clickCount = (Integer) marker.getTag();
-
-        if (clickCount == null) {
-            clickCount = 0;
-        }
-
-        clickCount = clickCount + 1;
-
-        if(clickCount ==2){
-
-            Toast.makeText(this, "Refersh the page you cliced many times " + clickCount + " times.", Toast.LENGTH_SHORT).show();
-            showStartDialog();
-        }
-//        marker.setTag(clickCount
-        else {
+//        Toast.makeText(UnAssignedData.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
+//        Integer clickCount = (Integer) marker.getTag();
+//
+//        if (clickCount == null) {
+//            clickCount = 0;
+//        }
+//
+//        clickCount = clickCount + 1;
+//
+//        if(clickCount ==2){
+//
+//            Toast.makeText(this, "Refersh the page you cliced many times " + clickCount + " times.", Toast.LENGTH_SHORT).show();
+//            showStartDialog();
+//        }
+////        marker.setTag(clickCount
+//        else {
 
             ipaddr = marker.getTitle();
             latit = marker.getPosition().latitude;
@@ -647,7 +711,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
             latitude2.add(String.valueOf(latit));
             longitude2.add(String.valueOf(longgg));
 
-        }
+
 
 //        return true;
 
@@ -658,13 +722,21 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
 
     }
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(1, 1, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
 
 
     private void Streetview1() {
 
         double l = latit;
         double lg = longgg;
-        Intent intent = new Intent(NodeMapSingleData.this, StreetViewMap.class);
+        Intent intent = new Intent(UnAssignedData.this, StreetViewMap.class);
         intent.putExtra("doubleValue_e1", l);
         intent.putExtra("doubleValue_e2", lg);
 
@@ -683,7 +755,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
 
 
-        Intent intent = new Intent(NodeMapSingleData.this, SingleDataBASEADDING.class);
+        Intent intent = new Intent(UnAssignedData.this, AddUnssignedData.class);
         for(int i = 0; i < myList.size(); i++){
             intent.putExtra("doubleValue_e1", ipaddress2.get(i));
             intent.putExtra("doubleValue_e2", latitude2.get(i));
@@ -725,12 +797,12 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         @Override
         protected int getColor(int clusterSize) {
 //            return Color.parseColor("#567238");
-            return Color.BLUE ;// Return any color you want here. You can base it on clusterSize.
+            return Color.CYAN ;// Return any color you want here. You can base it on clusterSize.
         }
         @Override
         protected void onBeforeClusterItemRendered(Items item, MarkerOptions markerOptions) {
 
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         }
 
     }
@@ -771,8 +843,9 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
                 gMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 break;
 
-            case R.id.mapTypestree:
-                StoredData();
+            case R.id.stationList:
+                Intent intent = new Intent(UnAssignedData.this, StationList.class);
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -781,10 +854,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
         return super.onOptionsItemSelected(item);
     }
 
-    private void StoredData() {
-        Intent intent = new Intent(NodeMapSingleData.this, AvaliableData.class);
-        startActivity(intent);
-    }
+
 
 
     private void Referesh(){
@@ -860,7 +930,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(NodeMapSingleData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UnAssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -905,7 +975,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(NodeMapSingleData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UnAssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -984,7 +1054,7 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
 
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
-        Toast.makeText(NodeMapSingleData.this, "Cluster item click", Toast.LENGTH_SHORT).show();
+        Toast.makeText(UnAssignedData.this, "Cluster item click", Toast.LENGTH_SHORT).show();
 
         final BitmapDescriptor markerDescriptor = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
         markerOptions.icon(markerDescriptor);
@@ -998,50 +1068,45 @@ public class NodeMapSingleData extends AppCompatActivity  implements OnMapReadyC
     @Override
     public void onClusterItemInfoWindowClick(Items items) {
 
-        Toast.makeText(this, items.getTitle() , Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, items.getTitle() , Toast.LENGTH_SHORT).show();
         double lat = items.getPosition().latitude;
         double lng = items.getPosition().longitude;
         String ipaddress =items.getTitle();
         String lng1 = String.valueOf(lat);
         String logg = String.valueOf(lng);
-        Intent intent = new Intent(NodeMapSingleData.this, SingleDataBASEADDING.class);
+        Intent intent = new Intent(UnAssignedData.this, AddUnssignedData.class);
         intent.putExtra("doubleValue_e1", ipaddress);
         intent.putExtra("doubleValue_e2", lng1);
         intent.putExtra("doubleValue_e3", logg);
         startActivity(intent);
-
         showStartDialog();
+
 
     }
 
     private void showStartDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Referesh Page")
-                .setMessage("Please type Yes button to Referesh page")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setIcon(R.drawable.refereshbutton);
+        builder1.setCancelable(false);
+        builder1.setTitle("Refresh Page");
+        builder1.setMessage("Please type Yes button to Refresh page");
+        builder1.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         Referesh();
                     }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create().show();
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
 
 
+        Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setBackgroundColor(R.drawable.button);
+        buttonbackground1.setTextColor(Color.BLACK);
 
 
-
-
-
-//        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putBoolean("firstStart", false);
-//        editor.apply();
     }
 
 }
