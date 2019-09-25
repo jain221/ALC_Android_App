@@ -25,10 +25,29 @@
         android:label="ISD  "
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StationList"
+        <activity android:name=".UnassignedStation"
+            android:label="Unassigned Mode"
+            android:parentActivityName=".StationList"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+        <activity android:name=".AssignedStation"
+            android:label="Assigned Mode"
+            android:parentActivityName=".StationList"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".AssignedMode"
+            android:label="Assigned Mode"
             android:parentActivityName=".mapActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".UnassignedMode"
+            android:label="Unassigned Mode"
+            android:parentActivityName=".mapActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".StationList"
             android:label="STATION LIST"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:parentActivityName=".mapActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".editeColumeNumber" />
         <activity
             android:name=".splash"
@@ -37,6 +56,7 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -88,20 +108,22 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_about_app"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StationLocation"
-            android:label="STATION MAP"
+        <activity
+            android:name=".StationLocation"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:label="Structure View"
+            android:parentActivityName=".StationList"
+            android:windowSoftInputMode="stateAlwaysHidden"  />
         <activity
             android:name=".showsingleData"
-            android:label="T"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="T" />
         <activity
             android:name=".CurrentLocation"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="Structure View Mode"
             android:parentActivityName=".mapActivity"
-            android:label="ISD MAP"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".upDateDataBase"
             android:configChanges="orientation|screenSize|keyboardHidden"

@@ -193,18 +193,8 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
         assignn = (RadioButton) findViewById(R.id.radioButton1);
         unassign = (RadioButton) findViewById(R.id.radioButton2);
         alldata= (RadioButton) findViewById(R.id.radioButton3);
-        resetButton =(ImageView) findViewById(R.id.ic_addData);
-        resetButton.setVisibility(View.INVISIBLE);
-        resetButton.setOnClickListener(new View.OnClickListener() {
+        radioGroup.check( alldata.getId());
 
-            @Override
-            public void onClick(View v) {
-                Log.d("onClick", "Button is Clicked");
-                Toast.makeText(StationLocation.this,"Multiple data is been selected", Toast.LENGTH_LONG).show();
-                multipledata();
-                showStartDialog();
-            }
-        });
 //        menu= (ImageView) findViewById(R.id.sattel);
         //  mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
@@ -251,33 +241,40 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
 
                 switch( checkedId) {
                     case R.id.radioButton1:
+
+
                         gMap.clear();
-                        resetButton.setVisibility(View.INVISIBLE);
-                        getMarkersAmber();
-                        getMarkersGreen();
-                        getMarkersRed();
-                        Toast.makeText(StationLocation.this,"Assigned Mode is Selected", Toast.LENGTH_LONG).show();
+                        TempItem = getIntent().getStringExtra("ListViewValue");
+                        String TempItem1 = getIntent().getStringExtra("crs");
+
+                        Toast.makeText(StationLocation.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(StationLocation.this, AssignedStation.class);
+
+                        intent.putExtra("ListViewValue",  TempItem);
+                        intent.putExtra("crs", TempItem1);
+                        startActivity(intent);
 
                         break;
 
                     case R.id.radioButton2:
-                        if(unassign.isClickable())
-                        {
-                            gMap.clear();
-                            getMarkers();
-                            Toast.makeText(StationLocation.this,"Unassigned Node Selected", Toast.LENGTH_LONG).show();
-                            resetButton.setVisibility(View.VISIBLE); //To set visible
-                        }
-                        else {
-                            resetButton.setVisibility(View.INVISIBLE); //To set visible
-                        }
+
+                        gMap.clear();
+                        TempItem = getIntent().getStringExtra("ListViewValue");
+                        String TempItem2 = getIntent().getStringExtra("crs");
+
+                        Toast.makeText(StationLocation.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Intent intent2 = new Intent(StationLocation.this, UnassignedStation.class);
+
+                        intent2.putExtra("ListViewValue",  TempItem);
+                        intent2.putExtra("crs", TempItem2);
+                        startActivity(intent2);
                         break;
 
                     case R.id.radioButton3:
                         gMap.clear();
                         getAlldata();
 //                        sharedPreferences.edit().putBoolean("All Data", alldata.isChecked()).apply();
-                        resetButton.setVisibility(View.INVISIBLE);
+
                         Toast.makeText(StationLocation.this,"All Data Selected", Toast.LENGTH_LONG).show();
                         break;
                 }
@@ -442,8 +439,29 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
         gMap.addMarker(markerOptions1);
 //
 
+        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker mark1) {
+//                        Toast.makeText(CurrentLocation.this, "You Click on View Mode,please Click on different mode button for editing", Toast.LENGTH_SHORT).show();
+                showStartDialog2();
+
+            }
+        });
+
 
     }
+
+    private void showStartDialog2() {
+
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+
+        builder1.setMessage("You are in Structure View Mode for editing Click on different mode button");
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
+    }
+
 
     private void getMarkersGreen1() {
 
@@ -1304,7 +1322,7 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
         });
 
 
-        }
+    }
 
 
 

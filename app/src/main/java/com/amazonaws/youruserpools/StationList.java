@@ -85,50 +85,50 @@ public class StationList extends AppCompatActivity {
         });
     }
 
-private void getMarkers() {
+    private void getMarkers() {
 
-    StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_StationName,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        //converting the string to json array object
-                        JSONArray array = new JSONArray(response);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_StationName,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
 
-                        //traversing through all the object
-                        for (int i = 0; i < array.length(); i++) {
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
 
-                            //getting product object from json array
-                            JSONObject product = array.getJSONObject(i);
-                            PlaceName StationName1 = new PlaceName(product.getInt(ID1), product.getString(Station11), product.getString(CRS));
+                                //getting product object from json array
+                                JSONObject product = array.getJSONObject(i);
+                                PlaceName StationName1 = new PlaceName(product.getInt(ID1), product.getString(Station11), product.getString(CRS));
 //                            String title = product.getString("CRS_code");
-                            IdList.add(id);
-                            StationName.add(StationName1);
-                            Station();
+                                IdList.add(id);
+                                StationName.add(StationName1);
+                                Station();
 
 
+                            }
+
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
-
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(StationList.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(StationList.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
-                }
-            });
+                    }
+                });
 
-    //adding our stringrequest to queue
-    Volley.newRequestQueue(this).add(stringRequest);
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
 
-}
+    }
 
     private void Station() {
         List<String> lables = new ArrayList<String>();
@@ -138,7 +138,7 @@ private void getMarkers() {
         for (int i = 0; i < StationName.size(); i++) {
             lables.add(StationName.get(i).getStationName());
         }
-         adapter = new ArrayAdapter<String>(StationList.this, android.R.layout.simple_list_item_1, lables);
+        adapter = new ArrayAdapter<String>(StationList.this, android.R.layout.simple_list_item_1, lables);
 
 
         StName.setAdapter(adapter);

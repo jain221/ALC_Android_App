@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +43,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -65,6 +69,8 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
     private Spinner spinnerBracketLength;
     private Spinner spinnerEstimatedColAGE;
     private Spinner spinnerlaternManuf;
+    private Spinner spinnerCoastKm;
+
     // array list for spinner adapter
     private Switch switch1;
     Multiple item ;
@@ -105,9 +111,12 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
     public static final String BracketLenth = "bracket_length";
     public static final String EstimatedAge = "column_ages";
     public static final String LatenManfu = "lantern_manufacturer";
+    public static final String coastKm = "cost_km";
     ProgressDialog pDialog;
     SharedPreferences.Editor prefEditor;
     int spinnerPosition;
+    JSONObject jsonObject;
+    int size;
     // API urls
     // Url to create new category
     private String URL_NEW_CATEGORY = "https://8jpt28d8fk.execute-api.eu-west-1.amazonaws.com/SendData/ISD";
@@ -135,7 +144,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
     public static final String Station11 = "Station";
 
     //* Fields to contain the current position and display contents of the spinner
-
+    ArrayList<ArrayList<String>> myList = new ArrayList<>();
     protected int mPos;
     protected String mSelection;
     /**
@@ -209,7 +218,14 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
     public static final String SHARED_PREFS12 = "sharedPrefs11";
     public static final String TEXT12 = "text11";
 
+    public static final String SHARED_PREFS13 = "sharedPrefs12";
+    public static final String TEXT13 = "text12";
+
     private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
+
+    ArrayList<String> ipp1 ;
+    ArrayList<String> lat1 ;
+    ArrayList<String> loggg1 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,7 +247,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         StudentName = (EditText)findViewById(R.id.editName);
         mPrefs = getSharedPreferences("label", 0);
         CountryName = new ArrayList<>();
-
+        spinnerCoastKm = (Spinner) findViewById(R.id.Coast);
         AutostationName = (AutoCompleteTextView) findViewById(R.id.editStationName);
 
 
@@ -284,6 +300,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         spinnerColumeBracketType.setOnItemSelectedListener(this);
         spinnerBracketLength.setOnItemSelectedListener(this);
         spinnerEstimatedColAGE.setOnItemSelectedListener(this);
+        spinnerCoastKm.setOnItemSelectedListener(this);
         spinnerlaternManuf.setOnItemSelectedListener(this);
         //  sharedPreferences =  PreferenceManager.getDefaultSharedPreferences(this);
         //    SharedPreferences pref = getApplicationContext().getSharedPreferences("Options", MODE_PRIVATE);
@@ -301,7 +318,31 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         spinnerBracketLength.setSelection(sharedPreferences.getInt(SHARED_PREFS10, 0));
         spinnerEstimatedColAGE.setSelection(sharedPreferences.getInt(SHARED_PREFS11, 0));
         spinnerlaternManuf.setSelection(sharedPreferences.getInt(SHARED_PREFS12, 0));
+        spinnerCoastKm.setSelection(sharedPreferences.getInt(SHARED_PREFS13, 0));
+//        String carListAsString = getIntent().getStringExtra("doubleValue_e1");
+//        Gson gson = new Gson();
 
+//        Type type = new TypeToken<List<unassignedMutlipleSelection>>(){}.getType();
+//        List<unassignedMutlipleSelection> carsList = gson.fromJson(carListAsString, type);
+//        for (unassignedMutlipleSelection cars : carsList){
+//            e1 =cars.IpaddressU;
+//            e2 =cars.LatitudeU;
+//            e3 =cars.LongitudeU;
+//        }
+
+//        ipp1 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e1");
+//        lat1 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e2");
+//        loggg1 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e3");
+//
+//        myList.add(ipp1);
+//        myList.add(lat1);
+//        myList.add(loggg1);
+//
+//                for(int i=0; i < myList.size();i++) {
+////                                unassignedMutlipleSelection multiple = new unassignedMutlipleSelection(latitU,longggU,ipaddr);
+//                unassignedMutlipleSelection multiple = new unassignedMutlipleSelection( lat1.get(i),loggg1.get(i),ipp1.get(i));
+//                MulitpleU.add(multiple);
+//            }
 
 
         getAutoComlete();
@@ -323,7 +364,8 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(AddUnssignedData.this, "Saved", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddUnssignedData.this, "Saved" , Toast.LENGTH_SHORT).show();
+
 //                      saveData();
 //                    perform HTTP POST request
                 if (checkNetworkConnection()) {
@@ -528,6 +570,55 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         if (spinnerValue1 != -1)
             // set the value of the spinner
             spinnerRaiseandLow.setSelection(spinnerValue1);
+
+
+
+    }
+
+    private void populateCoast() {
+        List<String> lables = new ArrayList<String>();
+
+        //txtCategory.setText("");
+
+        for (int i = 0; i < categoriesList1.size(); i++) {
+            lables.add(categoriesList1.get(i).getName1());
+        }
+
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(R.layout.spinerrgb);
+
+        // attaching data adapter to spinner
+        spinnerCoastKm.setAdapter(spinnerAdapter);
+
+
+        final String firstItem1 = String.valueOf(spinnerCoastKm.getSelectedItem());
+
+        spinnerCoastKm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (firstItem1.equals(String.valueOf(spinnerCoastKm.getSelectedItem()))) {
+
+                } else {
+//                    Toast.makeText(parent.getContext(),
+//                            "Ko Milih : " + parent.getItemAtPosition(position).toString(),
+//                            Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        SharedPreferences test1 = getSharedPreferences(SHARED_PREFS13, Context.MODE_PRIVATE);
+        int spinnerValue1 = test1.getInt(TEXT13, -1);
+        if (spinnerValue1 != -1)
+            // set the value of the spinner
+            spinnerCoastKm.setSelection(spinnerValue1);
 
 
 
@@ -1080,7 +1171,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                                 Category1 colman1 = new Category1(catobj.getInt(ID), catobj.getString(RaiseandLow));
                                 categoriesList1.add(colman1);
                                 populateSpinner1();
-
+                                populateCoast();
                             }
                             //creating adapter object and setting it to recyclerview
 
@@ -1577,6 +1668,10 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         prefEditor10.putInt(TEXT10,  spinnerEstimatedColAGE.getSelectedItemPosition());
         prefEditor10.apply();
 
+        spinnerCoastKm = (Spinner) findViewById(R.id.Coast);
+        SharedPreferences.Editor prefEditor13 = getSharedPreferences(SHARED_PREFS13, 0).edit();
+        prefEditor13.putInt(TEXT13, spinnerCoastKm.getSelectedItemPosition());
+        prefEditor13.apply();
 
         spinnerlaternManuf  = (Spinner) findViewById(R.id.lantern_manufacturer);
         SharedPreferences.Editor prefEditor11 = getSharedPreferences(SHARED_PREFS12, 0).edit();
@@ -1665,7 +1760,82 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
             e1 = extras.getString("doubleValue_e1");
             e2 = extras.getString("doubleValue_e2");
             e3 = extras.getString("doubleValue_e3");
+
         }
+
+//        ArrayList<String> ipp = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e1");
+//        ArrayList<String> lat = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e2");
+//        ArrayList<String> loggg = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e3");
+//        ArrayList<String> ipp = getIntent().getStringArrayListExtra("doubleValue_e1");
+//        ArrayList<String> lat = getIntent().getStringArrayListExtra("doubleValue_e2");
+//        ArrayList<String> loggg = getIntent().getStringArrayListExtra("doubleValue_e3");
+//        myList.add(ipp);
+//        myList.add(lat);
+//        myList.add(loggg);
+//
+////
+//        for(int i=0; i < myList.size();i++) {
+////                                unassignedMutlipleSelection multiple = new unassignedMutlipleSelection(latitU,longggU,ipaddr);
+//                unassignedMutlipleSelection multiple = new unassignedMutlipleSelection( lat.get(i),loggg.get(i),ipp.get(i));
+//                MulitpleU.add(multiple);
+//            }
+//
+
+
+
+
+
+//            jsonObject.put("iccid", e1);
+//            jsonObject.put("latitude", e2);
+//            jsonObject.put("longitude", e3);
+//            jsonObject.put("iccid", MulitpleU.get(i).getIpaddressU());
+//            jsonObject.put("latitude", MulitpleU.get(i).getLatitudeU());
+//            jsonObject.put("longitude", MulitpleU.get(i).getLongitudeU());
+//            jsonObject.put("iccid", ipp);
+//            jsonObject.put("latitude", lat);
+//            jsonObject.put("longitude", loggg);
+
+
+//            try {
+//
+
+//                JSONArray size = new JSONArray(myList.size());
+//               for(int i=0; i <MulitpleU.size(); i++ ){
+//
+//                   jsonObject = new JSONObject();
+//                    jsonObject.put("iccid", MulitpleU.get(i).getIpaddressU());
+//                    jsonObject.put("latitude", MulitpleU.get(i).getLatitudeU());
+//                    jsonObject.put("longitude", MulitpleU.get(i).getLongitudeU());
+//                    jsonObject.put("colume_number",  StudentName.getText().toString());
+//                    jsonObject.accumulate("Colume_Manfucture", spinnerColumeManf.getSelectedItem().toString());
+//                    jsonObject.accumulate("Raise_and_Lower", spinnerRaiseandLow.getSelectedItem().toString());
+//                    jsonObject.accumulate("Colume_Material", spinnerColumeMat.getSelectedItem().toString());
+//                    jsonObject.accumulate("Colume_Type", spinnerColumeType.getSelectedItem().toString());
+//                    jsonObject.accumulate("column_height_from_ground", spinnerColumeHight.getSelectedItem().toString());
+//                    jsonObject.accumulate("number_of_door", spinnerNumDoors.getSelectedItem().toString());
+//                    jsonObject.accumulate("door_dimensions", spinnerDoorDimen.getSelectedItem().toString());
+//                    jsonObject.accumulate("foundation_type", spinnerFoundation.getSelectedItem().toString());
+//                    jsonObject.accumulate("bracket_type", spinnerColumeBracketType.getSelectedItem().toString());
+//                    jsonObject.accumulate("bracket_length", spinnerBracketLength.getSelectedItem().toString());
+//                    jsonObject.accumulate("estimated_column_age", spinnerEstimatedColAGE.getSelectedItem().toString());
+//                    jsonObject.accumulate("cost_km", spinnerCoastKm.getSelectedItem().toString());
+//                    jsonObject.accumulate("lantern_manufacturer", spinnerlaternManuf.getSelectedItem().toString());
+//                    jsonObject.put("station_name", AutostationName.getText().toString());
+//
+//
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            e1 = extras.getString("doubleValue_e1");
+//            e2 = extras.getString("doubleValue_e2");
+//            e3 = extras.getString("doubleValue_e3");
+//        }
+
+
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("iccid", e1);
@@ -1683,11 +1853,26 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         jsonObject.accumulate("bracket_type", spinnerColumeBracketType.getSelectedItem().toString());
         jsonObject.accumulate("bracket_length", spinnerBracketLength.getSelectedItem().toString());
         jsonObject.accumulate("estimated_column_age", spinnerEstimatedColAGE.getSelectedItem().toString());
+        jsonObject.accumulate("cost_km", spinnerCoastKm.getSelectedItem().toString());
         jsonObject.accumulate("lantern_manufacturer", spinnerlaternManuf.getSelectedItem().toString());
         jsonObject.put("station_name", AutostationName.getText().toString());
         return jsonObject;
+
     }
 
+    private void spinnerdata() {
+    }
+
+
+    private void showStartDialogallData() {
+
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("->Select each Marker which Attribute data you want to add"+ size);
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
+    }
     private void setPostRequestContent(HttpURLConnection conn, JSONObject jsonObject) throws IOException {
 
         OutputStream os = conn.getOutputStream();

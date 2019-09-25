@@ -83,52 +83,6 @@ android:layout_height="match_parent">
     android:src="@drawable/ic_gps" />
 
 
-    <ImageView
-        android:id="@+id/ic_addData"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="65dp"
-        android:layout_marginRight="50dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/add" />
-
-    <Button
-        android:id="@+id/assign"
-        android:layout_width="68dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="481dp"
-        android:layout_marginTop="65dp"
-        android:text="Assigned"
-        android:visibility="invisible" />
-
-    <!--<Button-->
-        <!--android:id="@+id/unassigned"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignLeft="@+id/assign"-->
-        <!--android:layout_marginLeft="159dp"-->
-        <!--android:layout_marginTop="65dp"-->
-        <!--android:text="UnAssigned" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/alldata"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignLeft="@+id/unassigned"-->
-        <!--android:layout_marginTop="65dp"-->
-        <!--android:layout_marginLeft="164dp"-->
-        <!--android:text="All" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/sattel"-->
-    <!--android:layout_width="40dp"-->
-    <!--android:layout_height="40dp"-->
-    <!--android:layout_below="@id/ic_gps"-->
-    <!--android:layout_marginTop="-40dp"-->
-    <!--android:layout_marginEnd="4dp"-->
-    <!--android:scaleType="centerCrop"-->
-    <!--android:src="@drawable/ic_mapview" />-->
 
 
 </RelativeLayout>

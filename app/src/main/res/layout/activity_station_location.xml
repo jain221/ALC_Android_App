@@ -83,7 +83,6 @@ android:layout_height="match_parent"
         android:layout_width="445dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
-        android:background="@drawable/all_rounded"
         android:orientation="horizontal">
 
         <RadioButton
@@ -117,15 +116,7 @@ android:layout_height="match_parent"
 
 
     </RadioGroup>
-    <ImageView
-        android:id="@+id/ic_addData"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="85dp"
-        android:layout_marginRight="25dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/add" />
+
 
 
 </RelativeLayout>
