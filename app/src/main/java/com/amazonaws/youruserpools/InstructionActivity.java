@@ -23,14 +23,6 @@ public class InstructionActivity extends AppCompatActivity {
 
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
-////displays a video file
-//        VideoView mVideoView2 = (VideoView)findViewById(R.id.videoView1);
-
-//        String uriPath2 = "android.resource://com.amazonaws.youruserpools/"+R.raw.trial;
-//        Uri uri2 = Uri.parse(uriPath2);
-//        mVideoView2.setVideoURI(uri2);
-//        mVideoView2.requestFocus();
-//        mVideoView2.start();
 
         buttonPlayVideo2.setOnClickListener(new Button.OnClickListener() {
             @Override

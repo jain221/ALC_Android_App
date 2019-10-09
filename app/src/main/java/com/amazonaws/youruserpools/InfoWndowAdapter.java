@@ -37,33 +37,13 @@ public class InfoWndowAdapter implements InfoWindowAdapter {
 
         TextView tvGir = (TextView) v.findViewById(R.id.tvgir);
         TextView tvDetails = (TextView) v.findViewById(R.id.tvd);
-//        infoButton = (Button) v.findViewById(R.id.button);
-//        AllData = (CheckBox) v.findViewById(R.id.check);
-//        AllData.setOnClickListener(this);
 
-
-
-        // TextView tvLng = (TextView) v.findViewById(R.id.tv_lng);
-//        tvGir.setText("Latitude:" + latLng.latitude + ",Longitude" + latLng.longitude);
-//        tvDetails.setText(Items.);
-        //tvLng.setText("Longitude:"+ latLng.longitude);
-
-//        tvGir.setText(marker.getTitle());
         tvDetails.setText(marker.getSnippet());
 
         return v;
     }
 
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.checkbox_meat:
-//                if (AllData.isChecked())
-//                    Toast.makeText(context.getApplicationContext(), "Your clicked abble", Toast.LENGTH_LONG).show();
-//                break;
-//
-//        }
 
 
     }

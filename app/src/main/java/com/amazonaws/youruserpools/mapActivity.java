@@ -79,22 +79,16 @@ public class mapActivity extends AppCompatActivity {
 
     // Cognito user objects
     private CognitoUser user;
-    private CognitoUserSession session;
-    private CognitoUserDetails details;
+
 
     // User details
     Animation animAlpha;
     private String username;
 
-    // To track changes to user details
-    private final List<String> attributesToDelete = new ArrayList<>();
+
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
-    public static final String EXTRA_NUMBER1 = "com.alulight.alcap.EXTRA_NUMBER1 ";
-    public static final String EXTRA_NUMBER2 = "com.alulight.alcap.EXTRA_NUMBER2 ";
 
-    private Button button;
-    private Context context;
 
 
 
@@ -108,7 +102,7 @@ public class mapActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         toolbar.setTitle("");
         TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
-        main_title.setText("Monitored Node");
+        main_title.setText("Monitored Assets");
         setSupportActionBar(toolbar);
 
 
@@ -129,19 +123,7 @@ public class mapActivity extends AppCompatActivity {
         if (isServicesOK()) {
 
         }
-//        button =(Button) findViewById(R.id.button);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                try {
-//                    googleMap();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//
-//    }
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create channel to show notifications.
@@ -153,15 +135,7 @@ public class mapActivity extends AppCompatActivity {
                     channelName, NotificationManager.IMPORTANCE_LOW));
         }
 
-        // If a notification message is tapped, any data accompanying the notification
-        // message is available in the intent extras. In this sample the launcher
-        // intent is fired when the notification is tapped, so any accompanying data would
-        // be handled here. If you want a different intent fired, set the click_action
-        // field of the notification message to the desired intent. The launcher intent
-        // is used when no click_action is specified.
-        //
-        // Handle possible data accompanying notification message.
-        // [START handle_data_extras]
+
         if (getIntent().getExtras() != null) {
             for (String key : getIntent().getExtras().keySet()) {
                 Object value = getIntent().getExtras().get(key);
@@ -196,7 +170,7 @@ public class mapActivity extends AppCompatActivity {
                                 Log.d(TAG, "token "+ FirebaseInstanceId.getInstance().getToken());
                             }
                         });
-                // [END retrieve_current_token]
+
             }
         });
 
@@ -227,83 +201,8 @@ public class mapActivity extends AppCompatActivity {
 
 
 
-//    public void currentlocation() {
-//
-//        Button btnMap = (Button) findViewById(R.id.currentlocation);
-//        btnMap.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(mapActivity.this,  emailActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-
-
-//    public void googleMap() throws IOException {
-//
-//        EditText et = (EditText) findViewById(R.id.editText1);
-//        String location = et.getText().toString();
-//
-//        Geocoder gc = new Geocoder(this);
-//        List<Address> list = gc.getFromLocationName(location, 1);
-//        Address address = list.get(0);
-//        String locality = address.getLocality();
-//
-//        Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
-//
-//
-//        double lat = address.getLatitude();
-//        double lng = address.getLongitude();
-//
-//        Intent intent = new Intent(this, googleMap.class);
-//        intent.putExtra(EXTRA_NUMBER1,lat);
-//        intent.putExtra(EXTRA_NUMBER2,lng);
-//
-//        startActivity(intent);
-//
-//
-//
-//        //setMarker(locality, lat, lng);
-//
-//    }
-
-
     public void avaliableNode(View view) {
-//        view.startAnimation(animAlpha);
-//        android.app.AlertDialog.Builder altdial = new android.app.AlertDialog.Builder(mapActivity.this);
-//        altdial.setMessage("New NODE Installation Data Filling ???").setCancelable(false)
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Intent intent = new Intent(mapActivity.this,  NodeMapSingleData.class);
-//                        startActivity(intent);
-//                    }
-//                })
-//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Intent intent = new Intent(mapActivity.this, AvaliableData.class);
-//                        startActivity(intent);
-////                        dialog.cancel();
-//                    }
-//
-//
-//
-//                })
-//
-//                .setNeutralButton("Cancell", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    dialog.cancel();
-//
-//                }
-//                });
-//
-//        android.app.AlertDialog alert = altdial.create();
-//        alert.setTitle("Installation Process");
-//        alert.show();
+
 
         Intent intent = new Intent(mapActivity.this,  UnAssignedData.class);
         startActivity(intent);
@@ -401,24 +300,13 @@ public class mapActivity extends AppCompatActivity {
 
         // Find which item was selected
         switch(item.getItemId()) {
-//            case R.id.nav_user_add_attribute:
-//                // Add a new attribute
-//                addAttribute();
-//                break;
-//
-//            case R.id.nav_user_change_password:
-//                // Change password
-//                changePassword();
-//                break;
+
+
             case R.id.nav_user_verify_attribute:
-                // Confirm new user
-                // confirmUser();
+
                 attributesVerification();
                 break;
-//            case R.id.nav_user_settings:
-//                // Show user settings
-//                showSettings();
-//                break;
+
             case R.id.nav_user_sign_out:
                 // Sign out from this account
                 signOut();

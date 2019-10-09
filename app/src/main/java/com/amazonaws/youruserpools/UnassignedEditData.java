@@ -1,10 +1,10 @@
 package com.amazonaws.youruserpools;
+
 import android.Manifest;
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,19 +13,13 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,12 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -60,7 +49,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -80,13 +68,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>,  ClusterManager.OnClusterItemInfoWindowClickListener<Items> {
+public class UnassignedEditData extends AppCompatActivity implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>,  ClusterManager.OnClusterItemInfoWindowClickListener<Items> {
+
 
     int size =0;
     private int ii;
@@ -104,6 +92,26 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
     public static final String LAT = "latitude";
     public static final String LNG = "longitude";
     public static final String Station11 = "Station";
+
+    public static final String columeNumber = "colume_number";
+    public static final String columeManf = "Colume_Manfucture";
+    public static final String RaiseandLow = "Raise_and_Lower";
+    public static final String columeMaterial = "Colume_Material";
+    public static final String ColumeType = "Colume_Type";
+    public static final String ColumeHight = "column_height_from_ground";
+    public static final String NumDoors = "number_of_door";
+    public static final String DoorDimen = "door_dimensions";
+    public static final String Foundation = "foundation_type";
+    public static final String ColumeBracket = "bracket_type";
+    public static final String BracketLenth = "bracket_length";
+    public static final String EstimatedAge = "estimated_column_age";
+    public static final String CoastKM = "cost_km";
+    public static final String LatenManfu = "lantern_manufacturer";
+    public static final String TEXT19 = "text";
+    ArrayList<String> mark1 = new ArrayList<>();
+    public static final String MY_PREF_KEY = "Selection";
+    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
+    String ip, latt, logg, cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, cstkm, lm;
     private Marker myMarker;
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -118,7 +126,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
 
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    private static final String URL_PRODUCTS = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
+    private static final String URL_PRODUCTS = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/ISDgetAllData";
     private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
     private ClusterManager<Items> mClusterManager;
 
@@ -129,19 +137,17 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
     AutoCompleteTextView et;
     private LatLngBounds.Builder builder;
 
-    double latt ,logg;
+
     String TempItem;
     Handler handler = new Handler();
     Runnable refresh;
     Marker prevMarker1;
 
 
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.unassigneddata);
-
         mGps = (ImageView) findViewById(R.id.ic_gps);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
 
@@ -152,7 +158,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
             gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
-                    Geocoder geocoder = new Geocoder(UnAssignedData.this);
+                    Geocoder geocoder = new Geocoder(UnassignedEditData.this);
                     java.util.List<Address> list;
                     try {
                         list = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
@@ -197,19 +203,20 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
         mClusterManager.setOnClusterItemInfoWindowClickListener(this);
         mClusterManager.cluster();
         builder = new LatLngBounds.Builder();
-
+        infoWindoEdit markerInfoWindowAdapter = new infoWindoEdit (getApplicationContext());
+        gMap.setInfoWindowAdapter(markerInfoWindowAdapter);
 // Creating Marker Using MySQL database and calling that function.
         gMap.clear();
         getMarkers();
 
 // Creating Info window
-        InfoWndowAdapter markerInfoWindowAdapter = new InfoWndowAdapter(getApplicationContext());
-        googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
+//        InfoWndowAdapter markerInfoWindowAdapter = new InfoWndowAdapter(getApplicationContext());
+//        googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
 
-      gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
+        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
 
 
-      mGps.setOnClickListener(new View.OnClickListener() {
+        mGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG1, "onClick: clicked gps icon");
@@ -218,7 +225,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
             }
         });
 
-        final UnAssignedData.CustomClusterRenderer renderer = new UnAssignedData.CustomClusterRenderer(this, gMap, mClusterManager);
+        final UnassignedEditData.CustomClusterRenderer renderer = new UnassignedEditData.CustomClusterRenderer(this, gMap, mClusterManager);
 
 
         mClusterManager.setRenderer(renderer);
@@ -235,7 +242,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
     private void getDeviceLocation() {
         Log.d(TAG1, "getDeviceLocation: getting the devices current location");
 
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(UnAssignedData.this);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(UnassignedEditData.this);
 
         try {
             if (mLocationPermissionsGranted) {
@@ -250,13 +257,12 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM);
-                            latt= currentLocation.getLatitude();
-                            logg=currentLocation.getLongitude();
+                          
 
 
                         } else {
                             Log.d(TAG1, "onComplete: current location is null");
-                            Toast.makeText(UnAssignedData.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UnassignedEditData.this, "unable to get current location", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -268,7 +274,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
 
 
 
- // Set Parameter for moving camera.
+    // Set Parameter for moving camera.
 
     private void moveCamera(LatLng latLng, float zoom) {
         Log.d(TAG1, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
@@ -296,7 +302,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
     private void initMap() {
         Log.d(TAG1, "initMap: initializing map");
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(UnAssignedData.this);
+        mapFragment.getMapAsync(UnassignedEditData.this);
     }
 
     private void getLocationPermission() {
@@ -331,7 +337,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
         et.getText().clear();
         hideSoftKeyboard();
         Geocoder geocoder = new Geocoder(this);
-        List<Address> list = geocoder.getFromLocationName(location, 1);
+        java.util.List<Address> list = geocoder.getFromLocationName(location, 1);
         if (list.size() > 0) {
             Address address = list.get(0);
             String locality = address.getLocality();
@@ -342,7 +348,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
 
 
         }else {
-            Toast.makeText(UnAssignedData.this, "Check Spelling Or Try Again !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UnassignedEditData.this, "Check Spelling Or Try Again !", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -359,11 +365,33 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
 
     private void addMarker(final LatLng latLng, final String title) {
 
-
+        double lat = latLng.latitude;
+        double lng = latLng.longitude;
         MarkerOptions marker = new MarkerOptions();
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
 
+       
+// Create a cluster item for the marker and set the title and snippet using the constructor.
+        //  Items infoWindowItem = new Items(lat,lng, title, snippet);
+//        MarkerOptions markerOptions2 = new MarkerOptions()
+//                .position(latLng)
+//                .title(title)
+//                .snippet(snippet2)
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+//        gMap.addMarker(markerOptions2);
 
+//        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+//            @Override
+//            public void onInfoWindowClick(Marker marker2) {
+////                Toast.makeText(CurrentLocation.this, marker2.getTitle(), Toast.LENGTH_SHORT).show();
+//
+//                latit = String.valueOf(marker2.getPosition().latitude);
+//                longgg = String.valueOf(marker2.getPosition().longitude);
+//                ipaddr = marker2.getTitle();
+//                showDialog( UnassignedEditData.this);
+//
+//            }
+//        });
         builder.include(latLng);
         LatLngBounds bounds = builder.build();
         int width = getResources().getDisplayMetrics().widthPixels;
@@ -373,12 +401,14 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
         final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
 
         gMap.animateCamera(cu);
-        double lat =latLng.latitude;
-        double lng = latLng.longitude;
+  
         // Set he title and snippet strings.
 
+        final String snippet= (" Status : Assigned Assets " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+                "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
+                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
 
-        final String snippet = "Latitude:" + latLng.latitude + ",Longitude" + latLng.longitude;
+       
 
 // Create a cluster item for the marker and set the title and snippet using the constructor.
         Items infoWindowItem = new Items(lat,lng, title, snippet);
@@ -440,12 +470,12 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
         @Override
         protected int getColor(int clusterSize) {
 //            return Color.parseColor("#567238");
-            return Color.BLUE ;// Return any color you want here. You can base it on clusterSize.
+            return Color.GREEN ;// Return any color you want here. You can base it on clusterSize.
         }
         @Override
         protected void onBeforeClusterItemRendered(Items item, MarkerOptions markerOptions) {
 
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         }
 
     }
@@ -487,7 +517,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
                 break;
 
             case R.id.stationList:
-                Intent intent = new Intent(UnAssignedData.this, StationList.class);
+                Intent intent = new Intent(UnassignedEditData.this, StationList.class);
                 startActivity(intent);
                 break;
             default:
@@ -541,34 +571,75 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
                             //traversing through all the object
                             for (int i = 0; i < array.length(); i++) {
 
+
                                 //getting product object from json array
                                 JSONObject product = array.getJSONObject(i);
-                                ii = product.getInt(ID);
                                 title = product.getString(TITLE);
                                 latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
+                                double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
+                                double lng3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
                                 //adding the product to product list
+                                cnum = product.getString(columeNumber);
+                                cl = product.getString(columeManf);
+                                rs = product.getString(RaiseandLow);
+                                cm = product.getString(columeMaterial);
+                                ct = product.getString(ColumeType);
+                                chg = product.getString(ColumeHight);
+                                nd = product.getString(NumDoors);
+                                dd = product.getString(DoorDimen);
+                                ft = product.getString(Foundation);
+                                bt = product.getString(ColumeBracket);
+                                bl = product.getString(BracketLenth);
+                                eage = product.getString(EstimatedAge);
+                                cstkm = product.getString(CoastKM);
+                                lm = product.getString(LatenManfu);
                                 addMarker(latLng, title);
+                                displayData.add(product);
+                                // onMarkerClick(latLng);
+//                                product1 = new Product(title,lat3,lng3,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm);
 
                             }
+                            for (int i = 0; i < displayData.size(); i++) {
+                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+                                double latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
+                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
+                                ip = displayData.get(i).get(TITLE).toString();
+                                cnum = displayData.get(i).get(columeNumber).toString();
+                                cl = displayData.get(i).get(columeManf).toString();
+                                rs = displayData.get(i).get(RaiseandLow).toString();
+                                cm = displayData.get(i).get(columeMaterial).toString();
+                                ct = displayData.get(i).get(ColumeType).toString();
+                                chg = displayData.get(i).get(ColumeHight).toString();
+                                nd = displayData.get(i).get(NumDoors).toString();
+                                dd = displayData.get(i).get(DoorDimen).toString();
+                                ft = displayData.get(i).get(Foundation).toString();
+                                bt = displayData.get(i).get(ColumeBracket).toString();
+                                bl = displayData.get(i).get(BracketLenth).toString();
+                                eage = displayData.get(i).get(EstimatedAge).toString();
+                                cstkm = displayData.get(i).get(EstimatedAge).toString();
+                                lm = displayData.get(i).get(LatenManfu).toString();
 
+
+                            }
                             //creating adapter object and setting it to recyclerview
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+
+
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UnAssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UnassignedEditData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(this).add(stringRequest);
-
     }
 
 
@@ -606,7 +677,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UnAssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(UnassignedEditData.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -702,9 +773,9 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setIcon(R.drawable.refereshbutton);
-//        builder1.setCancelable(false);
+        builder1.setCancelable(false);
         builder1.setTitle("Refresh Page");
-        builder1.setMessage("Please type Yes button to Refresh page");
+        builder1.setMessage("Are You finish Editing the Asset");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -712,13 +783,20 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
                     }
                 });
 
+        builder1.setNeutralButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
         AlertDialog alert11 = builder1.create();
         alert11.show();
 
 
         Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
-        buttonbackground1.setBackgroundColor(R.drawable.button);
         buttonbackground1.setTextColor(Color.BLACK);
+        Button buttonbackground2 = alert11.getButton(DialogInterface.BUTTON_NEUTRAL);
+        buttonbackground2.setTextColor(Color.BLACK);
 
 
     }
@@ -727,8 +805,8 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
 //        builder1.setIcon(R.drawable.refereshbutton);
 //        builder1.setCancelable(false);
-        builder1.setTitle("Multiple Data");
-        builder1.setMessage("->This is View Mode"+ "\n->Please Zoom IN,If you want to Add Multiple data Please click on Yes button");
+        builder1.setTitle("Edit Asset");
+        builder1.setMessage("->This is View Mode"+ "\n->Please Zoom IN,If you want to Edit data Please click on Yes button for Edit");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -737,47 +815,22 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
 
                             @Override
                             public boolean onMarkerClick(final Marker marker1) {
+                        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker2) {
+//                Toast.makeText(CurrentLocation.this, marker2.getTitle(), Toast.LENGTH_SHORT).show();
 
+                                latit = String.valueOf(marker2.getPosition().latitude);
+                                longgg = String.valueOf(marker2.getPosition().longitude);
+                                ipaddr = marker2.getTitle();
+                                showDialog( UnassignedEditData.this);
 
-
-                                if (prevMarker1 != null) {
-                                    marker1.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                                    latit = String.valueOf(marker1.getPosition().latitude);
-                                    longgg = String.valueOf(marker1.getPosition().longitude);
-                                    ipaddr = marker1.getTitle();
-                                    Set<String> set = new HashSet<>(ipaddress3);
-                                    ipaddress3.clear();
-                                    ipaddress3.addAll(set);
-                                    ipaddress3.remove(ipaddr);
-
-                                }
-
-
-
-                                if(!marker1.equals(prevMarker1)) {
-
-
-                                    marker1.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
-                                    prevMarker1 = marker1;
-                                    latit = String.valueOf(marker1.getPosition().latitude);
-                                    longgg = String.valueOf(marker1.getPosition().longitude);
-                                    ipaddr = marker1.getTitle();
-                                    ipaddress3.add(ipaddr);
-                                    Set<String> set = new HashSet<>(ipaddress3);
-                                    ipaddress3.clear();
-                                    ipaddress3.addAll(set);
-                                    latitude2.add(String.valueOf(latit));
-                                    longitude2.add(String.valueOf(longgg));
-
-                                }
-
-                                size= ipaddress3.size();
-                                showStartDialogallData1();
-
-                                return true;
                             }
                         });
 
+                                return false;
+                            }
+                        });
 
                     }
                 });
@@ -803,11 +856,133 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
 
     }
 
+
+    private void showDialog(UnassignedEditData currentLocation) {
+
+        final Dialog dialog = new Dialog(currentLocation);
+        // dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_listview);
+        dialog.setTitle("        \b EDIT ASSET");
+        Button btndialog = (Button) dialog.findViewById(R.id.btndialog);
+        btndialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+
+        Button columeNumber = (Button) dialog.findViewById(R.id.Rlatern);
+        columeNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(AvaliableData.this, OldScmsInstallation.class);
+//                startActivity(intent);
+
+
+//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
+                String lat = latit;
+                String lng = longgg;
+                String ipaddress = ipaddr;
+
+                Intent intent = new Intent(UnassignedEditData.this, editeColumeNumber.class);
+                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
+                intent.putExtra("doubleValue_e1", ipaddress);
+                intent.putExtra("doubleValue_e2", lat);
+                intent.putExtra("doubleValue_e3", lng);
+
+                startActivity(intent);
+
+                Referesh();
+            }
+        });
+
+        Button RColume = (Button) dialog.findViewById(R.id.RColume);
+        RColume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String lat = latit;
+                String lng = longgg;
+                String ipaddress = ipaddr;
+
+                Intent intent = new Intent(UnassignedEditData.this, ReplaceColumn.class);
+                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
+                intent.putExtra("doubleValue_e1", ipaddress);
+                intent.putExtra("doubleValue_e2", lat);
+                intent.putExtra("doubleValue_e3", lng);
+
+                startActivity(intent);
+
+                dialog.dismiss();
+                showStartDialog();
+            }
+        });
+
+        Button RFoundationRep = (Button) dialog.findViewById(R.id.RFoundationRep);
+        RFoundationRep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(AvaliableData.this, OldScmsInstallation.class);
+//                startActivity(intent);
+
+
+//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
+                String lat = latit;
+                String lng = longgg;
+                String ipaddress = ipaddr;
+
+                Intent intent = new Intent(UnassignedEditData.this, ReplaceLatern.class);
+                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
+                intent.putExtra("doubleValue_e1", ipaddress);
+                intent.putExtra("doubleValue_e2", lat);
+                intent.putExtra("doubleValue_e3", lng);
+
+                startActivity(intent);
+
+                dialog.dismiss();
+                showStartDialog();
+            }
+        });
+
+        Button EditChar = (Button) dialog.findViewById(R.id.EditChar);
+        EditChar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(AvaliableData.this, OldScmsInstallation.class);
+//                startActivity(intent);
+
+
+//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
+                String lat = latit;
+                String lng = longgg;
+                String ipaddress = ipaddr;
+
+                Intent intent = new Intent(UnassignedEditData.this, ReplaceLatern.class);
+                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
+                intent.putExtra("doubleValue_e1", ipaddress);
+                intent.putExtra("doubleValue_e2", lat);
+                intent.putExtra("doubleValue_e3", lng);
+
+                startActivity(intent);
+
+                dialog.dismiss();
+                showStartDialog();
+            }
+        });
+
+
+        dialog.show();
+
+    }
     private void showStartDialogallData() {
 
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Click on each Asset for Adding Multiple data");
+        builder1.setMessage("->Click on each Asset for Editing data\"");
         AlertDialog alert11 = builder1.create();
         alert11.show();
 
@@ -823,8 +998,7 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
                     public void onClick(DialogInterface dialog, int id) {
 
                         multipledata();
-                        AssignMode();
-
+                        showStartAll();
 
                     }
                 });
@@ -856,26 +1030,22 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
 
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setCancelable(false);
+//        builder1.setCancelable(false);
         builder1.setTitle("Asset Number");
         builder1.setMessage("Do you want to enter an individual Asset Number");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        Toast.makeText(UnAssignedData.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(UnAssignedData.this, UnassignedEditData.class);
-                        startActivity(intent);
+//
+//                        if (assignn.isChecked()) {
+//                            assignn.setChecked(true);
+//                            Referesh();
+//                            assignn.setChecked(true);}
 
+                        Referesh();
                     }
                 });
-
-        builder1.setNeutralButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Referesh();
-            }
-        });
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
@@ -885,15 +1055,11 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
         buttonbackground1.setBackgroundColor(R.drawable.button);
         buttonbackground1.setTextColor(Color.BLACK);
 
-        Button buttonbackground2 = alert11.getButton(DialogInterface.BUTTON_NEUTRAL);
-        buttonbackground2.setBackgroundColor(R.drawable.button);
-        buttonbackground2.setTextColor(Color.BLACK);
-
     }
 
     private void multipledata() {
 
-        Intent intent = new Intent(UnAssignedData.this, AddUnssignedData.class);
+        Intent intent = new Intent(UnassignedEditData.this, AddUnssignedData.class);
         for (int i = 0; i < ipaddress3.size(); i++) {
             intent.putExtra("doubleValue_e1", ipaddress3.get(i));
             intent.putExtra("doubleValue_e2", latitude2.get(i));

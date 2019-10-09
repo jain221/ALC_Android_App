@@ -25,22 +25,36 @@
         android:label="ISD  "
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UnassignedStation"
-            android:label="Unassigned Mode"
-            android:parentActivityName=".StationList"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
-        <activity android:name=".AssignedStation"
-            android:label="Assigned Mode"
-            android:parentActivityName=".StationList"
+
+        <activity android:name=".addingAssertNumber"
+            android:label="Enter Asset Number"
+            android:parentActivityName=".mapActivity"
+            android:windowSoftInputMode="stateHidden"
+         ></activity>
+        <activity android:name=".infoWindoEdit" />
+        <activity
+            android:name=".UnassignedEditData"
+            android:label="Edit Assets"
+            android:parentActivityName=".mapActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".UnassignedStation"
+            android:label="Unassigned Assets"
+            android:parentActivityName=".mapActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".AssignedStation"
+            android:label="Assigned Assets"
+            android:parentActivityName=".mapActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".AssignedMode"
-            android:label="Assigned Mode"
+            android:label="Assigned Assets"
             android:parentActivityName=".mapActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".UnassignedMode"
-            android:label="Unassigned Mode"
+            android:label="Unassigned Assets"
             android:parentActivityName=".mapActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
@@ -48,7 +62,9 @@
             android:label="STATION LIST"
             android:parentActivityName=".mapActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".editeColumeNumber" />
+        <activity android:name=".editeColumeNumber"
+            android:label="Enter Asset Number"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".splash"
             android:label="ISD"
@@ -111,17 +127,13 @@
         <activity
             android:name=".StationLocation"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Structure View"
-            android:parentActivityName=".StationList"
-            android:windowSoftInputMode="stateAlwaysHidden"  />
-        <activity
-            android:name=".showsingleData"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="T" />
+            android:label="Assets View"
+            android:parentActivityName=".mapActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".CurrentLocation"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Structure View Mode"
+            android:label="Assets View"
             android:parentActivityName=".mapActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
@@ -131,17 +143,21 @@
         <activity
             android:name=".AddUnssignedData"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Column Attribute Data"
+            android:label="Assets Attribute Data"
             android:parentActivityName=".UnAssignedData" />
         <activity
             android:name=".UnAssignedData"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Column Map"
+            android:label="Assets View Map"
             android:parentActivityName=".mapActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".ReplaceNode" />
-        <activity android:name=".ReplaceLatern" />
-        <activity android:name=".ReplaceColumn" />
+        <activity android:name=".ReplaceLatern"
+            android:label="Edit Lantern Manufacture"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".ReplaceColumn"
+            android:label="Edit Asset Data"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".InstructionActivity" />
         <activity
             android:name=".emailActivity"

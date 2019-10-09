@@ -49,24 +49,7 @@ public class StreetViewMap extends AppCompatActivity  implements OnStreetViewPan
     public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
 
         mStreetViewPanorama = streetViewPanorama;
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            e1 = receiveIntent.getDoubleExtra("doubleValue_e1", 0.00);
-//            e2 = extras.getDouble("doubleValue_e2");
-//        }
 
-
-//        String l ="51.64728";
-//        String d ="-3.6351 ";
-//
-//        double ll = Double.parseDouble(String.format("%.5f", l));
-//        double dd= Double.parseDouble(String.format("%.5f", d));
-
-//        Intent tmp = getIntent();
-//        e1 = tmp.getDoubleExtra("doubleValue_e1", 0.0);
-//        e2 = tmp.getDoubleExtra("doubleValue_e2", 0.0);
-//        Double lat= Double.valueOf((getIntent().getStringExtra("doubleValue_e1"+0.5f)));
-//        Double lon= Double.valueOf((getIntent().getStringExtra("doubleValue_e2"+0.5f)));
 
         Intent intent = getIntent();
         double lat = intent.getDoubleExtra("doubleValue_e1", 0);
@@ -76,18 +59,6 @@ public class StreetViewMap extends AppCompatActivity  implements OnStreetViewPan
 
         streetViewPanorama.setPosition(latLng);
 
-//
-//
-//        streetViewPanorama.setPosition(new LatLng( e1, e2), StreetViewSource.DEFAULT.OUTDOOR);
-
-//        streetViewPanorama.setPosition(new LatLng( lat, lon), StreetViewSource.DEFAULT.OUTDOOR);
-
-//        if (secondLocation) {
-//
-////               streetViewPanorama.setPosition(new LatLng( e1, e2), StreetViewSource.DEFAULT.OUTDOOR);
-////        } else {
-////            streetViewPanorama.setPosition(new LatLng(51.52887, -0.1726073));
-//       }
         streetViewPanorama.setStreetNamesEnabled(true);
         streetViewPanorama.setPanningGesturesEnabled(true);
         streetViewPanorama.setZoomGesturesEnabled(true);

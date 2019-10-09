@@ -73,17 +73,14 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, ClusterManager.OnClusterItemInfoWindowClickListener<Items> {
+public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCallback{
 
-    HttpParse httpParse = new HttpParse();
+
     private int ii;
-    String HttpURL = "https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData";
-    String ipaddress2;
+
     MapFragment mapFragment;
     GoogleMap gMap;
-    GoogleMap gMap1;
-    GoogleMap gMap2;
-    MarkerOptions markerOptions = new MarkerOptions();
+
     CameraPosition cameraPosition;
     LatLng center, latLng;
     String title;
@@ -109,9 +106,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
     public static final String EstimatedAge = "estimated_column_age";
     public static final String CoastKM= "cost_km";
     public static final String LatenManfu = "lantern_manufacturer";
-    public static final String TEXT19 = "text";
-    ArrayList<String> mark1 = new ArrayList<>();
-    public static final String MY_PREF_KEY = "Selection";
+
 
     String ip, latt, logg, cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage,cstkm, lm;
     private Marker myMarker;
@@ -121,79 +116,36 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 17f;
     //vars
     String latit, longgg, ipaddr;
-    TextView ipaddress, lat2, log2, cl12, rs12, cm12, ct12, chg12, nd12, dd12, ft12, bt12, bl12, eage12, lm12;
+    TextView ipaddress;
     private ArrayList<SuggestGetSet> List;
-    //    private SuggestionAdapter mSuggestionAdapter;
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    //    private static final String URL_PRODUCTS = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/ISDgetAllData";
+    private static final String URL_UnAssinged = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
     private static final String URL_AMBER = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectedamberColor";
     private static final String URL_GREEN = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectGreenColor";
     private static final String URL_RED = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectRedColor";
     private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
-    private static final String URL_UnAssinged = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
-    private ClusterManager<Items> mClusterManager;
-    private ClusterManager<Items> mClusterManagerR;
+
+
     private List<Items> items = new ArrayList<>();
     private ImageView mGps;
     private ImageView menu;
     String data;
     AutoCompleteTextView et;
-    String tag_json_obj = "json_obj_req";
-    private AutoCompleteTextView mSearchText;
-    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
-    private static final LatLng MOUNTAIN_VIEW = new LatLng(37.4, -122.1);
-    private Marker locationMarker;
-    private Context context;
-    private Button infoButton;
-    CheckBox AllData;
 
-    int MarkerClick;
+    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
+
     Handler handler = new Handler();
     Runnable refresh;
-    String lat3;
-    String lng3;
-    ProgressDialog pDialog;
-    String finalResult;
-    HashMap<String, String> hashMap = new HashMap<>();
-    String ParseResult;
-    HashMap<String, String> ResultHash = new HashMap<>();
-    String FinalJSonObject;
-    TextView NAME, PHONE_NUMBER, CLASS;
-    String NameHolder, NumberHolder, ClassHolder;
-    Button UpdateButton, DeleteButton;
     String TempItem;
-    ProgressDialog progressDialog2;
-
-    Button assigned,unassigned,alld;
-    TextView lat, log, cl1, rs1, cm1, ct1, chg1, nd1, dd1, ft1, bt1, bl1, eage1, lm1;
-    //    String ip,latt,logg,cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+    TextView lat, log;
     String e1, e2, e3;
-    StreetViewPanorama mStreetViewPanorama;
-    Product product1;
-    //    List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
+
     RadioGroup radioGroup;
 
     private RadioButton assignn;
     private RadioButton unassign;
     private RadioButton alldata;
-
-
-    ArrayList<ArrayList<String>> myList = new ArrayList<>();
-    ArrayList<String> latitude2 = new ArrayList<String>();
-    ArrayList<String> longitude2 = new ArrayList<String>();
-    ArrayList<String> ipaddress3 = new ArrayList<String>();
-    View b;
-//    Button resetButton;
-    ImageView  resetButton ;
-
-    // this will be key for the key value pair
-    public static final String BUTTON_STATE = "Button_State";
-    // this is name of shared preferences file, must be same whenever accessing
-    // the key value pair.
-    public static final String MyPREFERENCES = "MyPrefs" ;
-
-    SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -206,24 +158,6 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
         assignn = (RadioButton) findViewById(R.id.radioButton1);
         unassign = (RadioButton) findViewById(R.id.radioButton2);
-//        alldata= (RadioButton) findViewById(R.id.radioButton3);
-
-//        resetButton =(ImageView) findViewById(R.id.ic_addData);
-//        resetButton.setVisibility(View.INVISIBLE);
-//        resetButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("onClick", "Button is Clicked");
-//                Toast.makeText(CurrentLocation.this,"Multiple data is been adding", Toast.LENGTH_LONG).show();
-//                multipledata();
-//                showStartDialog();
-//            }
-//        });
-
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        // grab the last saved state here on each activity start
-        Boolean lastButtonState = sharedpreferences.getBoolean(BUTTON_STATE, false);
         alldata = (RadioButton) findViewById(R.id.radioButton3);
         radioGroup.check( alldata.getId());
         // restore previous state
@@ -288,6 +222,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                         gMap.clear();
                         Toast.makeText(CurrentLocation.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(CurrentLocation.this, AssignedMode.class);
+//                        Intent intent = new Intent(CurrentLocation.this, addingAssertNumber.class);
                         startActivity(intent);
                         break;
 
@@ -301,10 +236,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                         break;
 
                     case R.id.radioButton3:
-                        resetButton.setVisibility(View.INVISIBLE);
                         gMap.clear();
-                        getAlldata();
-
 
                         Toast.makeText(CurrentLocation.this,"All Data Selected", Toast.LENGTH_LONG).show();
                         break;
@@ -321,44 +253,14 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
 
         gMap = googleMap;
-        gMap1 = googleMap;
-        gMap2 = googleMap;
-//        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
-//        Log.d(TAG1, "onMapReady: map is ready");
-//        // Mengarahkan ke alun-alun Demak
-
         center = new LatLng(51.52042, -3.23113);
         getMarkers1();
         getMarkersAmber1();
         getMarkersGreen1();
         getMarkersRed1();
-//        getAlldata();
-        mClusterManager = new ClusterManager<>(this, gMap);
-        gMap.setOnCameraIdleListener(mClusterManager);
-        gMap.setOnMarkerClickListener(mClusterManager);
-        gMap.setOnInfoWindowClickListener(mClusterManager);
-        mClusterManager.setOnClusterClickListener(this);
-        mClusterManager.setOnClusterInfoWindowClickListener(this);
-        mClusterManager.setOnClusterItemClickListener(this);
-        mClusterManager.setOnClusterItemInfoWindowClickListener(this);
-        mClusterManager.cluster();
-
-        mClusterManagerR = new ClusterManager<Items>(this, gMap);
-        gMap.setOnCameraIdleListener(mClusterManagerR);
-        gMap.setOnMarkerClickListener(mClusterManagerR);
-        gMap.setOnInfoWindowClickListener(mClusterManagerR);
-        mClusterManagerR.setOnClusterClickListener(this);
-        mClusterManagerR.setOnClusterInfoWindowClickListener(this);
-        mClusterManagerR.setOnClusterItemClickListener(this);
-        mClusterManagerR.setOnClusterItemInfoWindowClickListener(this);
-        mClusterManagerR.cluster();
         InfoWndow2 markerInfoWindowAdapter = new InfoWndow2(getApplicationContext());
         gMap.setInfoWindowAdapter(markerInfoWindowAdapter);
 
-//        InfoWndowAdapter markerInfoWindowAdapter1 = new InfoWndowAdapter(getApplicationContext());
-//        gMap1.setInfoWindowAdapter(markerInfoWindowAdapter1);
-        // Set a listener for marker click.
-//        gMap.setOnMarkerClickListener(this);
 
         cameraPosition = new CameraPosition.Builder().target(center).zoom(5).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -375,11 +277,6 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
             gMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         }
-
-//        gMap.setOnInfoWindowClickListener(this);
-//        getMarkers();
-
-//        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
         gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
         //   gMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) mClusterManager);
 
@@ -396,35 +293,6 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
 
     }
 
-    private void saveRadioChoice(){
-        SharedPreferences mSharedPref = getSharedPreferences(MY_PREF_KEY,MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = mSharedPref.edit();
-
-// Initialize Radiogroup while saving choices
-        RadioGroup localRadioGroup = (RadioGroup)findViewById(R.id.radioGroup);
-        editor.putInt( TEXT19, localRadioGroup.indexOfChild(findViewById(localRadioGroup.getCheckedRadioButtonId())));
-        editor.apply();
-    }
-
-    private void retrieveChoices(){
-
-        SharedPreferences sharedPref = getSharedPreferences(MY_PREF_KEY,MODE_PRIVATE);
-        int i = sharedPref.getInt(TEXT19,-1);
-        if( i >= 0){
-            ((RadioButton) ((RadioGroup)findViewById(R.id.radioGroup)).getChildAt(i)).setChecked(true);
-        }
-
-
-    }
-
-    private void getAlldata() {
-        showStartAll();
-        getMarkers1();
-        getMarkersAmber1();
-        getMarkersGreen1();
-        getMarkersRed1();
-    }
 
 
 
@@ -491,12 +359,10 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         gMap.addMarker(markerOptions1);
 //
 
-        gMap1.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
-            public void onInfoWindowClick(Marker mark1) {
-//                        Toast.makeText(CurrentLocation.this, "You Click on View Mode,please Click on different mode button for editing", Toast.LENGTH_SHORT).show();
+            public void onInfoWindowClick(Marker marker) {
                 showStartDialog2();
-
             }
         });
 
@@ -562,10 +428,6 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                                 cstkm= displayData.get(i).get(EstimatedAge).toString();
                                 lm = displayData.get(i).get(LatenManfu).toString();
 
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
 
                             }
                             //creating adapter object and setting it to recyclerview
@@ -608,7 +470,12 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                 .snippet(snippet3)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         gMap.addMarker(markerOptions3);
-
+        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                showStartDialog2();
+            }
+        });
     }
 
     private void getMarkersAmber1() {
@@ -670,11 +537,6 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                                 cstkm= displayData.get(i).get(EstimatedAge).toString();
                                 lm = displayData.get(i).get(LatenManfu).toString();
 
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
-
                             }
                             //creating adapter object and setting it to recyclerview
 
@@ -716,6 +578,13 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                 .snippet(snippet2)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         gMap.addMarker(markerOptions2);
+
+        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                showStartDialog2();
+            }
+        });
     }
 
 
@@ -778,10 +647,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                                 cstkm= displayData.get(i).get(EstimatedAge).toString();
                                 lm = displayData.get(i).get(LatenManfu).toString();
 
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
+
 
                             }
                             //creating adapter object and setting it to recyclerview
@@ -979,7 +845,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                 Toast.makeText(this, "Multiple data is selected", Toast.LENGTH_SHORT)
                         .show();
 
-                showStartDialog();
+
                 break;
             case R.id.action_refresh:
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
@@ -1014,170 +880,12 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
 
         return super.onOptionsItemSelected(item);
     }
-//    private void multipledata() {
-//
-//
-////        myList.add(ipaddress3);
-////        myList.add(latitude2);
-////        myList.add(longitude2);
-//
-//
-//        Intent intent = new Intent(CurrentLocation.this, AddUnssignedData.class);
-//        for (int i = 0; i < ipaddress3.size(); i++) {
-//            intent.putExtra("doubleValue_e1", ipaddress3.get(i));
-//            intent.putExtra("doubleValue_e2", latitude2.get(i));
-//            intent.putExtra("doubleValue_e3", longitude2.get(i));
-//            startActivity(intent);
-//
-//        }
-//    }
+
 
     private void Referesh() {
         finish();
         startActivity(getIntent());
         handler.post(refresh);
-    }
-
-    /**
-     * Called when the user clicks a marker.
-     */
-//    public boolean onMarkerClick(Marker marker) {
-//
-//
-////        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//        marker.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
-//        latit = String.valueOf(marker.getPosition().latitude);
-//        longgg = String.valueOf(marker.getPosition().longitude);
-//        ipaddr = marker.getTitle();
-//
-//
-//        return false;
-//    }
-
-
-    private void showDialog(CurrentLocation currentLocation) {
-
-        final Dialog dialog = new Dialog(currentLocation);
-        // dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_listview);
-
-        Button btndialog = (Button) dialog.findViewById(R.id.btndialog);
-        btndialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-                showStartDialog();
-            }
-        });
-
-
-
-
-        Button Rlatern = (Button) dialog.findViewById(R.id.Rlatern);
-        Rlatern.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(AvaliableData.this, OldScmsInstallation.class);
-//                startActivity(intent);
-
-
-//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
-                String lat = latit;
-                String lng = longgg;
-                String ipaddress = ipaddr;
-
-                Intent intent = new Intent(CurrentLocation.this, editeColumeNumber.class);
-                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
-                intent.putExtra("doubleValue_e1", ipaddress);
-                intent.putExtra("doubleValue_e2", lat);
-                intent.putExtra("doubleValue_e3", lng);
-
-                startActivity(intent);
-
-                dialog.dismiss();
-                showStartDialog();
-            }
-        });
-
-        Button RColume = (Button) dialog.findViewById(R.id.RColume);
-        RColume.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String lat = latit;
-                String lng = longgg;
-                String ipaddress = ipaddr;
-
-                Intent intent = new Intent(CurrentLocation.this, ReplaceColumn.class);
-                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
-                intent.putExtra("doubleValue_e1", ipaddress);
-                intent.putExtra("doubleValue_e2", lat);
-                intent.putExtra("doubleValue_e3", lng);
-
-                startActivity(intent);
-
-                dialog.dismiss();
-                showStartDialog();
-            }
-        });
-
-        Button RFoundationRep = (Button) dialog.findViewById(R.id.RFoundationRep);
-        RFoundationRep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(AvaliableData.this, OldScmsInstallation.class);
-//                startActivity(intent);
-
-
-//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
-                String lat = latit;
-                String lng = longgg;
-                String ipaddress = ipaddr;
-
-                Intent intent = new Intent(CurrentLocation.this, ReplaceLatern.class);
-                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
-                intent.putExtra("doubleValue_e1", ipaddress);
-                intent.putExtra("doubleValue_e2", lat);
-                intent.putExtra("doubleValue_e3", lng);
-
-                startActivity(intent);
-
-                dialog.dismiss();
-                showStartDialog();
-            }
-        });
-
-        Button EditChar = (Button) dialog.findViewById(R.id.EditChar);
-        EditChar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(AvaliableData.this, OldScmsInstallation.class);
-//                startActivity(intent);
-
-
-//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
-                String lat = latit;
-                String lng = longgg;
-                String ipaddress = ipaddr;
-
-                Intent intent = new Intent(CurrentLocation.this, ReplaceLatern.class);
-                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
-                intent.putExtra("doubleValue_e1", ipaddress);
-                intent.putExtra("doubleValue_e2", lat);
-                intent.putExtra("doubleValue_e3", lng);
-
-                startActivity(intent);
-
-                dialog.dismiss();
-                showStartDialog();
-            }
-        });
-
-
-        dialog.show();
-
     }
 
 
@@ -1195,753 +903,6 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         req.setTag(TextUtils.isEmpty(tag) ? TAG1 : tag);
         req.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         getRequestQueue().add(req);
-    }
-
-    private void getMarkers() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_UnAssinged,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                ii = product.getInt(ID);
-                                title = product.getString(TITLE);
-                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
-                                addMarkerAll(latLng, title);
-
-
-                            }
-
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(CurrentLocation.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-    }
-
-    private void addMarkerAll(final LatLng latLng, final String title) {
-
-        java.util.List<LatLng> lstMarcadores =  new ArrayList<>();
-        double lat = latLng.latitude;
-        double lng = latLng.longitude;
-        // Set he title and snippet strings.
-
-
-        final String snippet1 = (" Status : Unassigned Structure" + " \n Lat:  " + lat + ",Longitude:  " + lng + " \n Column : Null " + " \n Colume Manf: Null " + "\n Raise & Lower: Null " +
-                "\n Colume Material: Null " + " \n Colume Type: Null" + " \n Colume Height: Null " + " \n Number of Door: Null " + " \n Door Dimen: Null " + "\n Foundation type: Null" +
-                "\n Column Bracket: Null" + " \n Bracket Length: Null" + "\n Estimated Age of Lat: Null" + "\n Installation coast 5Km ?:Null" + " \n Lat. Manf: Null ");
-
-
-
-        final Marker marker = gMap1.addMarker(new MarkerOptions().position(latLng)
-                .title(title)
-                .snippet(snippet1)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-        mark1.add(marker.getId());
-//        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
-//        {
-//            @Override
-//            public boolean onMarkerClick(Marker marker1)
-//            {
-//
-//                // Retrieve the data from the marker.
-//                Integer clickCount = (Integer) marker.getTag();
-//
-//                // Check if a click count was set, then display the click count.
-//                if (clickCount != null) {
-//                    clickCount = clickCount + 1;
-//                    marker.setTag(clickCount);
-//                    Toast.makeText(CurrentLocation.this," has been clicked " + clickCount + " times.", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                // Return false to indicate that we have not consumed the event and that we wish
-//                // for the default behavior to occur (which is for the camera to move such that the
-//                // marker is centered and for the marker's info window to open, if it has one).
-//                return false;
-//            }
-//        });
-
-
-
-
-        gMap1.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker mark1) {
-//                        Toast.makeText(CurrentLocation.this, mark1.getTitle(), Toast.LENGTH_SHORT).show();
-
-                        double lat = mark1.getPosition().latitude;
-                        double lng = mark1.getPosition().longitude;
-                        String ipaddress =mark1.getTitle();
-                        String lng1 = String.valueOf(lat);
-                        String logg = String.valueOf(lng);
-                        Intent intent = new Intent(CurrentLocation.this, AddUnssignedData.class);
-                        intent.putExtra("doubleValue_e1", ipaddress);
-                        intent.putExtra("doubleValue_e2", lng1);
-                        intent.putExtra("doubleValue_e3", logg);
-                        startActivity(intent);
-//                        showStartDialog();
-                        showStartDialog();
-
-                    }
-                });
-
-
-
-        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
-            @Override
-            public boolean onMarkerClick(Marker marker1) {
-                marker1.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
-                latit = String.valueOf(marker1.getPosition().latitude);
-                longgg = String.valueOf(marker1.getPosition().longitude);
-                ipaddr = marker1.getTitle();
-                ipaddress3.add(ipaddr);
-                latitude2.add(String.valueOf(latit));
-                longitude2.add(String.valueOf(longgg));
-
-                return false;
-            }
-        });
-
-
-
-
-
-    }
-    
-
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-        vectorDrawable.setBounds(1, 1, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
-    //                    marker1.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
-    private void getMarkersAmber() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_AMBER,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                title = product.getString(TITLE);
-                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
-                                double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
-                                double lng3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
-                                //adding the product to product list
-                                cnum = product.getString(columeNumber);
-                                cl = product.getString(columeManf);
-                                rs = product.getString(RaiseandLow);
-                                cm = product.getString(columeMaterial);
-                                ct = product.getString(ColumeType);
-                                chg = product.getString(ColumeHight);
-                                nd = product.getString(NumDoors);
-                                dd = product.getString(DoorDimen);
-                                ft = product.getString(Foundation);
-                                bt = product.getString(ColumeBracket);
-                                bl = product.getString(BracketLenth);
-                                eage = product.getString(EstimatedAge);
-                                cstkm = product.getString(CoastKM);
-                                lm = product.getString(LatenManfu);
-                                addMarker2(latLng, title);
-                                displayData.add(product);
-
-
-                            }
-                            for (int i = 0; i < displayData.size(); i++) {
-                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
-                                double latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
-                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
-                                ip = displayData.get(i).get(TITLE).toString();
-                                cnum = displayData.get(i).get(columeNumber).toString();
-                                cl = displayData.get(i).get(columeManf).toString();
-                                rs = displayData.get(i).get(RaiseandLow).toString();
-                                cm = displayData.get(i).get(columeMaterial).toString();
-                                ct = displayData.get(i).get(ColumeType).toString();
-                                chg = displayData.get(i).get(ColumeHight).toString();
-                                nd = displayData.get(i).get(NumDoors).toString();
-                                dd = displayData.get(i).get(DoorDimen).toString();
-                                ft = displayData.get(i).get(Foundation).toString();
-                                bt = displayData.get(i).get(ColumeBracket).toString();
-                                bl = displayData.get(i).get(BracketLenth).toString();
-                                eage = displayData.get(i).get(EstimatedAge).toString();
-                                cstkm= displayData.get(i).get(EstimatedAge).toString();
-                                lm = displayData.get(i).get(LatenManfu).toString();
-
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
-
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(CurrentLocation.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-    }
-
-    private void addMarker2(final LatLng latLng, final String title) {
-        double lat = latLng.latitude;
-        double lng = latLng.longitude;
-        // Set he title and snippet strings.
-
-
-        final String snippet2 = (" Status : Amber " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
-                "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
-                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
-
-// Create a cluster item for the marker and set the title and snippet using the constructor.
-        //  Items infoWindowItem = new Items(lat,lng, title, snippet);
-        MarkerOptions markerOptions2 = new MarkerOptions()
-                .position(latLng)
-                .title(title)
-                .snippet(snippet2)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-        gMap.addMarker(markerOptions2);
-//
-//        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//
-//            @Override
-//            public boolean onMarkerClick(Marker marker2) {
-//
-//
-//
-//                if (prevMarker1 != null) {
-//                    //Set prevMarker back to default color
-////                    prevMarker1.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-////                    MarkerOptions markerOptions2 = new MarkerOptions()
-////                            .position(latLng)
-////                            .title(title)
-////                            .snippet(snippet2)
-////                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-////                    gMap.addMarker(markerOptions2);
-//
-//                    prevMarker1.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-//
-//                }
-//
-//                //leave Marker default color if re-click current Marker
-//                if (!marker2.equals(prevMarker1)) {
-//
-//                    marker2.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-////                    marker1.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
-//                    prevMarker1 = marker1;
-//
-//                }
-//                prevMarker1 = marker2;
-//
-//                return false;
-//            }
-//
-//        });
-
-//        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
-//        {
-//            @Override
-//            public boolean onMarkerClick(Marker marker)
-//            {
-//                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-//                gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
-//                {
-//                    @Override
-//                    public boolean onMarkerClick(Marker marker)
-//                    {
-//                        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//                        return false;
-//                    }
-//                });
-//                //Code for marker deselect goes here
-//
-//                return false;
-//            }
-//        });
-
-        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker2) {
-//                Toast.makeText(CurrentLocation.this, marker2.getTitle(), Toast.LENGTH_SHORT).show();
-                showDialog(CurrentLocation.this);
-
-            }
-        });
-    }
-
-
-    private void getMarkersGreen() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GREEN,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                title = product.getString(TITLE);
-                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
-                                double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
-                                double lng3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
-                                //adding the product to product list
-                                cnum = product.getString(columeNumber);
-                                cl = product.getString(columeManf);
-                                rs = product.getString(RaiseandLow);
-                                cm = product.getString(columeMaterial);
-                                ct = product.getString(ColumeType);
-                                chg = product.getString(ColumeHight);
-                                nd = product.getString(NumDoors);
-                                dd = product.getString(DoorDimen);
-                                ft = product.getString(Foundation);
-                                bt = product.getString(ColumeBracket);
-                                bl = product.getString(BracketLenth);
-                                cstkm = product.getString(CoastKM);
-                                eage = product.getString(EstimatedAge);
-                                lm = product.getString(LatenManfu);
-                                addMarker(latLng, title);
-                                displayData.add(product);
-                                // onMarkerClick(latLng);
-//                                product1 = new Product(title,lat3,lng3,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm);
-
-                            }
-                            for (int i = 0; i < displayData.size(); i++) {
-                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
-                                double latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
-                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
-                                ip = displayData.get(i).get(TITLE).toString();
-                                cnum = displayData.get(i).get(columeNumber).toString();
-                                cl = displayData.get(i).get(columeManf).toString();
-                                rs = displayData.get(i).get(RaiseandLow).toString();
-                                cm = displayData.get(i).get(columeMaterial).toString();
-                                ct = displayData.get(i).get(ColumeType).toString();
-                                chg = displayData.get(i).get(ColumeHight).toString();
-                                nd = displayData.get(i).get(NumDoors).toString();
-                                dd = displayData.get(i).get(DoorDimen).toString();
-                                ft = displayData.get(i).get(Foundation).toString();
-                                bt = displayData.get(i).get(ColumeBracket).toString();
-                                bl = displayData.get(i).get(BracketLenth).toString();
-                                eage = displayData.get(i).get(EstimatedAge).toString();
-                                cstkm= displayData.get(i).get(EstimatedAge).toString();
-                                lm = displayData.get(i).get(LatenManfu).toString();
-
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
-
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(CurrentLocation.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-    }
-
-    private void addMarker(final LatLng latLng, final String title) {
-
-
-        double lat = latLng.latitude;
-        double lng = latLng.longitude;
-        // Set he title and snippet strings.
-
-
-        final String snippet3 = (" Status : Green " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
-                "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
-                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
-
-        MarkerOptions markerOptions3 = new MarkerOptions()
-                .position(latLng)
-                .title(title)
-                .snippet(snippet3)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        gMap.addMarker(markerOptions3);
-//
-
-//        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {;
-//
-//            @Override
-//            public boolean onMarkerClick(Marker marker3) {
-//
-//
-//                if (prevMarker2 != null) {
-//                    //Set prevMarker back to default color
-////                    prevMarker2.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-////                    MarkerOptions markerOptions3 = new MarkerOptions()
-////                            .position(latLng)
-////                            .title(title)
-////                            .snippet(snippet3)
-////                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-////                    gMap.addMarker(markerOptions3);
-//                    prevMarker2.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-////
-//                }
-//
-//                //leave Marker default color if re-click current Marker
-//                if (!marker3.equals(prevMarker2)) {
-//                    marker3.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-////                    marker1.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
-//                    prevMarker2 = marker3;
-//                }
-//                prevMarker2 = marker3;
-//
-////                MarkerOptions markerOptions1 = new MarkerOptions()
-////                        .position(latLng)
-////                        .title(title)
-////                        .snippet(snippet3)
-////                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.greycolor));
-////                gMap.addMarker(markerOptions1);
-//                return false;
-//            }
-//
-//        });
-
-
-//
-//        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
-//        {
-//            @Override
-//            public boolean onMarkerClick(Marker marker)
-//            {
-//
-//                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-//                gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
-//                {
-//                    @Override
-//                    public boolean onMarkerClick(Marker marker)
-//                    {
-//                        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//                        //Code for on marker click goes here
-//                        return false;
-//                    }
-//                });
-//
-//
-//                //Code for marker deselect goes here
-//                return false;
-//            }
-//        });
-
-        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker3) {
-//                Toast.makeText(CurrentLocation.this, marker3.getTitle(), Toast.LENGTH_SHORT).show();
-                showDialog(CurrentLocation.this);
-
-            }
-        });
-
-
-    }
-
-//    @Override
-//    public void onInfoWindowClick(Marker marker) {
-//
-//    }
-
-//    public class CustomClusterRenderer extends DefaultClusterRenderer<Items> {
-//
-//        public CustomClusterRenderer(Context context, GoogleMap map, ClusterManager<Items> clusterManager) {
-//            super(context, map, clusterManager);
-//        }
-//
-//        @Override
-//        protected int getColor(int clusterSize) {
-////            return Color.parseColor("#567238");
-//            return Color.BLUE;// Return any color you want here. You can base it on clusterSize.
-//        }
-//
-//        @Override
-//        protected void onBeforeClusterItemRendered(Items item, MarkerOptions markerOptions) {
-//
-////            BitmapDescriptor descriptor
-////                    = BitmapDescriptorFactory.fromResource(R.drawable.amber);
-////            // Replace  R.drawable.ic_map_icon with your drawable 
-////
-////            markerOptions.icon(descriptor);
-//
-////            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-////            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.amber));
-//        }
-////        @Override
-////        protected void onBeforeClusterRendered(Cluster<Items> cluster, MarkerOptions markerOptions) {
-////
-////            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.amber));
-////
-////        }
-//    }
-
-    private void getMarkersRed() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_RED,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                title = product.getString(TITLE);
-                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
-                                double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
-                                double lng3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
-                                //adding the product to product list
-                                cnum = product.getString(columeNumber);
-                                cl = product.getString(columeManf);
-                                rs = product.getString(RaiseandLow);
-                                cm = product.getString(columeMaterial);
-                                ct = product.getString(ColumeType);
-                                chg = product.getString(ColumeHight);
-                                nd = product.getString(NumDoors);
-                                dd = product.getString(DoorDimen);
-                                ft = product.getString(Foundation);
-                                bt = product.getString(ColumeBracket);
-                                bl = product.getString(BracketLenth);
-                                eage = product.getString(EstimatedAge);
-                                cstkm = product.getString(CoastKM);
-                                lm = product.getString(LatenManfu);
-                                addMarker1(latLng, title);
-                                displayData.add(product);
-                                // onMarkerClick(latLng);
-//                                product1 = new Product(title,lat3,lng3,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm);
-
-                            }
-                            for (int i = 0; i < displayData.size(); i++) {
-                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
-                                double latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
-                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
-                                ip = displayData.get(i).get(TITLE).toString();
-                                cnum = displayData.get(i).get(columeNumber).toString();
-                                cl = displayData.get(i).get(columeManf).toString();
-                                rs = displayData.get(i).get(RaiseandLow).toString();
-                                cm = displayData.get(i).get(columeMaterial).toString();
-                                ct = displayData.get(i).get(ColumeType).toString();
-                                chg = displayData.get(i).get(ColumeHight).toString();
-                                nd = displayData.get(i).get(NumDoors).toString();
-                                dd = displayData.get(i).get(DoorDimen).toString();
-                                ft = displayData.get(i).get(Foundation).toString();
-                                bt = displayData.get(i).get(ColumeBracket).toString();
-                                bl = displayData.get(i).get(BracketLenth).toString();
-                                eage = displayData.get(i).get(EstimatedAge).toString();
-                                cstkm= displayData.get(i).get(EstimatedAge).toString();
-                                lm = displayData.get(i).get(LatenManfu).toString();
-
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
-
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(CurrentLocation.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-    }
-
-    private void addMarker1(final LatLng latLng, final String title) {
-        double lat = latLng.latitude;
-        double lng = latLng.longitude;
-        // Set he title and snippet strings.
-
-
-        final String snippet4 = (" Status : Red " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
-                "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
-                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm +" \n Lat. Manf: " + lm);
-
-// Create a cluster item for the marker and set the title and snippet using the constructor.
-        //  Items infoWindowItem = new Items(lat,lng, title, snippet);
-        MarkerOptions markerOptions4 = new MarkerOptions()
-                .position(latLng)
-                .title(title)
-                .snippet(snippet4)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        gMap.addMarker(markerOptions4);
-
-//        MarkerOptions markerOptions1 = new MarkerOptions()
-//                .position(latLng)
-//                .title(title)
-//                .snippet(snippet4)
-//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.greycolor));
-//        gMap.addMarker(markerOptions1);
-
-//        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//
-//            @Override
-//            public boolean onMarkerClick(Marker marker4) {
-//
-//
-////                if (prevMarker3 != null) {
-////                    //Set prevMarker back to default color
-//////                    MarkerOptions markerOptions4 = new MarkerOptions()
-//////                            .position(latLng)
-//////                            .title(title)
-//////                            .snippet(snippet4)
-//////                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-//////                    gMap.addMarker(markerOptions4);
-//////                    marker4.setI
-////                    marker4.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-////                }
-////
-////                //leave Marker default color if re-click current Marker
-////                if (!marker4.equals(prevMarker3)) {
-////                    marker4.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//////                    marker1.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
-////                    prevMarker3 = marker4;
-////
-//////                 marker4.setIcon(getMarkerIcon(getResources().getColor(R.color.grey)));
-////                }
-////                prevMarker3 = marker4;
-//
-//
-//
-//                if (prevMarker3 != null) {
-//                    //Set prevMarker back to default color
-////                    MarkerOptions markerOptions4 = new MarkerOptions()
-////                            .position(latLng)
-////                            .title(title)
-////                            .snippet(snippet4)
-////                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-////                    gMap.addMarker(markerOptions4);
-////                    marker4.setI
-//                    prevMarker3.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-//                }
-//
-//                //leave Marker default color if re-click current Marker
-//                if (!marker4.equals(prevMarker3)) {
-//                    marker4.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//                    prevMarker3 = marker4;
-//
-//                }
-//
-//
-//
-//
-//                prevMarker3 = marker4;
-//
-//                return false;
-//            }
-//
-//        });
-
-//
-//        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
-//        {
-//            @Override
-//            public boolean onMarkerClick(Marker marker)
-//            {
-//                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-//                gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
-//                {
-//                    @Override
-//                    public boolean onMarkerClick(Marker marker)
-//                    {
-//                        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//                        //Code for on marker click goes here
-//                        return false;
-//                    }
-//                });
-
-
-//                //Code for marker deselect goes here
-//                return false;
-//            }
-//        });
-
-
-        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker4) {
-//                Toast.makeText(CurrentLocation.this, marker4.getTitle(), Toast.LENGTH_SHORT).show();
-                showDialog(CurrentLocation.this);
-
-            }
-        });
-
     }
 
 
@@ -2034,68 +995,6 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
     }
 
 
-    @Override
-    public boolean onClusterClick(Cluster<Items> cluster) {
-
-//        Intent intent = new Intent(AvaliableData.this, listview.class);
-//        startActivity(intent);
-
-
-        return true;
-    }
-
-
-    @Override
-    public void onClusterInfoWindowClick(Cluster<Items> cluster) {
-    }
-
-    @Override
-    public boolean onClusterItemClick(Items items) {
-
-
-        return false;
-    }
-
-    @Override
-    public void onClusterItemInfoWindowClick(Items items) {
-
-        Toast.makeText(this, items.getTitle(), Toast.LENGTH_SHORT).show();
-        showDialog(CurrentLocation.this);
-        showStartDialog();
-
-    }
-
-    private void showStartDialog() {
-
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setIcon(R.drawable.refereshbutton);
-//        builder1.setCancelable(false);
-        builder1.setTitle("Refresh Page");
-        builder1.setMessage("Please type Yes button to Refresh page");
-        builder1.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-//
-//                        if (assignn.isChecked()) {
-//                            assignn.setChecked(true);
-//                            Referesh();
-//                            assignn.setChecked(true);}
-
-                        Referesh();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-
-        Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
-        buttonbackground1.setBackgroundColor(R.drawable.button);
-        buttonbackground1.setTextColor(Color.BLACK);
-
-    }
 
 
     private void showStartDialog2() {
@@ -2109,41 +1008,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
 
     }
 
-    private void showStartDialogallData() {
 
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-
-        builder1.setMessage("You are in  view Mode for editing Click on different mode button");
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-    }
-
-    private void showStartAll() {
-
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setIcon(R.drawable.refereshbutton);
-        builder1.setCancelable(false);
-        builder1.setTitle("Refresh Page");
-        builder1.setMessage("Are you Sure you want to see all Column Node");
-        builder1.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Referesh();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-
-        Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
-        buttonbackground1.setBackgroundColor(R.drawable.button);
-        buttonbackground1.setTextColor(Color.BLACK);
-
-    }
 }
 
 

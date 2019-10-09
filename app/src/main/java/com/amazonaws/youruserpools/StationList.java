@@ -37,12 +37,10 @@ public class StationList extends AppCompatActivity {
     public Context context;
     ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
     int id;
-    List<Student> studentList;
 
     private ArrayList<PlaceName>  StationName;
 
-    ProgressBar progressBar;
-    Student student;
+
     ArrayList<String> list = new ArrayList<>();
     List<Integer> IdList = new ArrayList<Integer>();
     EditText theFilter;

@@ -17,21 +17,15 @@ public class ReplaceNode extends AppCompatActivity {
 
     public static final String ID = "id";
 
-    TextView ipaddress, lat, log, cl1, rs1, cm1, ct1, chg1, nd1, dd1, ft1, bt1, bl1, eage1, lm1;
-    String ip,latt,logg,cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+    TextView ipaddress, lat, log;
+    String ip,latt,logg;
     String e1, e2, e3;
     ProgressDialog pDialog;
 
-    // Http Url For Filter Student Data from Id Sent from previous activity.
 
-    String finalResult;
-    String ParseResult;
-    HashMap<String, String> ResultHash = new HashMap<>();
-    String FinalJSonObject;
+
     String TempItem;
-    ProgressDialog progressDialog2;
 
-    Button UpdateButton, DeleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

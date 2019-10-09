@@ -219,7 +219,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
 
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.setTitle("                             Add Data");
-        actionBar.setTitle("Add Data");
+        actionBar.setTitle("Edit Asset Data");
 
 
         categoriesList = new ArrayList<Category>();
@@ -1441,7 +1441,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
             e3 = extras.getString("doubleValue_e3");
         }
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("ipaddress", e1);
+        jsonObject.put("iccid", e1);
         jsonObject.put("latitude", e2);
         jsonObject.put("longitude", e3);
         jsonObject.accumulate("Colume_Manfucture", spinnerColumeManf.getSelectedItem().toString());

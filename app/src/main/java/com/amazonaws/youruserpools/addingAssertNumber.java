@@ -84,9 +84,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
+
 
 public class addingAssertNumber extends AppCompatActivity implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, ClusterManager.OnClusterItemInfoWindowClickListener<Items>,GoogleMap.OnMarkerClickListener {
 
@@ -627,9 +627,6 @@ public class addingAssertNumber extends AppCompatActivity implements OnMapReadyC
     private void multipledata() {
 
 
-//        myList.add(ipaddress3);
-//        myList.add(latitude2);
-//        myList.add(longitude2);
 
 
         Intent intent = new Intent(addingAssertNumber.this, AddUnssignedData.class);

@@ -9,9 +9,7 @@ class Category2 {
         this.material_name = material_name;
     }
 
-    public Category2() {
 
-    }
 
     public int getid() {
         return this.id;

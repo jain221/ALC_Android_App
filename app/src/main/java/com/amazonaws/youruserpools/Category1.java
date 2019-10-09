@@ -9,9 +9,7 @@ class Category1 {
         this.flag = flag;
     }
 
-    public Category1() {
 
-    }
 
     public int getid() {
         return this.id;

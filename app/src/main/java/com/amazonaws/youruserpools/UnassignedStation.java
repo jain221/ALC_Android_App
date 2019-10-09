@@ -868,17 +868,65 @@ public class UnassignedStation extends AppCompatActivity  implements OnMapReadyC
     private void showStartDialogallData1() {
 
 
+
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Add Unassigned Data");
-        builder1.setIcon(R.drawable.multipledata);
-        builder1.setMessage("You Click "+ size + " Marker." + " You want to add data");
+        builder1.setTitle("Unassigned Assets");
+        builder1.setMessage("Number of Assets selected  "+ size +". " + "\nIf you want to add or deselect further assets continue selecting from the Map.");
+        builder1.setPositiveButton("Finish",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                        multipledata();
+                        AssignMode();
+
+                    }
+                });
+
+
+        AlertDialog dialog = builder1.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+
+
+        wmlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        wmlp.x = 100;   //x position
+        wmlp.y = 10;   //y position
+
+        dialog.show();
+
+//        AlertDialog alert11 = builder1.create();
+//        alert11.show();
+
+
+        Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setTextColor(Color.BLACK);
+
+
+
+    }
+
+    private void AssignMode() {
+
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setCancelable(false);
+        builder1.setTitle("Asset Number");
+        builder1.setMessage("Do you want to enter an individual Asset Number");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        multipledata();
-                        showStartDialog();
+                        gMap.clear();
+                        TempItem = getIntent().getStringExtra("ListViewValue");
+                        String TempItem1 = getIntent().getStringExtra("crs");
 
+                        Toast.makeText(UnassignedStation.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(UnassignedStation.this, AssignedStation.class);
+
+                        intent.putExtra("ListViewValue",  TempItem);
+                        intent.putExtra("crs", TempItem1);
+                        startActivity(intent);
 
                     }
                 });
@@ -886,11 +934,9 @@ public class UnassignedStation extends AppCompatActivity  implements OnMapReadyC
         builder1.setNeutralButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                dialog.cancel();
+                Referesh();
             }
         });
-
         AlertDialog dialog = builder1.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
@@ -911,6 +957,8 @@ public class UnassignedStation extends AppCompatActivity  implements OnMapReadyC
 
         Button buttonbackground2 = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
         buttonbackground2.setTextColor(Color.BLACK);
+
+
 
 
     }

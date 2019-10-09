@@ -75,7 +75,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AssignedStation extends AppCompatActivity implements OnMapReadyCallback {
+public class AssignedStation extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener {
     HttpParse httpParse = new HttpParse();
     private int ii;
     String HttpURL = "https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData";
@@ -139,44 +139,25 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
     private AutoCompleteTextView mSearchText;
     ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
     private static final LatLng MOUNTAIN_VIEW = new LatLng(37.4, -122.1);
-    private Marker locationMarker;
-    private Context context;
-    private Button infoButton;
-    CheckBox AllData;
+
     String TempItem;
     Handler handler = new Handler();
     Runnable refresh;
-    String lat3 ;
-    String lng3;
-    ProgressDialog pDialog;
-    String finalResult ;
-    HashMap<String,String> hashMap = new HashMap<>();
-    String ParseResult ;
-    HashMap<String,String> ResultHash = new HashMap<>();
-    String FinalJSonObject ;
-    TextView NAME,PHONE_NUMBER,CLASS;
-    String NameHolder, NumberHolder, ClassHolder;
-    Button UpdateButton, DeleteButton;
 
-    ProgressDialog progressDialog2;
+    ProgressDialog pDialog;
+
     RadioGroup radioGroup;
-    private SharedPreferences sharedPreferences;
+
     private RadioButton assignn;
     private RadioButton unassign;
     private RadioButton alldata;
 
-    ArrayList<ArrayList<String>> myList = new ArrayList<>();
-    ArrayList<String> latitude2 = new ArrayList<String>();
-    ArrayList<String> longitude2 = new ArrayList<String>();
-    ArrayList<String> ipaddress3 = new ArrayList<String>();
 
-    TextView lat, log, stationName, rs1, cm1, ct1, chg1, nd1, dd1, ft1, bt1, bl1, eage1, lm1;
-    //    String ip,latt,logg,cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+
+    TextView lat, log, stationName;
+
     String e1, e2, e3;
-    StreetViewPanorama mStreetViewPanorama;
-    Product product1;
-    //    List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
-    ImageView  resetButton ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -287,10 +268,9 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
         getMarkersRed();
         center = new LatLng(51.52042, -3.23113);
 
-
-        InfoWndow2 markerInfoWindowAdapter = new InfoWndow2(getApplicationContext());
-        googleMap.setInfoWindowAdapter(markerInfoWindowAdapter);
-
+        infoWindoEdit markerInfoWindowAdapter = new infoWindoEdit (getApplicationContext());
+        gMap.setInfoWindowAdapter(markerInfoWindowAdapter);
+        gMap.setOnMarkerClickListener(this);
         if (mLocationPermissionsGranted) {
 //            getDeviceLocation();
             try {
@@ -309,11 +289,7 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
 
         }
 
-//        getMarkers();
-//        getMarkersAmber();
-//        getMarkersGreen();
-//        getMarkersRed();
-//        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
+
         gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
         //   gMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) mClusterManager);
 
@@ -561,34 +537,25 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
         handler.post(refresh);
     }
 
-    /**
-     * Called when the user clicks a marker.
-     */
-//    public boolean onMarkerClick(final Marker marker) {
-//
-//        // Return false to indicate that we have not consumed the event and that we wish
-//        // for the default behavior to occur (which is for the camera to move such that the
-//        // marker is centered and for the marker's info window to open, if it has one).
-//
-//
-//        return false;
-//    }
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-        vectorDrawable.setBounds(1, 1, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    public boolean onMarkerClick(final Marker marker) {
+
+        // Return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur (which is for the camera to move such that the
+        // marker is centered and for the marker's info window to open, if it has one).
+//        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+//        latit = String.valueOf(marker.getPosition().latitude);
+//        longgg = String.valueOf(marker.getPosition().longitude);
+//        ipaddr = marker.getTitle();
+//        showDialog(AssignedStation.this);
+        return false;
     }
 
     private void showDialog(AssignedStation AssignedStation) {
 
         final Dialog dialog = new Dialog(AssignedStation);
-        // dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_listview);
 
+        dialog.setContentView(R.layout.dialog_listview);
+        dialog.setTitle("        \b EDIT ASSET");
         Button btndialog = (Button) dialog.findViewById(R.id.btndialog);
         btndialog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -605,11 +572,7 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
         Rlatern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(AssignedStation.this, OldScmsInstallation.class);
-//                startActivity(intent);
 
-
-//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
                 String lat = latit;
                 String lng = longgg;
                 String ipaddress =ipaddr;
@@ -679,11 +642,7 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
         EditChar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(AssignedStation.this, OldScmsInstallation.class);
-//                startActivity(intent);
 
-
-//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
                 String lat = latit;
                 String lng = longgg;
                 String ipaddress =ipaddr;
@@ -788,10 +747,7 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
                                 cstkm= displayData.get(i).get(EstimatedAge).toString();
                                 lm = displayData.get(i).get(LatenManfu).toString();
 
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
+
 
                             }
                             //creating adapter object and setting it to recyclerview
@@ -838,7 +794,10 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
         gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker2) {
-//                Toast.makeText(CurrentLocation.this, marker2.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AssignedStation.this, marker2.getTitle(), Toast.LENGTH_SHORT).show();
+                latit = String.valueOf(marker2.getPosition().latitude);
+                longgg = String.valueOf(marker2.getPosition().longitude);
+                ipaddr = marker2.getTitle();
                 showDialog( AssignedStation.this);
 
             }
@@ -906,10 +865,6 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
                                 cstkm= displayData.get(i).get(EstimatedAge).toString();
                                 lm = displayData.get(i).get(LatenManfu).toString();
 
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
 
                             }
                             //creating adapter object and setting it to recyclerview
@@ -957,8 +912,13 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onInfoWindowClick(Marker marker3) {
 //                Toast.makeText(CurrentLocation.this, marker3.getTitle(), Toast.LENGTH_SHORT).show();
-                showDialog( AssignedStation.this);
+//                showDialog( AssignedStation.this);
 
+                Toast.makeText(AssignedStation.this, marker3.getTitle(), Toast.LENGTH_SHORT).show();
+                latit = String.valueOf(marker3.getPosition().latitude);
+                longgg = String.valueOf(marker3.getPosition().longitude);
+                ipaddr = marker3.getTitle();
+                showDialog( AssignedStation.this);
             }
         });
 
@@ -1001,8 +961,7 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
                                 lm = product.getString(LatenManfu);
                                 addMarker1(latLng, title);
                                 displayData.add(product);
-                                // onMarkerClick(latLng);
-//                                product1 = new Product(title,lat3,lng3,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm);
+
 
                             }
                             for (int i = 0; i < displayData.size(); i++) {
@@ -1025,10 +984,6 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
                                 cstkm= displayData.get(i).get(EstimatedAge).toString();
                                 lm = displayData.get(i).get(LatenManfu).toString();
 
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
 
                             }
                             //creating adapter object and setting it to recyclerview
@@ -1077,6 +1032,12 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onInfoWindowClick(Marker marker4) {
 //                Toast.makeText(CurrentLocation.this, marker4.getTitle(), Toast.LENGTH_SHORT).show();
+//                showDialog( AssignedStation.this);
+
+                Toast.makeText(AssignedStation.this, marker4.getTitle(), Toast.LENGTH_SHORT).show();
+                latit = String.valueOf(marker4.getPosition().latitude);
+                longgg = String.valueOf(marker4.getPosition().longitude);
+                ipaddr = marker4.getTitle();
                 showDialog( AssignedStation.this);
 
             }

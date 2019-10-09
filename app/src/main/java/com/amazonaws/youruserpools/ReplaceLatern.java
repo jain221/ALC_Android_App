@@ -49,20 +49,7 @@ public class ReplaceLatern extends AppCompatActivity implements AdapterView.OnIt
     String ip,latt,logg,cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
     String e1, e2, e3;
     ProgressDialog pDialog;
-
-    // Http Url For Filter Student Data from Id Sent from previous activity.
-
-    String finalResult;
-    String ParseResult;
-    HashMap<String, String> ResultHash = new HashMap<>();
-    String FinalJSonObject;
     String TempItem;
-    ProgressDialog progressDialog2;
-
-    Button UpdateButton, DeleteButton;
-
-
-
     private Button btnAddNewCategory;
     private TextView txtCategory;
 
@@ -129,7 +116,7 @@ public class ReplaceLatern extends AppCompatActivity implements AdapterView.OnIt
 
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.setTitle("                             Add Data");
-        actionBar.setTitle("Add Data");
+        actionBar.setTitle("Edit Lantern Manufacture ");
 
 
         categoriesList11 = new ArrayList<Category11>();
@@ -362,7 +349,7 @@ public class ReplaceLatern extends AppCompatActivity implements AdapterView.OnIt
             e3 = extras.getString("doubleValue_e3");
         }
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("ipaddress", e1);
+        jsonObject.put("iccid", e1);
         jsonObject.put("latitude", e2);
         jsonObject.put("longitude", e3);
         jsonObject.accumulate("lantern_manufacturer", spinnerlaternManuf.getSelectedItem().toString());

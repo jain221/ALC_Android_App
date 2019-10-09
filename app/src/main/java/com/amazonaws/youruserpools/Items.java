@@ -38,38 +38,3 @@ class Items implements ClusterItem {
     }
 }
 
-
-//
-//    public Items(LatLng mPosition) {
-//        this.mPosition =mPosition;
-//    }
-//
-//        public Items(LatLng mPosition, String title, String snippet) {
-//        this.title = title;
-//        this.snippet = snippet;
-//        this.mPosition =mPosition;
-//    }
-//
-////    public String getName() {
-////        return title;
-////    }
-////
-////    public void setName(String name) {
-////        this.title = title;
-////    }
-//
-//    @Override
-//    public LatLng getPosition() {
-//        return mPosition;
-//    }
-//
-//    @Override
-//    public String getTitle() {
-//        return title;
-//    }
-//
-//    @Override
-//    public String getSnippet() {
-//        return snippet;
-//    }
-//}

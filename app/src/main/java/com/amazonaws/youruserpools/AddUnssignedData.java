@@ -81,9 +81,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String TE = "text";
     public static final String SWITCH1 = "switch1";
-
-    private String text;
-    private boolean switchOnOff;
     ArrayList<String> CountryName;
     private ArrayList<Category> categoriesList;
     private ArrayList<Category1> categoriesList1;
@@ -113,9 +110,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
     public static final String LatenManfu = "lantern_manufacturer";
     public static final String coastKm = "cost_km";
     ProgressDialog pDialog;
-    SharedPreferences.Editor prefEditor;
-    int spinnerPosition;
-    JSONObject jsonObject;
+
     int size;
     // API urls
     // Url to create new category
@@ -133,8 +128,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
     private String URL_EstimateAge = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/estimated_age";
     private String URL_LateManfu = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/lantern_manufacturer";
     private SharedPreferences sharedPreferences;
-    private int position =0;
-    private int spinnerValue = 0;
+
     EditText StudentName;
     SharedPreferences mPrefs;
     AutoCompleteTextView AutostationName;
@@ -223,9 +217,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
 
     private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
 
-    ArrayList<String> ipp1 ;
-    ArrayList<String> lat1 ;
-    ArrayList<String> loggg1 ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,15 +244,14 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
 
 
         TextView ipaddress = (TextView) findViewById(R.id.ipadddress);
-//        TextView lat = (TextView) findViewById(R.id.lat);
-//        TextView logg = (TextView) findViewById(R.id.log);
+
 //
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             e1 = extras.getString("ListViewValue");
 //            e2 = extras.getString("doubleValue_e2");
 //            e3 = extras.getString("doubleValue_e3");
-            ipaddress.setText("Unassigned Column " );
+            ipaddress.setText("Unassigned assets" );
 //            lat.setText("Latitude " + e2);
 //            logg.setText("Longitude " + e3);
 
@@ -319,30 +310,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         spinnerEstimatedColAGE.setSelection(sharedPreferences.getInt(SHARED_PREFS11, 0));
         spinnerlaternManuf.setSelection(sharedPreferences.getInt(SHARED_PREFS12, 0));
         spinnerCoastKm.setSelection(sharedPreferences.getInt(SHARED_PREFS13, 0));
-//        String carListAsString = getIntent().getStringExtra("doubleValue_e1");
-//        Gson gson = new Gson();
-
-//        Type type = new TypeToken<List<unassignedMutlipleSelection>>(){}.getType();
-//        List<unassignedMutlipleSelection> carsList = gson.fromJson(carListAsString, type);
-//        for (unassignedMutlipleSelection cars : carsList){
-//            e1 =cars.IpaddressU;
-//            e2 =cars.LatitudeU;
-//            e3 =cars.LongitudeU;
-//        }
-
-//        ipp1 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e1");
-//        lat1 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e2");
-//        loggg1 = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e3");
-//
-//        myList.add(ipp1);
-//        myList.add(lat1);
-//        myList.add(loggg1);
-//
-//                for(int i=0; i < myList.size();i++) {
-////                                unassignedMutlipleSelection multiple = new unassignedMutlipleSelection(latitU,longggU,ipaddr);
-//                unassignedMutlipleSelection multiple = new unassignedMutlipleSelection( lat1.get(i),loggg1.get(i),ipp1.get(i));
-//                MulitpleU.add(multiple);
-//            }
 
 
         getAutoComlete();
@@ -385,20 +352,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
 
     }
 
-//    public void findLocation(View v) throws IOException {
-//
-////        EditText et = (EditText) findViewById(R.id.editText);
-//
-//
-////        String location = et.getText().toString();
-//
-//        String location = AutostationName.getText().toString();
-//        AutostationName.getText().clear();
-//
-//
-//
-//
-//    }
 
     private void getAutoComlete() {
 
@@ -504,9 +457,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 if (firstItem.equals(String.valueOf(spinnerColumeManf.getSelectedItem()))) {
 
                 } else {
-//                    Toast.makeText(parent.getContext(),
-//                            "Ko Milih : " + parent.getItemAtPosition(position).toString(),
-//                            Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -602,9 +552,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 if (firstItem1.equals(String.valueOf(spinnerCoastKm.getSelectedItem()))) {
 
                 } else {
-//                    Toast.makeText(parent.getContext(),
-//                            "Ko Milih : " + parent.getItemAtPosition(position).toString(),
-//                            Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -1763,80 +1710,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
 
         }
 
-//        ArrayList<String> ipp = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e1");
-//        ArrayList<String> lat = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e2");
-//        ArrayList<String> loggg = (ArrayList<String>) getIntent().getSerializableExtra("doubleValue_e3");
-//        ArrayList<String> ipp = getIntent().getStringArrayListExtra("doubleValue_e1");
-//        ArrayList<String> lat = getIntent().getStringArrayListExtra("doubleValue_e2");
-//        ArrayList<String> loggg = getIntent().getStringArrayListExtra("doubleValue_e3");
-//        myList.add(ipp);
-//        myList.add(lat);
-//        myList.add(loggg);
-//
-////
-//        for(int i=0; i < myList.size();i++) {
-////                                unassignedMutlipleSelection multiple = new unassignedMutlipleSelection(latitU,longggU,ipaddr);
-//                unassignedMutlipleSelection multiple = new unassignedMutlipleSelection( lat.get(i),loggg.get(i),ipp.get(i));
-//                MulitpleU.add(multiple);
-//            }
-//
-
-
-
-
-
-//            jsonObject.put("iccid", e1);
-//            jsonObject.put("latitude", e2);
-//            jsonObject.put("longitude", e3);
-//            jsonObject.put("iccid", MulitpleU.get(i).getIpaddressU());
-//            jsonObject.put("latitude", MulitpleU.get(i).getLatitudeU());
-//            jsonObject.put("longitude", MulitpleU.get(i).getLongitudeU());
-//            jsonObject.put("iccid", ipp);
-//            jsonObject.put("latitude", lat);
-//            jsonObject.put("longitude", loggg);
-
-
-//            try {
-//
-
-//                JSONArray size = new JSONArray(myList.size());
-//               for(int i=0; i <MulitpleU.size(); i++ ){
-//
-//                   jsonObject = new JSONObject();
-//                    jsonObject.put("iccid", MulitpleU.get(i).getIpaddressU());
-//                    jsonObject.put("latitude", MulitpleU.get(i).getLatitudeU());
-//                    jsonObject.put("longitude", MulitpleU.get(i).getLongitudeU());
-//                    jsonObject.put("colume_number",  StudentName.getText().toString());
-//                    jsonObject.accumulate("Colume_Manfucture", spinnerColumeManf.getSelectedItem().toString());
-//                    jsonObject.accumulate("Raise_and_Lower", spinnerRaiseandLow.getSelectedItem().toString());
-//                    jsonObject.accumulate("Colume_Material", spinnerColumeMat.getSelectedItem().toString());
-//                    jsonObject.accumulate("Colume_Type", spinnerColumeType.getSelectedItem().toString());
-//                    jsonObject.accumulate("column_height_from_ground", spinnerColumeHight.getSelectedItem().toString());
-//                    jsonObject.accumulate("number_of_door", spinnerNumDoors.getSelectedItem().toString());
-//                    jsonObject.accumulate("door_dimensions", spinnerDoorDimen.getSelectedItem().toString());
-//                    jsonObject.accumulate("foundation_type", spinnerFoundation.getSelectedItem().toString());
-//                    jsonObject.accumulate("bracket_type", spinnerColumeBracketType.getSelectedItem().toString());
-//                    jsonObject.accumulate("bracket_length", spinnerBracketLength.getSelectedItem().toString());
-//                    jsonObject.accumulate("estimated_column_age", spinnerEstimatedColAGE.getSelectedItem().toString());
-//                    jsonObject.accumulate("cost_km", spinnerCoastKm.getSelectedItem().toString());
-//                    jsonObject.accumulate("lantern_manufacturer", spinnerlaternManuf.getSelectedItem().toString());
-//                    jsonObject.put("station_name", AutostationName.getText().toString());
-//
-//
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            e1 = extras.getString("doubleValue_e1");
-//            e2 = extras.getString("doubleValue_e2");
-//            e3 = extras.getString("doubleValue_e3");
-//        }
-
-
-
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("iccid", e1);
         jsonObject.put("latitude",  e2);
@@ -1860,19 +1733,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
 
     }
 
-    private void spinnerdata() {
-    }
 
-
-    private void showStartDialogallData() {
-
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("->Select each Marker which Attribute data you want to add"+ size);
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-    }
     private void setPostRequestContent(HttpURLConnection conn, JSONObject jsonObject) throws IOException {
 
         OutputStream os = conn.getOutputStream();
@@ -1887,10 +1748,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
-//        Toast.makeText(
-//                getApplicationContext(),
-//                parent.getItemAtPosition(position).toString() + " Save" ,
-//                Toast.LENGTH_LONG).show();
+
 
     }
 

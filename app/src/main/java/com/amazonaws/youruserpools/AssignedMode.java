@@ -72,7 +72,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AssignedMode extends AppCompatActivity implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, ClusterManager.OnClusterItemInfoWindowClickListener<Items>{
+public class AssignedMode extends AppCompatActivity implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, ClusterManager.OnClusterItemInfoWindowClickListener<Items>,GoogleMap.OnMarkerClickListener {
     HttpParse httpParse = new HttpParse();
     private int ii;
     String HttpURL = "https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData";
@@ -105,13 +105,13 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     public static final String ColumeBracket = "bracket_type";
     public static final String BracketLenth = "bracket_length";
     public static final String EstimatedAge = "estimated_column_age";
-    public static final String CoastKM= "cost_km";
+    public static final String CoastKM = "cost_km";
     public static final String LatenManfu = "lantern_manufacturer";
     public static final String TEXT19 = "text";
     ArrayList<String> mark1 = new ArrayList<>();
     public static final String MY_PREF_KEY = "Selection";
 
-    String ip, latt, logg, cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage,cstkm, lm;
+    String ip, latt, logg, cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, cstkm, lm;
     private Marker myMarker;
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -163,7 +163,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     String TempItem;
     ProgressDialog progressDialog2;
 
-    Button assigned,unassigned,alld;
+    Button assigned, unassigned, alld;
     TextView lat, log, cl1, rs1, cm1, ct1, chg1, nd1, dd1, ft1, bt1, bl1, eage1, lm1;
     //    String ip,latt,logg,cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
     String e1, e2, e3;
@@ -171,34 +171,35 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     Product product1;
     //    List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
     RadioGroup radioGroup;
-
+    String flag;
     private RadioButton assignn;
     private RadioButton unassign;
     private RadioButton alldata;
 
-
+    private final Handler handler1 = new Handler();
     ArrayList<ArrayList<String>> myList = new ArrayList<>();
     ArrayList<String> latitude2 = new ArrayList<String>();
     ArrayList<String> longitude2 = new ArrayList<String>();
     ArrayList<String> ipaddress3 = new ArrayList<String>();
     View b;
     //    Button resetButton;
-    ImageView  resetButton ;
+    ImageView resetButton;
 
     // this will be key for the key value pair
     public static final String BUTTON_STATE = "Button_State";
     // this is name of shared preferences file, must be same whenever accessing
     // the key value pair.
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
 
     SharedPreferences sharedpreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.current_location);
         mGps = (ImageView) findViewById(R.id.ic_gps);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
-        radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         assignn = (RadioButton) findViewById(R.id.radioButton1);
         unassign = (RadioButton) findViewById(R.id.radioButton2);
 
@@ -206,7 +207,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         // grab the last saved state here on each activity start
         Boolean lastButtonState = sharedpreferences.getBoolean(BUTTON_STATE, false);
         alldata = (RadioButton) findViewById(R.id.radioButton3);
-        radioGroup.check(  assignn.getId());
+        radioGroup.check(assignn.getId());
 
 
         getLocationPermission();
@@ -245,21 +246,21 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 //                RadioButton radioButton=(RadioButton)findViewById(checkedId);
 //                Toast.makeText(getApplicationContext(), radioButton.getText(), Toast.LENGTH_SHORT).show();
 
-                switch( checkedId) {
+                switch (checkedId) {
                     case R.id.radioButton1:
 
                         gMap.clear();
                         getMarkersAmber();
                         getMarkersGreen();
                         getMarkersRed();
-                        Toast.makeText(AssignedMode.this,"Assigned Mode is Selected", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AssignedMode.this, "Assigned Mode is Selected", Toast.LENGTH_LONG).show();
                         saveRadioChoice();
                         retrieveChoices();
                         break;
 
                     case R.id.radioButton2:
                         gMap.clear();
-                        Toast.makeText(AssignedMode.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AssignedMode.this, "Edit Mode is Selected", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(AssignedMode.this, UnassignedMode.class);
                         startActivity(intent);
 //
@@ -268,14 +269,13 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
                     case R.id.radioButton3:
                         gMap.clear();
-                        Toast.makeText(AssignedMode.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AssignedMode.this, "Edit Mode is Selected", Toast.LENGTH_LONG).show();
                         Intent intent1 = new Intent(AssignedMode.this, CurrentLocation.class);
                         startActivity(intent1);
                         break;
                 }
             }
         });
-
 
 
     }
@@ -289,7 +289,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 //        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
 //        Log.d(TAG1, "onMapReady: map is ready");
 //        // Mengarahkan ke alun-alun Demak
-
+        gMap.setOnMarkerClickListener(this);
         getMarkersAmber();
         getMarkersGreen();
         getMarkersRed();
@@ -313,7 +313,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         mClusterManagerR.setOnClusterItemClickListener(this);
         mClusterManagerR.setOnClusterItemInfoWindowClickListener(this);
         mClusterManagerR.cluster();
-        InfoWndow2 markerInfoWindowAdapter = new InfoWndow2(getApplicationContext());
+        infoWindoEdit markerInfoWindowAdapter = new infoWindoEdit (getApplicationContext());
         gMap.setInfoWindowAdapter(markerInfoWindowAdapter);
 
 //        InfoWndowAdapter markerInfoWindowAdapter1 = new InfoWndowAdapter(getApplicationContext());
@@ -353,33 +353,29 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-
-
     }
 
-    private void saveRadioChoice(){
-        SharedPreferences mSharedPref = getSharedPreferences(MY_PREF_KEY,MODE_PRIVATE);
+    private void saveRadioChoice() {
+        SharedPreferences mSharedPref = getSharedPreferences(MY_PREF_KEY, MODE_PRIVATE);
 
         SharedPreferences.Editor editor = mSharedPref.edit();
 
 // Initialize Radiogroup while saving choices
-        RadioGroup localRadioGroup = (RadioGroup)findViewById(R.id.radioGroup);
-        editor.putInt( TEXT19, localRadioGroup.indexOfChild(findViewById(localRadioGroup.getCheckedRadioButtonId())));
+        RadioGroup localRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        editor.putInt(TEXT19, localRadioGroup.indexOfChild(findViewById(localRadioGroup.getCheckedRadioButtonId())));
         editor.apply();
     }
 
-    private void retrieveChoices(){
+    private void retrieveChoices() {
 
-        SharedPreferences sharedPref = getSharedPreferences(MY_PREF_KEY,MODE_PRIVATE);
-        int i = sharedPref.getInt(TEXT19,-1);
-        if( i >= 0){
-            ((RadioButton) ((RadioGroup)findViewById(R.id.radioGroup)).getChildAt(i)).setChecked(true);
+        SharedPreferences sharedPref = getSharedPreferences(MY_PREF_KEY, MODE_PRIVATE);
+        int i = sharedPref.getInt(TEXT19, -1);
+        if (i >= 0) {
+            ((RadioButton) ((RadioGroup) findViewById(R.id.radioGroup)).getChildAt(i)).setChecked(true);
         }
 
 
     }
-
-
 
 
     private void getDeviceLocation() {
@@ -439,7 +435,6 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
         hideSoftKeyboard();
     }
-
 
 
     private void initMap() {
@@ -569,6 +564,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
         return super.onOptionsItemSelected(item);
     }
+
     private void multipledata() {
 
 
@@ -594,52 +590,49 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
     private void showDialog(AssignedMode currentLocation) {
 
         final Dialog dialog = new Dialog(currentLocation);
         // dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_listview);
 
+        dialog.setContentView(R.layout.dialog_listview);
+        dialog.setTitle("        \b EDIT ASSET");
         Button btndialog = (Button) dialog.findViewById(R.id.btndialog);
         btndialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 dialog.dismiss();
-                showStartDialog();
+                Intent intent = getIntent();
+                overridePendingTransition(0, 0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
             }
         });
 
 
-
-
-        Button Rlatern = (Button) dialog.findViewById(R.id.Rlatern);
+        final Button Rlatern = (Button) dialog.findViewById(R.id.Rlatern);
         Rlatern.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(AvaliableData.this, OldScmsInstallation.class);
-//                startActivity(intent);
 
-
-//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
                 String lat = latit;
                 String lng = longgg;
                 String ipaddress = ipaddr;
-
                 Intent intent = new Intent(AssignedMode.this, editeColumeNumber.class);
-                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
-                intent.putExtra("doubleValue_e1", ipaddress);
-                intent.putExtra("doubleValue_e2", lat);
-                intent.putExtra("doubleValue_e3", lng);
+                    //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
+                    intent.putExtra("doubleValue_e1", ipaddress);
+                    intent.putExtra("doubleValue_e2", lat);
+                    intent.putExtra("doubleValue_e3", lng);
+                    startActivity(intent);
 
-                startActivity(intent);
-
-                dialog.dismiss();
-                showStartDialog();
             }
         });
+
+
 
         Button RColume = (Button) dialog.findViewById(R.id.RColume);
         RColume.setOnClickListener(new View.OnClickListener() {
@@ -658,8 +651,8 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
                 startActivity(intent);
 
-                dialog.dismiss();
-                showStartDialog();
+//                dialog.dismiss();
+
             }
         });
 
@@ -684,8 +677,8 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
                 startActivity(intent);
 
-                dialog.dismiss();
-                showStartDialog();
+//                dialog.dismiss();
+
             }
         });
 
@@ -693,11 +686,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         EditChar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(AvaliableData.this, OldScmsInstallation.class);
-//                startActivity(intent);
 
-
-//                Toast.makeText(this, myMarker.getTitle() , Toast.LENGTH_SHORT).show();
                 String lat = latit;
                 String lng = longgg;
                 String ipaddress = ipaddr;
@@ -709,17 +698,26 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
                 intent.putExtra("doubleValue_e3", lng);
 
                 startActivity(intent);
+//                dialog.show();
+//                dialog.dismiss();
 
-                dialog.dismiss();
-                showStartDialog();
             }
         });
 
 
         dialog.show();
-
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                Intent intent = getIntent();
+                overridePendingTransition(0, 0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
+            }
+        });
     }
-
 
 
 
@@ -738,8 +736,6 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
         vectorDrawable.setBounds(1, 1, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
@@ -748,6 +744,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
     //                    marker1.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
     private void getMarkersAmber() {
 
@@ -805,13 +802,9 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
                                 bt = displayData.get(i).get(ColumeBracket).toString();
                                 bl = displayData.get(i).get(BracketLenth).toString();
                                 eage = displayData.get(i).get(EstimatedAge).toString();
-                                cstkm= displayData.get(i).get(EstimatedAge).toString();
+                                cstkm = displayData.get(i).get(EstimatedAge).toString();
                                 lm = displayData.get(i).get(LatenManfu).toString();
 
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
 
                             }
                             //creating adapter object and setting it to recyclerview
@@ -859,7 +852,11 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onInfoWindowClick(Marker marker2) {
 //                Toast.makeText(CurrentLocation.this, marker2.getTitle(), Toast.LENGTH_SHORT).show();
-                showDialog(AssignedMode.this);
+
+                latit = String.valueOf(marker2.getPosition().latitude);
+                longgg = String.valueOf(marker2.getPosition().longitude);
+                ipaddr = marker2.getTitle();
+                showDialog( AssignedMode.this);
 
             }
         });
@@ -923,16 +920,12 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
                                 bt = displayData.get(i).get(ColumeBracket).toString();
                                 bl = displayData.get(i).get(BracketLenth).toString();
                                 eage = displayData.get(i).get(EstimatedAge).toString();
-                                cstkm= displayData.get(i).get(EstimatedAge).toString();
+                                cstkm = displayData.get(i).get(EstimatedAge).toString();
                                 lm = displayData.get(i).get(LatenManfu).toString();
 
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
 
                             }
-                            //creating adapter object and setting it to recyclerview
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -975,9 +968,13 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
         gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker3) {
+            public void onInfoWindowClick(Marker marker2) {
 //                Toast.makeText(CurrentLocation.this, marker3.getTitle(), Toast.LENGTH_SHORT).show();
-                showDialog(AssignedMode.this);
+
+                latit = String.valueOf(marker2.getPosition().latitude);
+                longgg = String.valueOf(marker2.getPosition().longitude);
+                ipaddr = marker2.getTitle();
+                showDialog( AssignedMode.this);
 
             }
         });
@@ -1042,13 +1039,9 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
                                 bt = displayData.get(i).get(ColumeBracket).toString();
                                 bl = displayData.get(i).get(BracketLenth).toString();
                                 eage = displayData.get(i).get(EstimatedAge).toString();
-                                cstkm= displayData.get(i).get(EstimatedAge).toString();
+                                cstkm = displayData.get(i).get(EstimatedAge).toString();
                                 lm = displayData.get(i).get(LatenManfu).toString();
 
-//                                MarkerOptions marker = new MarkerOptions().position(new LatLng(latt, logg)).title(ip).snippet("Lat: "+latt+",Longitude: "+logg+" \n Colume Manf: "+ cl+"\n Raise & Lower "+rs+
-//                                        "\n Colume Material: "+cm+" \n Colume Type: "+" \n Colume Height: "+chg +" \n Number of Door's: "+nd+" \n Door Dim: "+dd+"\n Foundation type: "+ft+
-//                                        "\n Column Bracket:"+bt+" \n Bracket Length:"+bl+"\n Estimated Age of Lat:"+ eage +" \n Lat. Manf: "+ lm );
-//                                gMap.addMarker(marker);
 
                             }
                             //creating adapter object and setting it to recyclerview
@@ -1081,7 +1074,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
         final String snippet4 = (" Status : Red " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
-                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm +" \n Lat. Manf: " + lm);
+                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
 
 // Create a cluster item for the marker and set the title and snippet using the constructor.
         //  Items infoWindowItem = new Items(lat,lng, title, snippet);
@@ -1095,15 +1088,17 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
         gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
-            public void onInfoWindowClick(Marker marker4) {
+            public void onInfoWindowClick(Marker marker2) {
 //                Toast.makeText(CurrentLocation.this, marker4.getTitle(), Toast.LENGTH_SHORT).show();
-                showDialog(AssignedMode.this);
+                latit = String.valueOf(marker2.getPosition().latitude);
+                longgg = String.valueOf(marker2.getPosition().longitude);
+                ipaddr = marker2.getTitle();
+                showDialog( AssignedMode.this);
 
             }
         });
 
     }
-
 
 
     private void getAutoComlete() {
@@ -1197,9 +1192,6 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onClusterClick(Cluster<Items> cluster) {
 
-//        Intent intent = new Intent(AvaliableData.this, listview.class);
-//        startActivity(intent);
-
 
         return true;
     }
@@ -1258,50 +1250,14 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    private void showStartDialog2() {
+    @Override
+    public boolean onMarkerClick(Marker marker) {
 
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-
-        builder1.setMessage("You are in Data view Mode for editing Click on different mode button");
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-    }
-
-    private void showStartDialogallData() {
-
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-
-        builder1.setMessage("You are in Data view Mode for editing Click on different mode button");
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-    }
-
-    private void showStartAll() {
-
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setIcon(R.drawable.refereshbutton);
-        builder1.setCancelable(false);
-        builder1.setTitle("Refresh Page");
-        builder1.setMessage("Are you Sure you want to see all Column Node");
-        builder1.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Referesh();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-
-        Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
-        buttonbackground1.setBackgroundColor(R.drawable.button);
-        buttonbackground1.setTextColor(Color.BLACK);
-
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        latit = String.valueOf(marker.getPosition().latitude);
+        longgg = String.valueOf(marker.getPosition().longitude);
+        ipaddr = marker.getTitle();
+        showDialog(AssignedMode.this);
+        return false;
     }
 }

@@ -47,34 +47,8 @@ public class editeColumeNumber extends AppCompatActivity {
     String ip,latt,logg,cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
     String e1, e2, e3;
     ProgressDialog pDialog;
-
-    // Http Url For Filter Student Data from Id Sent from previous activity.
-
-    String finalResult;
-    String ParseResult;
-    HashMap<String, String> ResultHash = new HashMap<>();
-    String FinalJSonObject;
     String TempItem;
-    ProgressDialog progressDialog2;
-
-    Button UpdateButton, DeleteButton;
-
-
-
     private Button btnAddNewCategory;
-    private TextView txtCategory;
-
-    private Spinner spinnerlaternManuf;
-
-
-
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String TE = "text";
-    public static final String SWITCH1 = "switch1";
-
-
-
-
     private ArrayList<Category11> categoriesList11;
 
 
@@ -108,14 +82,10 @@ public class editeColumeNumber extends AppCompatActivity {
         logg = getIntent().getStringExtra("doubleValue_e3");
 //
 
-        ipaddress = (TextView) findViewById(R.id.t1);
-        lat = (TextView) findViewById(R.id.t2);
+
         log = (TextView) findViewById(R.id.t3);
 
-
-        ipaddress.setText(TempItem);
-        lat.setText(latt);
-        log.setText(logg);
+        log.setText("Lat:- "+latt+" Log:-"+logg);
 
         btnAddNewCategory = (Button) findViewById(R.id.btnSave);
         StudentName = (EditText)findViewById(R.id.editName);
@@ -125,17 +95,11 @@ public class editeColumeNumber extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.setTitle("                             Add Data");
-        actionBar.setTitle("Add Data");
+        actionBar.setTitle("Enter/Edit Asset Number");
 
 
         categoriesList11 = new ArrayList<Category11>();
 
-
-
-
-        //   sharedPreferences = getSharedPreferences(TE, MODE_PRIVATE);
-
-        //  spinnerlaternManuf.setSelection(sharedPreferences.getInt(SHARED_PREFS12, 0));
 
 
 
@@ -155,6 +119,7 @@ public class editeColumeNumber extends AppCompatActivity {
                     onBackPressed();
                 } else
                     Toast.makeText(editeColumeNumber.this, "Not Connected!", Toast.LENGTH_SHORT).show();
+
 
             }
 
@@ -244,7 +209,7 @@ public class editeColumeNumber extends AppCompatActivity {
             e3 = extras.getString("doubleValue_e3");
         }
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("ipaddress", e1);
+        jsonObject.put("iccid", e1);
         jsonObject.put("latitude", e2);
         jsonObject.put("longitude", e3);
         jsonObject.put("colume_number", StudentName.getText().toString());

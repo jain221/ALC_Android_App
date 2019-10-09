@@ -9,10 +9,6 @@ class Category3 {
         this.type_name = type_name;
     }
 
-    public Category3() {
-
-    }
-
     public int getid() {
         return this.id;
     }
