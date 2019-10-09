@@ -84,20 +84,18 @@ import java.util.List;
 import java.util.Set;
 
 public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallback {
+
     int size =0;
     private int ii;
     String latit, longgg, ipaddr;
-    public static String[] arrPath;
-    private Context context;
     MapFragment mapFragment;
-    ArrayList<ArrayList<String>> myList = new ArrayList<>();
     GoogleMap gMap;
-    GoogleMap gmap;
-    MarkerOptions markerOptions = new MarkerOptions();
+
+
     CameraPosition cameraPosition;
     LatLng center, latLng;
     String title;
-    AbstractList<Marker> myListMarker;
+
     private RequestQueue mRequestQueue;
     public static final String TAG1 = CurrentNode.class.getSimpleName();
     public static final String ID = "id";
@@ -131,8 +129,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
     private ClusterManager<Items> mClusterManager;
     private java.util.List<Items> items =new ArrayList<>();
     private ImageView mGps;
-    private ImageView menu;
-    private ImageView addAllData, streetView;
+
     String data;
 
     AutoCompleteTextView et;
@@ -143,29 +140,14 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
     double latt ,logg;
 
     String TempItem;
-    int count =0;
-
-    StreetViewPanorama mStreetViewPanorama;
-
-    CheckBox AllData;
-    private NavigationView nDrawer;
-    private DrawerLayout mDrawer;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private Toolbar toolbar;
-    private AlertDialog userDialog;
-    private ProgressDialog waitDialog;
-    private ListView attributesList;
 
     //    List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
-    private TableLayout mLinearLayout;
-    private Handler mHandler;
+
     Handler handler = new Handler();
     Runnable refresh;
 
     Marker prevMarker1;
-    ArrayList<String> ipaddress2 = new ArrayList<String>();
-    LatLngBounds.Builder builder1;
-    ImageView  resetButton ;
+
     private RadioButton editMode, allUnassingedNode,mulitiedit;
     private RadioGroup radioGroup;
     SharedPreferences sharedpreferences;
@@ -173,11 +155,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
     // this is name of shared preferences file, must be same whenever accessing
     // the key value pair.
     public static final String MyPREFERENCES = "MyPrefs" ;
-    Marker marker1;
-    String ipaddr1;
-    private RadioButton assignn;
-    private RadioButton unassign;
-    private RadioButton alldata;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,15 +171,11 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
         radioGroup.check( editMode.getId());
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 //         grab the last saved state here on each activity start
-        Boolean lastButtonState = sharedpreferences.getBoolean(BUTTON_STATE, false);
-
-
 
 
         editMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 gMap.clear();
                 Toast.makeText(UnassignedMode.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
@@ -215,8 +189,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                RadioButton radioButton=(RadioButton)findViewById(checkedId);
-//                Toast.makeText(getApplicationContext(), radioButton.getText(), Toast.LENGTH_SHORT).show();
+
 
                 switch( checkedId) {
                     case R.id.radioButton1:
@@ -276,45 +249,11 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
         List = new ArrayList<SuggestGetSet>();
         getAutoComlete();
-//        resetButton =(ImageView) findViewById(R.id.ic_addData);
-//        resetButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("onClick", "Button is Clicked");
-//                Toast.makeText(UnAssignedData.this,"Multiple data is been selected", Toast.LENGTH_LONG).show();
-//                multipledata();
-//                showStartDialog();
-//            }
-//        });
-    }
-
-
-
-    private void showStartAll() {
-
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setIcon(R.drawable.refereshbutton);
-        builder1.setCancelable(false);
-        builder1.setTitle("Refresh Page");
-        builder1.setMessage("Are you Sure you want to see all Column Node");
-        builder1.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Referesh();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-
-        Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
-        buttonbackground1.setBackgroundColor(R.drawable.button);
-        buttonbackground1.setTextColor(Color.BLACK);
 
     }
+
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -481,14 +420,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 //            gMap.addMarker(new MarkerOptions().position(latLng).title("Find Pro"));
             gMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
-//            if(myMarker != null)
-//                myMarker.remove();
-//            myMarker = gMap.addMarker(new MarkerOptions()
-//                    .position(latLng)
-//                    .title(locality)
-//                    .snippet("Latitude:" + latLng.latitude + ",Longitude" + latLng.longitude)
-//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
-//            ;
+
 
         }else {
             Toast.makeText(UnassignedMode.this, "Check Spelling Or Try Again !", Toast.LENGTH_SHORT).show();
@@ -507,21 +439,9 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
 
     private void addMarker(final LatLng latLng, final String title) {
-
-
-        double lat = latLng.latitude;
-        double lng = latLng.longitude;
-        // Set he title and snippet strings.
-
-
-        final String snippet1 = (" Status : Unassigned Structure" + " \n Lat:  " + lat + ",Longitude:  " + lng + " \n Column : Null " + " \n Colume Manf: Null " + "\n Raise & Lower: Null " +
-                "\n Colume Material: Null " + " \n Colume Type: Null" + " \n Colume Height: Null " + " \n Number of Door: Null " + " \n Door Dimen: Null " + "\n Foundation type: Null" +
-                "\n Column Bracket: Null" + " \n Bracket Length: Null" + "\n Estimated Age of Lat: Null" + " \n Installation Coast 5Km: Null"+" \n Lat. Manf: Null ");
-
         MarkerOptions markerOptions1 = new MarkerOptions()
                 .position(latLng)
                 .title(title)
-                .snippet(snippet1)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         gMap.addMarker(markerOptions1);
 
@@ -603,10 +523,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
         switch (item.getItemId()) {
 
             case R.id.add:
-                Toast.makeText(this, "Multiple data is selected", Toast.LENGTH_SHORT)
-                        .show();
 
-                showStartDialog();
                 break;
             case R.id.action_refresh:
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
@@ -666,19 +583,6 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
         req.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         getRequestQueue().add(req);
     }
-
-    public OnMapReadyCallback onMapReadyCallback1(){
-        return new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                gmap = googleMap;
-                LatLng vannes = new LatLng(47.66, -2.75);
-                gmap.addMarker(new MarkerOptions().position(vannes).title("Vannes"));
-                gmap.moveCamera(CameraUpdateFactory.newLatLng(vannes));
-            }
-        };
-    }
-
 
 
     private void getMarkers() {
@@ -819,67 +723,43 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
 
 
-    private void showStartDialog() {
+
+
+    private void AssignMode() {
+
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setIcon(R.drawable.refereshbutton);
-//        builder1.setCancelable(false);
-        builder1.setTitle("Refresh Page");
-        builder1.setMessage("Please type Yes button to Refresh page");
+        builder1.setCancelable(false);
+        builder1.setTitle("Asset Number");
+        builder1.setMessage("Do you want to enter an individual Asset Number");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Referesh();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-
-        Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
-        buttonbackground1.setBackgroundColor(R.drawable.button);
-        buttonbackground1.setTextColor(Color.BLACK);
+//
+                        Toast.makeText(UnassignedMode.this, "Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        for (int i = 0; i < ipaddress3.size(); i++) {
+                            Intent intent = new Intent(UnassignedMode.this, addingAssertNumber.class);
+                            intent.putExtra("doubleValue_e1", ipaddress3.get(i));
+                            intent.putExtra("doubleValue_e2", latitude2.get(i));
+                            intent.putExtra("doubleValue_e3", longitude2.get(i));
+                            startActivity(intent);
 
 
-    }
+                        }
 
-
-    private void showStartDialogallData() {
-
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("->Select each Marker which Attribute data you want to add");
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-
-    }
-    private void showStartDialogallData1() {
-
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Add Unassigned Data");
-        builder1.setIcon(R.drawable.multipledata);
-        builder1.setMessage("You Click "+ size + " Marker." + " You want to add data");
-        builder1.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        multipledata();
                         showStartDialog();
 
-
                     }
+
+
                 });
 
         builder1.setNeutralButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                dialog.cancel();
+                Referesh();
             }
         });
-
         AlertDialog dialog = builder1.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
@@ -900,6 +780,75 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
         Button buttonbackground2 = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
         buttonbackground2.setTextColor(Color.BLACK);
+
+
+
+
+
+    }
+
+
+    private void showStartDialog() {
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("If you want to Edit Added Asset data please tab on Assigned Assets");
+
+
+        AlertDialog dialog = builder1.create();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+                Referesh();
+            }
+        });
+
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+
+
+        wmlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        wmlp.x = 120;   //x position
+        wmlp.y = 5;   //y position
+
+        dialog.show();
+    }
+
+    private void showStartDialogallData1() {
+
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Unassigned Assets");
+        builder1.setMessage("Number of Assets selected "+ size +". " + "\nIf you want to add or deselect further assets continue selecting from the Map.");
+        builder1.setPositiveButton("Finish",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        multipledata();
+                        AssignMode();
+
+
+                    }
+                });
+
+
+        AlertDialog dialog = builder1.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+
+
+        wmlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        wmlp.x = 100;   //x position
+        wmlp.y = 10;   //y position
+
+        dialog.show();
+
+//        AlertDialog alert11 = builder1.create();
+//        alert11.show();
+
+
+        Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setTextColor(Color.BLACK);
+
 
 
     }
