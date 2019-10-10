@@ -25,14 +25,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.amazonaws.youruserpools.R;
-
-public class AboutApp extends AppCompatActivity {
+public class DetailsAboutCompany extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_app);
+        setContentView(R.layout.details_about_company);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_AboutApp);

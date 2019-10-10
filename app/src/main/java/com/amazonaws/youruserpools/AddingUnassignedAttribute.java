@@ -1,15 +1,11 @@
 package com.amazonaws.youruserpools;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,10 +26,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,14 +35,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 //
 //public class database_colume_node extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
-public class AddUnssignedData extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
+public class AddingUnassignedAttribute extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
 
 
     TextView ipaddress,lat,logg ;
@@ -222,7 +213,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_data_baseadding);
+        setContentView(R.layout.adding_unassigned_attribute);
         btnAddNewCategory = (Button) findViewById(R.id.btnSave);
         spinnerColumeManf = (Spinner) findViewById(R.id.ColumManf);
         spinnerRaiseandLow = (Spinner) findViewById(R.id.RaiseandLow);
@@ -241,29 +232,17 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         CountryName = new ArrayList<>();
         spinnerCoastKm = (Spinner) findViewById(R.id.Coast);
         AutostationName = (AutoCompleteTextView) findViewById(R.id.editStationName);
-
-
         TextView ipaddress = (TextView) findViewById(R.id.ipadddress);
 
-//
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             e1 = extras.getString("ListViewValue");
-//            e2 = extras.getString("doubleValue_e2");
-//            e3 = extras.getString("doubleValue_e3");
             ipaddress.setText("Unassigned assets" );
-//            lat.setText("Latitude " + e2);
-//            logg.setText("Longitude " + e3);
-
         }
-        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setTitle("                             Add Data");
-        actionBar.setTitle("Add Data");
 
-//
-//        Intent intent = null;
-//       String LatLng  =intent.getExtras().getParcelable("ipaddress");
-//       lat.setText("IP - " + LatLng );
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Adding Asset Attribute");
 
         categoriesList = new ArrayList<Category>();
         categoriesList1 = new ArrayList<Category1>();
@@ -279,7 +258,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         categoriesList11 = new ArrayList<Category11>();
         List = new ArrayList<SuggestGetSet>();
 
-        // spinner item select listener
         spinnerColumeManf.setOnItemSelectedListener(this);
         spinnerRaiseandLow.setOnItemSelectedListener(this);
         spinnerColumeMat.setOnItemSelectedListener(this);
@@ -293,9 +271,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
         spinnerEstimatedColAGE.setOnItemSelectedListener(this);
         spinnerCoastKm.setOnItemSelectedListener(this);
         spinnerlaternManuf.setOnItemSelectedListener(this);
-        //  sharedPreferences =  PreferenceManager.getDefaultSharedPreferences(this);
-        //    SharedPreferences pref = getApplicationContext().getSharedPreferences("Options", MODE_PRIVATE);
-        // Add new category click event
         sharedPreferences = getSharedPreferences(TE, MODE_PRIVATE);
         spinnerColumeManf.setSelection(sharedPreferences.getInt(SHARED_PREFS, 0));
         spinnerRaiseandLow.setSelection(sharedPreferences.getInt(SHARED_PREFS2, 0));
@@ -331,15 +306,11 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
             @Override
             public void onClick(View v) {
 
-//                Toast.makeText(AddUnssignedData.this, "Saved" , Toast.LENGTH_SHORT).show();
-
-//                      saveData();
-//                    perform HTTP POST request
                 if (checkNetworkConnection()) {
                     new HTTPAsyncTask().execute(" https://8jpt28d8fk.execute-api.eu-west-1.amazonaws.com/SendData/ISD");
                     onBackPressed();
                 } else
-                    Toast.makeText(AddUnssignedData.this, "Not Connected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddingUnassignedAttribute.this, "Not Connected!", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -386,7 +357,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -413,12 +384,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
 
 
     }
-
-//    public void onBackPressed() {
-//
-//       Intent intent = new Intent(this,NodeMapSingleData.class);
-//       startActivity(intent);
-//    }
 
 
     @Override
@@ -939,9 +904,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 if (firstItem9.equals(String.valueOf(spinnerBracketLength.getSelectedItem()))) {
 
                 } else {
-//                    Toast.makeText(parent.getContext(),
-//                            "Ko Milih : " + parent.getItemAtPosition(position).toString(),
-//                            Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -985,9 +947,6 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 if (firstItem10.equals(String.valueOf(spinnerEstimatedColAGE.getSelectedItem()))) {
 
                 } else {
-//                    Toast.makeText(parent.getContext(),
-//                            "Ko Milih : " + parent.getItemAtPosition(position).toString(),
-//                            Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -1085,7 +1044,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1130,7 +1089,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1172,7 +1131,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1214,7 +1173,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1254,7 +1213,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1295,7 +1254,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1336,7 +1295,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1378,7 +1337,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1417,7 +1376,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1459,7 +1418,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1501,7 +1460,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -1543,7 +1502,7 @@ public class AddUnssignedData extends AppCompatActivity  implements AdapterView.
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddUnssignedData.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });

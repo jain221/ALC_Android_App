@@ -80,13 +80,6 @@ public class editeColumeNumber extends AppCompatActivity {
         TempItem = getIntent().getStringExtra("doubleValue_e1");
         latt = getIntent().getStringExtra("doubleValue_e2");
         logg = getIntent().getStringExtra("doubleValue_e3");
-//
-
-
-        log = (TextView) findViewById(R.id.t3);
-
-        log.setText("Lat:- "+latt+" Log:-"+logg);
-
         btnAddNewCategory = (Button) findViewById(R.id.btnSave);
         StudentName = (EditText)findViewById(R.id.editName);
         //mPrefs = getSharedPreferences("label", 0);

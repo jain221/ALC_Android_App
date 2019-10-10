@@ -1,10 +1,8 @@
 package com.amazonaws.youruserpools;
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,19 +11,14 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,12 +31,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -60,7 +48,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -80,7 +67,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -855,19 +841,31 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
     private void AssignMode() {
 
 
+
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setCancelable(false);
-        builder1.setTitle("Asset Number");
-        builder1.setMessage("Do you want to enter an individual Asset Number");
+        builder1.setTitle("Enter Asset ID");
+        builder1.setMessage("Do you want to enter an individual Asset ID.");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+//
+//                        Toast.makeText(UnassignedMode.this, "Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        for (int i = 0; i < ipaddress3.size(); i++) {
+                            Intent intent = new Intent(UnAssignedData.this, AddingAssertNumber.class);
+                            intent.putExtra("doubleValue_e1", ipaddress3.get(i));
+                            intent.putExtra("doubleValue_e2", latitude2.get(i));
+                            intent.putExtra("doubleValue_e3", longitude2.get(i));
+                            startActivity(intent);
 
-                        Toast.makeText(UnAssignedData.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(UnAssignedData.this, UnassignedEditData.class);
-                        startActivity(intent);
+
+                        }
+
+                        finishD();
 
                     }
+
+
                 });
 
         builder1.setNeutralButton("No", new DialogInterface.OnClickListener() {
@@ -876,24 +874,50 @@ public class UnAssignedData extends AppCompatActivity  implements OnMapReadyCall
                 Referesh();
             }
         });
+        AlertDialog dialog = builder1.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        wmlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        wmlp.x = 100;   //x position
+        wmlp.y = 10;   //y position
+
+        dialog.show();
+
+        Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setTextColor(Color.BLACK);
+
+        Button buttonbackground2 = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
+        buttonbackground2.setTextColor(Color.BLACK);
+
+
+    }
+
+    private void finishD() {
+
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setCancelable(false);
+        builder1.setMessage(size+" asset ID's entered.");
+        builder1.setPositiveButton("Finish",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Referesh();
+                    }
+                });
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
 
-
         Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
-        buttonbackground1.setBackgroundColor(R.drawable.button);
         buttonbackground1.setTextColor(Color.BLACK);
-
-        Button buttonbackground2 = alert11.getButton(DialogInterface.BUTTON_NEUTRAL);
-        buttonbackground2.setBackgroundColor(R.drawable.button);
-        buttonbackground2.setTextColor(Color.BLACK);
 
     }
 
     private void multipledata() {
 
-        Intent intent = new Intent(UnAssignedData.this, AddUnssignedData.class);
+        Intent intent = new Intent(UnAssignedData.this, AddingUnassignedAttribute.class);
         for (int i = 0; i < ipaddress3.size(); i++) {
             intent.putExtra("doubleValue_e1", ipaddress3.get(i));
             intent.putExtra("doubleValue_e2", latitude2.get(i));

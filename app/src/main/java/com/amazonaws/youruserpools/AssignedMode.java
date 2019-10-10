@@ -316,10 +316,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         infoWindoEdit markerInfoWindowAdapter = new infoWindoEdit (getApplicationContext());
         gMap.setInfoWindowAdapter(markerInfoWindowAdapter);
 
-//        InfoWndowAdapter markerInfoWindowAdapter1 = new InfoWndowAdapter(getApplicationContext());
-//        gMap1.setInfoWindowAdapter(markerInfoWindowAdapter1);
-        // Set a listener for marker click.
-//        gMap.setOnMarkerClickListener(this);
+
 
         cameraPosition = new CameraPosition.Builder().target(center).zoom(5).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -573,7 +570,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 //        myList.add(longitude2);
 
 
-        Intent intent = new Intent(AssignedMode.this, AddUnssignedData.class);
+        Intent intent = new Intent(AssignedMode.this, AddingUnassignedAttribute.class);
         for (int i = 0; i < ipaddress3.size(); i++) {
             intent.putExtra("doubleValue_e1", ipaddress3.get(i));
             intent.putExtra("doubleValue_e2", latitude2.get(i));
@@ -835,7 +832,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         // Set he title and snippet strings.
 
 
-        final String snippet2 = (" Status : Amber " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+        final String snippet2 = (" Status : Amber " + " \n Asset ID : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
                 "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
 
@@ -955,7 +952,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         // Set he title and snippet strings.
 
 
-        final String snippet3 = (" Status : Green " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+        final String snippet3 = (" Status : Green " + " \n Asset ID : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
                 "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
 
@@ -1072,7 +1069,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         // Set he title and snippet strings.
 
 
-        final String snippet4 = (" Status : Red " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+        final String snippet4 = (" Status : Red " + " \n Asset ID : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
                 "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
 

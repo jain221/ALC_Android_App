@@ -1,8 +1,6 @@
 package com.amazonaws.youruserpools;
 
 import android.Manifest;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,22 +9,17 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,12 +32,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -60,7 +50,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -77,7 +66,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -730,15 +718,15 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setCancelable(false);
-        builder1.setTitle("Asset Number");
-        builder1.setMessage("Do you want to enter an individual Asset Number");
+        builder1.setTitle("Enter Asset ID");
+        builder1.setMessage("Do you want to enter an individual Asset ID.");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 //
-                        Toast.makeText(UnassignedMode.this, "Edit Mode is Selected", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(UnassignedMode.this, "Edit Mode is Selected", Toast.LENGTH_LONG).show();
                         for (int i = 0; i < ipaddress3.size(); i++) {
-                            Intent intent = new Intent(UnassignedMode.this, addingAssertNumber.class);
+                            Intent intent = new Intent(UnassignedMode.this, AddingAssertNumber.class);
                             intent.putExtra("doubleValue_e1", ipaddress3.get(i));
                             intent.putExtra("doubleValue_e2", latitude2.get(i));
                             intent.putExtra("doubleValue_e3", longitude2.get(i));
@@ -747,7 +735,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
                         }
 
-                        showStartDialog();
+                        finishD();
 
                     }
 
@@ -771,10 +759,6 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
         dialog.show();
 
-//        AlertDialog alert11 = builder1.create();
-//        alert11.show();
-
-
         Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         buttonbackground1.setTextColor(Color.BLACK);
 
@@ -787,31 +771,63 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
     }
 
+    private void finishD() {
 
-    private void showStartDialog() {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("If you want to Edit Added Asset data please tab on Assigned Assets");
+        builder1.setCancelable(false);
+        builder1.setMessage(size+" asset ID's entered.");
+        builder1.setPositiveButton("Finish",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Referesh();
+                    }
+                });
 
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
 
-        AlertDialog dialog = builder1.create();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
+        Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setTextColor(Color.BLACK);
 
-                Referesh();
-            }
-        });
-
-        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-
-
-        wmlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
-        wmlp.x = 120;   //x position
-        wmlp.y = 5;   //y position
-
-        dialog.show();
     }
+
+//    private void showStartDialog() {
+//
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+////        builder1.setMessage("Successfully added "+size+" asset");
+//        builder1.setTitle("Finish");
+//        builder1.setPositiveButton("Finish",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//
+//                        Referesh();
+//
+//
+//                    }
+//                });
+//        AlertDialog dialog = builder1.create();
+//        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//
+//
+//        Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+//        buttonbackground1.setTextColor(Color.BLACK);
+//        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+//
+//
+//        wmlp.gravity = Gravity.TOP | Gravity.LEFT;
+//        wmlp.x = 100;   //x position
+//        wmlp.y = 5;   //y position
+//
+//        dialog.show();
+//        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialog) {
+//
+//                Referesh();
+//            }
+//        });
+//    }
 
     private void showStartDialogallData1() {
 
@@ -855,7 +871,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
     private void multipledata() {
 
-        Intent intent = new Intent(UnassignedMode.this, AddUnssignedData.class);
+        Intent intent = new Intent(UnassignedMode.this, AddingUnassignedAttribute.class);
         for (int i = 0; i < ipaddress3.size(); i++) {
             intent.putExtra("doubleValue_e1", ipaddress3.get(i));
             intent.putExtra("doubleValue_e2", latitude2.get(i));

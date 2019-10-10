@@ -401,13 +401,5 @@ public class AppHelper {
         }
     }
 
-    private static void modifyAttribute(String attributeName, String newValue) {
-        //
-
-    }
-
-    private static void deleteAttribute(String attributeName) {
-
-    }
 }
 

@@ -1,7 +1,6 @@
 package com.amazonaws.youruserpools;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -59,15 +58,11 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.maps.android.clustering.Cluster;
-import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -909,26 +904,31 @@ public class UnassignedStation extends AppCompatActivity  implements OnMapReadyC
     private void AssignMode() {
 
 
+
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setCancelable(false);
-        builder1.setTitle("Asset Number");
-        builder1.setMessage("Do you want to enter an individual Asset Number");
+        builder1.setTitle("Enter Asset ID");
+        builder1.setMessage("Do you want to enter an individual Asset ID.");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+//
+//                        Toast.makeText(UnassignedMode.this, "Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        for (int i = 0; i < ipaddress3.size(); i++) {
+                            Intent intent = new Intent(UnassignedStation.this, AddingAssertNumber.class);
+                            intent.putExtra("doubleValue_e1", ipaddress3.get(i));
+                            intent.putExtra("doubleValue_e2", latitude2.get(i));
+                            intent.putExtra("doubleValue_e3", longitude2.get(i));
+                            startActivity(intent);
 
-                        gMap.clear();
-                        TempItem = getIntent().getStringExtra("ListViewValue");
-                        String TempItem1 = getIntent().getStringExtra("crs");
 
-                        Toast.makeText(UnassignedStation.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(UnassignedStation.this, AssignedStation.class);
+                        }
 
-                        intent.putExtra("ListViewValue",  TempItem);
-                        intent.putExtra("crs", TempItem1);
-                        startActivity(intent);
+                        finishD();
 
                     }
+
+
                 });
 
         builder1.setNeutralButton("No", new DialogInterface.OnClickListener() {
@@ -948,10 +948,6 @@ public class UnassignedStation extends AppCompatActivity  implements OnMapReadyC
 
         dialog.show();
 
-//        AlertDialog alert11 = builder1.create();
-//        alert11.show();
-
-
         Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         buttonbackground1.setTextColor(Color.BLACK);
 
@@ -963,9 +959,31 @@ public class UnassignedStation extends AppCompatActivity  implements OnMapReadyC
 
     }
 
+    private void finishD() {
+
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setCancelable(false);
+        builder1.setMessage(size+" asset ID's entered.");
+        builder1.setPositiveButton("Finish",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Referesh();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
+        Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setTextColor(Color.BLACK);
+
+    }
+
+
     private void multipledata() {
 
-        Intent intent = new Intent( UnassignedStation.this, AddUnssignedData.class);
+        Intent intent = new Intent( UnassignedStation.this, AddingUnassignedAttribute.class);
         for (int i = 0; i < ipaddress3.size(); i++) {
             intent.putExtra("doubleValue_e1", ipaddress3.get(i));
             intent.putExtra("doubleValue_e2", latitude2.get(i));

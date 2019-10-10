@@ -222,7 +222,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                         gMap.clear();
                         Toast.makeText(CurrentLocation.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(CurrentLocation.this, AssignedMode.class);
-//                        Intent intent = new Intent(CurrentLocation.this, addingAssertNumber.class);
+//                        Intent intent = new Intent(CurrentLocation.this, AddingAssertNumber.class);
                         startActivity(intent);
                         break;
 
@@ -347,7 +347,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         // Set he title and snippet strings.
 
 
-        final String snippet1 = (" Status : Unassigned Structure" + " \n Lat:  " + lat + ",Longitude:  " + lng + " \n Column : Null " + " \n Colume Manf: Null " + "\n Raise & Lower: Null " +
+        final String snippet1 = (" Status : Unassigned Structure" + " \n Lat:  " + lat + ",Longitude:  " + lng + " \n Asset ID: Null " + " \n Colume Manf: Null " + "\n Raise & Lower: Null " +
                 "\n Colume Material: Null " + " \n Colume Type: Null" + " \n Colume Height: Null " + " \n Number of Door: Null " + " \n Door Dimen: Null " + "\n Foundation type: Null" +
                 "\n Column Bracket: Null" + " \n Bracket Length: Null" + "\n Estimated Age of Lat: Null" + " \n Installation Coast 5Km: Null"+" \n Lat. Manf: Null ");
 
@@ -460,7 +460,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         // Set he title and snippet strings.
 
 
-        final String snippet3 = (" Status : Green " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+        final String snippet3 = (" Status : Green " + " \n Asset ID : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
                 "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
 
@@ -566,7 +566,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         // Set he title and snippet strings.
 
 
-        final String snippet2 = (" Status : Amber " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+        final String snippet2 = (" Status : Amber " + " \n Asset ID  : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
                 "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
 
@@ -678,7 +678,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         // Set he title and snippet strings.
 
 
-        final String snippet4 = (" Status : Red " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+        final String snippet4 = (" Status : Red " + " \n Asset ID : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
                 "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
 

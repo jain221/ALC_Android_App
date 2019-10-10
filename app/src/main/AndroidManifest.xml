@@ -26,8 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".addingAssertNumber"
-            android:label="Enter Asset Number"
+        <activity android:name=".AddingAssertNumber"
+            android:label="Enter Asset ID"
             android:parentActivityName=".mapActivity"
             android:windowSoftInputMode="stateHidden"
          ></activity>
@@ -63,7 +63,7 @@
             android:parentActivityName=".mapActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".editeColumeNumber"
-            android:label="Enter Asset Number"
+            android:label="Enter/Edit Asset ID"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".splash"
@@ -120,7 +120,7 @@
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AboutApp"
+            android:name=".DetailsAboutCompany"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_about_app"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -141,7 +141,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:parentActivityName=".CurrentLocation" />
         <activity
-            android:name=".AddUnssignedData"
+            android:name=".AddingUnassignedAttribute"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets Attribute Data"
             android:parentActivityName=".UnAssignedData" />

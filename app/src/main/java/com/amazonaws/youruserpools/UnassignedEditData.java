@@ -69,9 +69,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class UnassignedEditData extends AppCompatActivity implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>,  ClusterManager.OnClusterItemInfoWindowClickListener<Items> {
 
@@ -1059,7 +1057,7 @@ public class UnassignedEditData extends AppCompatActivity implements OnMapReadyC
 
     private void multipledata() {
 
-        Intent intent = new Intent(UnassignedEditData.this, AddUnssignedData.class);
+        Intent intent = new Intent(UnassignedEditData.this, AddingUnassignedAttribute.class);
         for (int i = 0; i < ipaddress3.size(); i++) {
             intent.putExtra("doubleValue_e1", ipaddress3.get(i));
             intent.putExtra("doubleValue_e2", latitude2.get(i));

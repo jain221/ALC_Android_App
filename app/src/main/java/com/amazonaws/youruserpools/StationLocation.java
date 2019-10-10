@@ -427,7 +427,7 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
         // Set he title and snippet strings.
 
 
-        final String snippet1 = (" Status : Unassigned Structure" + " \n Lat:  " + lat + ",Longitude:  " + lng + " \n Column : Null " + " \n Colume Manf: Null " + "\n Raise & Lower: Null " +
+        final String snippet1 = (" Status : Unassigned Structure" + " \n Lat:  " + lat + ",Longitude:  " + lng + " \n Asset Id : Null " + " \n Colume Manf: Null " + "\n Raise & Lower: Null " +
                 "\n Colume Material: Null " + " \n Colume Type: Null" + " \n Colume Height: Null " + " \n Number of Door: Null " + " \n Door Dimen: Null " + "\n Foundation type: Null" +
                 "\n Column Bracket: Null" + " \n Bracket Length: Null" + "\n Estimated Age of Lat: Null" + " \n Lat. Manf: Null ");
 
@@ -557,7 +557,7 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
         // Set he title and snippet strings.
 
 
-        final String snippet3 = (" Status : Green " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+        final String snippet3 = (" Status : Green " + " \n Asset Id : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
                 "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + " \n Lat. Manf: " + lm);
 
@@ -661,7 +661,7 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
         // Set he title and snippet strings.
 
 
-        final String snippet2 = (" Status : Amber " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+        final String snippet2 = (" Status : Amber " + " \n Asset Id : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
                 "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + " \n Lat. Manf: " + lm);
 
@@ -767,7 +767,7 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
         // Set he title and snippet strings.
 
 
-        final String snippet4 = (" Status : Red " + " \n Column : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+        final String snippet4 = (" Status : Red " + " \n Asset Id : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
                 "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
                 "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + " \n Lat. Manf: " + lm);
 
@@ -1012,7 +1012,7 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
         myList.add(longitude2);
 
 
-        Intent intent = new Intent(StationLocation.this, AddUnssignedData.class);
+        Intent intent = new Intent(StationLocation.this, AddingUnassignedAttribute.class);
         for (int i = 0; i < myList.size(); i++) {
             intent.putExtra("doubleValue_e1", ipaddress3.get(i));
             intent.putExtra("doubleValue_e2", latitude2.get(i));
@@ -1081,7 +1081,7 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
 //                String lng = longgg;
 //                String ipaddress =ipaddr;
 //
-//                Intent intent = new Intent(StationLocation.this, AddUnssignedData.class);
+//                Intent intent = new Intent(StationLocation.this, AddingUnassignedAttribute.class);
 //                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
 //                intent.putExtra("doubleValue_e1", ipaddress);
 //                intent.putExtra("doubleValue_e2", lat);
@@ -1295,7 +1295,7 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
                 String ipaddress =mark1.getTitle();
                 String lng1 = String.valueOf(lat);
                 String logg = String.valueOf(lng);
-                Intent intent = new Intent(StationLocation.this, AddUnssignedData.class);
+                Intent intent = new Intent(StationLocation.this, AddingUnassignedAttribute.class);
                 intent.putExtra("doubleValue_e1", ipaddress);
                 intent.putExtra("doubleValue_e2", lng1);
                 intent.putExtra("doubleValue_e3", logg);
