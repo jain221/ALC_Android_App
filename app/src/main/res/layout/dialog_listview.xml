@@ -43,13 +43,14 @@
         android:background="#000"
         android:layout_alignStart="@+id/log" />
     <Button
-        android:id="@+id/Rlatern"
+        android:id="@+id/RFoundationRep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit/ Enter Asset Number"
+        android:onClick="FoundationRepair"
+        android:text="Node Replacement "
         android:background="@drawable/button"
         android:textAllCaps="false"
-        android:onClick="ReplaceLatern"
+
         android:textSize="18sp" />
 
     <Space
@@ -77,13 +78,15 @@
         android:layout_alignStart="@+id/log" />
 
     <Button
-        android:id="@+id/RFoundationRep"
+        android:id="@+id/Rlatern"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fault Correction Process"
+
+        android:text="Edit/ Enter Asset Number"
         android:background="@drawable/button"
+        android:onClick="ReplaceLatern"
         android:textAllCaps="false"
-        android:onClick="FoundationRepair"
+
         android:textSize="18sp" />
     <Space
         android:layout_width="match_parent"

@@ -35,8 +35,7 @@ public class InfoWndowAdapter implements InfoWindowAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v =  inflater.inflate(R.layout.gir_forest, null);
 
-        TextView tvGir = (TextView) v.findViewById(R.id.tvgir);
-        TextView tvDetails = (TextView) v.findViewById(R.id.tvd);
+        TextView tvDetails = (TextView) v.findViewById(R.id.tvd1);
 
         tvDetails.setText(marker.getSnippet());
 

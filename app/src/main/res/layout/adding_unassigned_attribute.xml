@@ -45,8 +45,7 @@
         <RelativeLayout
             android:id="@+id/Rl"
             android:layout_width="623dp"
-            android:layout_height="640dp">
-
+            android:layout_height="730dp">
 
             <TextView
                 android:id="@+id/textView"
@@ -73,7 +72,6 @@
                 android:layout_marginBottom="-2dp"
                 android:layout_toEndOf="@+id/textView"
                 android:layout_toRightOf="@+id/textView"
-                android:prompt="@string/column_manufacturer6"
                 android:text="ColumManf1"
                 android:textSize="15dp" />
 
@@ -161,10 +159,10 @@
                 android:layout_below="@+id/sks3"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="1dp"
-                android:text="Asset type - "
+                android:layout_marginStart="-3dp"
+                android:layout_marginLeft="-3dp"
+                android:layout_marginTop="0dp"
+                android:text="Column type - "
                 android:textColor="@color/displyatext"
                 android:textSize="17dp" />
 
@@ -174,8 +172,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView"
                 android:layout_marginStart="91dp"
-                android:layout_marginLeft="91dp"
-                android:layout_marginBottom="-134dp"
+                android:layout_marginLeft="93dp"
+                android:layout_marginBottom="-101dp"
                 android:layout_toEndOf="@+id/textView"
                 android:layout_toRightOf="@+id/textView"
                 android:textColor="@color/displyaResult"
@@ -187,7 +185,9 @@
                 android:layout_height="20px"
                 android:layout_below="@+id/textView6"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="-8dp" />
+
 
             <TextView
                 android:id="@+id/textView7"
@@ -196,9 +196,9 @@
                 android:layout_below="@+id/sks4"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="-14dp"
+                android:layout_marginStart="-2dp"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginTop="-2dp"
                 android:text="Asset Height Ground - "
                 android:textColor="@color/displyatext"
                 android:textSize="17dp" />
@@ -210,12 +210,11 @@
                 android:layout_alignBottom="@+id/textView"
                 android:layout_marginStart="91dp"
                 android:layout_marginLeft="88dp"
-                android:layout_marginBottom="-102dp"
+                android:layout_marginBottom="-130dp"
                 android:layout_toEndOf="@+id/textView"
                 android:layout_toRightOf="@+id/textView"
                 android:text="Colume Height - "
                 android:textSize="15dp" />
-
 
             <Space
                 android:id="@+id/sks5"
@@ -455,9 +454,9 @@
                 android:layout_below="@+id/sks12"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginStart="-7dp"
-                android:layout_marginLeft="-7dp"
-                android:layout_marginTop="-2dp"
+                android:layout_marginStart="-1dp"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="8dp"
                 android:text="Installation within 5km of Coast -"
                 android:textColor="@color/displyatext"
                 android:textSize="17dp" />
@@ -468,8 +467,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView17"
                 android:layout_marginStart="91dp"
-                android:layout_marginLeft="91dp"
-                android:layout_marginBottom="-3dp"
+                android:layout_marginLeft="97dp"
+                android:layout_marginBottom="-2dp"
                 android:layout_toEndOf="@+id/textView"
                 android:layout_toRightOf="@+id/textView"
                 android:text="Colume Age "
@@ -506,12 +505,13 @@
                 android:layout_alignBottom="@+id/textView"
                 android:layout_marginStart="91dp"
                 android:layout_marginLeft="91dp"
-                android:layout_marginBottom="-428dp"
+                android:layout_marginBottom="-421dp"
                 android:layout_toEndOf="@+id/textView"
                 android:layout_toRightOf="@+id/textView"
                 android:text="Class Show Here "
                 android:textColor="@color/displyaResult"
                 android:textSize="18dp" />
+
             <Space
                 android:id="@+id/sks13"
                 android:layout_width="589dp"
@@ -521,17 +521,56 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp" />
 
+
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/textView18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sks13"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="1dp"
-                android:layout_marginLeft="-6dp"
+                android:layout_marginLeft="-3dp"
                 android:layout_marginTop="-1dp"
+                android:text="Asset Use - "
+                android:textColor="@color/displyatext"
+                android:textSize="17dp" />
+
+            <Spinner
+                android:id="@+id/asset_use"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textView"
+                android:layout_marginStart="92dp"
+                android:layout_marginLeft="92dp"
+                android:layout_marginBottom="-452dp"
+                android:layout_toEndOf="@+id/textView"
+                android:layout_toRightOf="@+id/textView"
+                android:text="Class Show Here "
+                android:textColor="@color/displyaResult"
+                android:textSize="18dp" />
+
+            <Space
+                android:id="@+id/sks18"
+                android:layout_width="589dp"
+                android:layout_height="13dp"
+                android:layout_below="@+id/textView14"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sks18"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="-2dp"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginTop="24dp"
                 android:text="Asset Number - "
+                android:visibility="invisible"
                 android:textColor="@color/displyatext"
                 android:textSize="17dp" />
 
@@ -540,9 +579,9 @@
                 android:layout_width="285dp"
                 android:layout_height="15dp"
                 android:layout_alignBottom="@+id/textView"
-                android:layout_marginStart="89dp"
-                android:layout_marginLeft="89dp"
-                android:layout_marginBottom="-458dp"
+                android:layout_marginStart="87dp"
+                android:layout_marginLeft="87dp"
+                android:layout_marginBottom="-502dp"
                 android:layout_toEndOf="@+id/textView"
                 android:layout_toRightOf="@+id/textView"
                 android:hint=" Enter Number "
@@ -550,14 +589,16 @@
                 android:textColor="@color/displyaResult"
                 android:textSize="17dp"
                 android:visibility="invisible" />
+
+
             <Space
                 android:id="@+id/sks14"
                 android:layout_width="589dp"
                 android:layout_height="13dp"
                 android:layout_below="@+id/textView15"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp" />
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="-16dp" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -566,9 +607,9 @@
                 android:layout_below="@+id/sks14"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="-1dp"
+                android:layout_marginLeft="-1dp"
+                android:layout_marginTop="-18dp"
                 android:text="Enter Station Name - "
                 android:textColor="@color/displyatext"
                 android:textSize="17dp" />
@@ -578,15 +619,14 @@
                 android:layout_width="290dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView"
-                android:layout_marginStart="85dp"
-                android:layout_marginLeft="112dp"
-                android:layout_marginBottom="-519dp"
+                android:layout_marginStart="91dp"
+                android:layout_marginLeft="98dp"
+                android:layout_marginBottom="-501dp"
                 android:layout_toEndOf="@+id/textView"
                 android:layout_toRightOf="@+id/textView16"
                 android:hint="Enter Station Name "
                 android:textColor="@color/displyaResult"
                 android:textSize="17dp" />
-
 
             <Button
 
@@ -595,15 +635,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView14"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="203dp"
-                android:layout_marginTop="110dp"
+                android:layout_marginStart="194dp"
+                android:layout_marginTop="98dp"
                 android:background="@drawable/button"
                 android:text="SAVE" />
 
 
         </RelativeLayout>
-
-
 
 
     </LinearLayout>

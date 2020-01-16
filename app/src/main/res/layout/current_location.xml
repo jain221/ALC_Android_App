@@ -61,10 +61,10 @@ android:layout_height="match_parent">
         android:layout_marginLeft="6dp"
         android:layout_toRightOf="@+id/button"
         android:background="@null"
+        android:inputType="textVisiblePassword"
         android:hint="  Enter Address, City or Postcode"
         android:textColor="@color/toolbar_background"
         android:textColorHint="@color/toolbar_background"
-
         android:textSize="20sp" />
     <!--android:imeOptions="actionSearch"/>-->
 
@@ -72,15 +72,15 @@ android:layout_height="match_parent">
 
 </RelativeLayout>
 
-<ImageView
-    android:id="@+id/ic_gps"
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:layout_alignParentRight="true"
-    android:layout_marginTop="65dp"
-    android:layout_marginRight="10dp"
-    android:scaleType="centerCrop"
-    android:src="@drawable/ic_gps" />
+    <ImageView
+        android:id="@+id/ic_gps"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="105dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_gps" />
 
 
 
@@ -89,29 +89,41 @@ android:layout_height="match_parent">
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="445dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
         android:checkedButton="@+id/radioButton3"
         android:orientation="horizontal">
 
+
+        <RadioButton
+            android:id="@+id/alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:text="Alert Assets"
+            android:textColor="@color/toolbar_background"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
         <RadioButton
             android:id="@+id/radioButton1"
-            android:layout_width="160dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
             android:text="Assigned Assets     "
             android:textColor="@color/toolbar_background"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radioButton2"
-            android:layout_width="180dp"
+            android:layout_width="159dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/radioGroup"
             android:text="Unassigned Assets          "
             android:textColor="@color/toolbar_background"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <RadioButton
@@ -119,9 +131,10 @@ android:layout_height="match_parent">
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/radioGroup"
+            android:layout_alignEnd="@+id/radioGroup"
             android:text="All Assets"
             android:textColor="@color/toolbar_background"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
 

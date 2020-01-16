@@ -23,11 +23,13 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -35,6 +37,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -92,30 +95,34 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
     public static final String LAT = "latitude";
     public static final String LNG = "longitude";
     public static final String Station11 = "Station";
+
+
+    //    -------------------------------------------------------------
+
+    public static final String IDD = "id";
+    public static final String Stat = "station";
+    public static final String Crs = "crs";
+
+
     private Marker myMarker;
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 17f;
-    //    double latit,longgg;
-//    String ipaddr;
-//    ArrayList<ArrayList<String>> myList = new ArrayList<>();
+
     ArrayList<String> latitude2 = new ArrayList<String>();
     ArrayList<String> longitude2 = new ArrayList<String>();
     ArrayList<String> ipaddress3 = new ArrayList<String>();
 
-    double latitU ;
-    double longggU ;
-    //vars
+
     private ArrayList<SuggestGetSet> List;
 
     //    private SuggestionAdapter mSuggestionAdapter;
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final String URL_PRODUCTS = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
-    private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
-    private ClusterManager<Items> mClusterManager;
-    private java.util.List<Items> items =new ArrayList<>();
+    private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
+
     private ImageView mGps;
 
     String data;
@@ -129,22 +136,19 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
     String TempItem;
 
-    //    List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
 
     Handler handler = new Handler();
     Runnable refresh;
 
     Marker prevMarker1;
-
+    CurrentLocation current = new CurrentLocation();
     private RadioButton editMode, allUnassingedNode,mulitiedit;
     private RadioGroup radioGroup;
     SharedPreferences sharedpreferences;
-    public static final String BUTTON_STATE = "Button_State";
-    // this is name of shared preferences file, must be same whenever accessing
-    // the key value pair.
+
     public static final String MyPREFERENCES = "MyPrefs" ;
 
-
+    private RadioButton faultalert;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,23 +160,36 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
         editMode = (RadioButton) findViewById(R.id.radioButton2);
         allUnassingedNode = (RadioButton) findViewById(R.id.radioButton3);
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
+        faultalert = (RadioButton) findViewById(R.id.alert);
         radioGroup.check( editMode.getId());
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-//         grab the last saved state here on each activity start
-
-
-        editMode.setOnClickListener(new View.OnClickListener() {
+        et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    et.setShowSoftInputOnFocus(true);
+                    String location = et.getText().toString();
+                    et.getText().clear();
+                    hideSoftKeyboard();
+                    Geocoder geocoder = new Geocoder(UnassignedMode.this);
+                    List<Address> list = null;
+                    try {
+                        list = geocoder.getFromLocationName(location, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (list.size() > 0) {
+                        Address address = list.get(0);
+                        String locality = address.getLocality();
+                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
-                gMap.clear();
-                Toast.makeText(UnassignedMode.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(UnassignedMode.this, UnAssignedData.class);
-                startActivity(intent);
+                        gMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                    }
+                }
+                return false;
             }
         });
-
-
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -180,6 +197,13 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
 
                 switch( checkedId) {
+                    case R.id.alert:
+                        gMap.clear();
+                        Toast.makeText(UnassignedMode.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Intent intent4 = new Intent(UnassignedMode.this, faultassets.class);
+//                        Intent intent = new Intent(CurrentLocation.this, AddingAssertNumber.class);
+                        startActivity(intent4);
+                        break;
                     case R.id.radioButton1:
                         gMap.clear();
                         Toast.makeText(UnassignedMode.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
@@ -251,6 +275,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
         builder = new LatLngBounds.Builder();
         gMap.clear();
+
         getMarkers();
 //        builder = new LatLngBounds.Builder();
         InfoWndowAdapter markerInfoWindowAdapter = new InfoWndowAdapter(getApplicationContext());
@@ -260,6 +285,8 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
         if (mLocationPermissionsGranted) {
             getDeviceLocation();
+//            CurrentLocation.getInstance().getDeviceLocation();
+
 
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
@@ -271,9 +298,8 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
         }
 
-
         gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
-        //   gMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) mClusterManager);
+
 
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,10 +308,6 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
                 getDeviceLocation();
             }
         });
-
-
-
-
 
 
     }
@@ -353,6 +375,13 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
                 .build();                   // Creates a CameraPosition from the builder
         gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+//        CameraPosition cameraPosition = new CameraPosition.Builder()
+//                .target(latLng)      // Sets the center of the map to Mountain View
+//                .zoom(25)                   // Sets the zoom
+//                       // Sets the tilt of the camera to 30 degrees
+//                .build();                   // Creates a CameraPosition from the builder
+//        gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
 
         hideSoftKeyboard();
     }
@@ -362,8 +391,6 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(UnassignedMode.this);
 
-//        StreetViewPanoramaFragment streetViewPanoramaFragment = (StreetViewPanoramaFragment) getFragmentManager().findFragmentById(R.id.streetviewpanorama);
-//        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 
 
     }
@@ -405,10 +432,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
             Address address = list.get(0);
             String locality = address.getLocality();
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-//            gMap.addMarker(new MarkerOptions().position(latLng).title("Find Pro"));
             gMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-
-
 
         }else {
             Toast.makeText(UnassignedMode.this, "Check Spelling Or Try Again !", Toast.LENGTH_SHORT).show();
@@ -636,7 +660,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
                                 //getting product object from json array
                                 JSONObject catobj= array.getJSONObject(i);
-                                SuggestGetSet colman = new  SuggestGetSet(catobj.getString(ID1), catobj.getString(Station11));
+                                SuggestGetSet colman = new SuggestGetSet(catobj.getString(IDD), catobj.getString(Stat));
 //                                ListData.add(new SuggestGetSet(r.getString("Id"),r.getString("Station")));
                                 List.add(colman);
 //                                populateSpinner();
@@ -705,11 +729,6 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
             }
         }
     }
-
-
-
-
-
 
 
 
@@ -792,42 +811,7 @@ public class UnassignedMode extends AppCompatActivity implements OnMapReadyCallb
 
     }
 
-//    private void showStartDialog() {
-//
-//        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-////        builder1.setMessage("Successfully added "+size+" asset");
-//        builder1.setTitle("Finish");
-//        builder1.setPositiveButton("Finish",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//
-//                        Referesh();
-//
-//
-//                    }
-//                });
-//        AlertDialog dialog = builder1.create();
-//        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-//
-//
-//        Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-//        buttonbackground1.setTextColor(Color.BLACK);
-//        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-//
-//
-//        wmlp.gravity = Gravity.TOP | Gravity.LEFT;
-//        wmlp.x = 100;   //x position
-//        wmlp.y = 5;   //y position
-//
-//        dialog.show();
-//        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//            @Override
-//            public void onDismiss(DialogInterface dialog) {
-//
-//                Referesh();
-//            }
-//        });
-//    }
+
 
     private void showStartDialogallData1() {
 

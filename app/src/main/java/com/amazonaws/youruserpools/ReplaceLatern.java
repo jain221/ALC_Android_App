@@ -75,7 +75,7 @@ public class ReplaceLatern extends AppCompatActivity implements AdapterView.OnIt
     // API urls
     // Url to create new category
 
-    private String URL_LateManfu = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/lantern_manufacturer";
+    private String URL_LateManfu = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
     private SharedPreferences sharedPreferences;
 
 
@@ -143,7 +143,7 @@ public class ReplaceLatern extends AppCompatActivity implements AdapterView.OnIt
                 //      saveData();
                 //    perform HTTP POST request
                 if (checkNetworkConnection()) {
-                    new HTTPAsyncTask().execute(" https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDlaternUpdate");
+                    new HTTPAsyncTask().execute("https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDColumeUpdate");
                     onBackPressed();
                 } else
                     Toast.makeText(ReplaceLatern.this, "Not Connected!", Toast.LENGTH_SHORT).show();
@@ -166,7 +166,13 @@ public class ReplaceLatern extends AppCompatActivity implements AdapterView.OnIt
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList11.size(); i++) {
-            lables.add(categoriesList11.get(i).getName11());
+
+            String firstArray = categoriesList11.get(i).getName11();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
@@ -345,13 +351,12 @@ public class ReplaceLatern extends AppCompatActivity implements AdapterView.OnIt
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             e1 = extras.getString("doubleValue_e1");
-            e2 = extras.getString("doubleValue_e2");
-            e3 = extras.getString("doubleValue_e3");
+
         }
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("columeupdate", "3");
         jsonObject.put("iccid", e1);
-        jsonObject.put("latitude", e2);
-        jsonObject.put("longitude", e3);
+
         jsonObject.accumulate("lantern_manufacturer", spinnerlaternManuf.getSelectedItem().toString());
         return jsonObject;
     }

@@ -204,9 +204,9 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
             });
         }
 
-        getMarkersAmber();
-        getMarkersGreen();
-        getMarkersRed();
+//        getMarkersAmber();
+//        getMarkersGreen();
+//        getMarkersRed();
 
         List = new ArrayList<SuggestGetSet>();
         getAutoComlete();
@@ -263,9 +263,9 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
 
         gMap = googleMap;
-        getMarkersAmber();
-        getMarkersGreen();
-        getMarkersRed();
+//        getMarkersAmber();
+//        getMarkersGreen();
+//        getMarkersRed();
         center = new LatLng(51.52042, -3.23113);
 
         infoWindoEdit markerInfoWindowAdapter = new infoWindoEdit (getApplicationContext());
@@ -577,7 +577,7 @@ public class AssignedStation extends AppCompatActivity implements OnMapReadyCall
                 String lng = longgg;
                 String ipaddress =ipaddr;
 
-                Intent intent = new Intent(AssignedStation.this,editeColumeNumber.class);
+                Intent intent = new Intent(AssignedStation.this,AddingAssertNumber.class);
                 //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
                 intent.putExtra("doubleValue_e1", ipaddress);
                 intent.putExtra("doubleValue_e2", lat);

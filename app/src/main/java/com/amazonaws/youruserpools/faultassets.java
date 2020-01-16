@@ -28,10 +28,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -82,22 +84,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class faultassets extends AppCompatActivity implements OnMapReadyCallback, ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, ClusterManager.OnClusterItemInfoWindowClickListener<Items>, GoogleMap.OnMarkerClickListener {
+public class faultassets extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-
-    HttpParse httpParse = new HttpParse();
-    private int ii;
-    String HttpURL = "https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData";
-    String ipaddress2;
     MapFragment mapFragment;
     GoogleMap gMap;
-    GoogleMap gMap1;
-    GoogleMap gMap2;
-    MarkerOptions markerOptions = new MarkerOptions();
+
     CameraPosition cameraPosition;
     LatLng center, latLng,gps;
-    String title;
+    String title,stname,stcode,assertid,alertdate, alerttype ,GREEN,iccid,ip, latt,logg,ipaddr;
+
     private RequestQueue mRequestQueue;
+
     public static final String TAG1 = CurrentNode.class.getSimpleName();
     public static final String ID = "id";
     public static final String ID1 = "Id";
@@ -106,34 +103,12 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
     public static final String LAT =  "latitude";
     public static final String LNG = "longitude";
     public static final String Station11 = "station_name";
-    public static final String Stationcode ="station_cws";
-    public static final String columeNumber = "asset_id";
-    public static final String assettype="asset_type";
-    public static final String CoastKM= "is_costal";
-    public static final String columeManf = "column_manufacturer";
-    public static final String RaiseandLow = "raise_and_lower";
-    public static final String columeMaterial = "column_material";
-    public static final String ColumeType = "column_type";
-    public static final String ColumeHight = "column_height";
-    public static final String NumDoors = "number_of_doors";
-    public static final String DoorDimen = "door_dimension";
-    public static final String Foundation = "foundation_type";
-    public static final String ColumeBracket = "bracket_type";
-    public static final String BracketLenth = "bracket_length";
-    public static final String EstimatedAge = "estimated_column_age";
-    public static final String LatenManfu = "lantern_manufacturer";
-    String RED;
-
-    //    -------------------------------------------------------------
-
     public static final String IDD = "id";
     public static final String Stat = "station";
     public static final String Crs = "crs";
-    String   stname,stcode,assertid,alertdate, alerttype ,GREEN;
 
-    String iccid,ip, latt, stc,astype,logg, cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage,cstkm, lm;
     public static final String TEXT19 = "text";
-    ArrayList<String> mark1 = new ArrayList<>();
+
     public static final String MY_PREF_KEY = "Selection";
 
 
@@ -142,82 +117,49 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 17f;
-    //vars
-    String latit, longgg, ipaddr;
-    TextView ipaddress, lat2, log2, cl12, rs12, cm12, ct12, chg12, nd12, dd12, ft12, bt12, bl12, eage12, lm12;
+
+    TextView ipaddress,lat, log;
+
+
     private ArrayList<SuggestGetSet> List;
-    //    private SuggestionAdapter mSuggestionAdapter;
+
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    //    private static final String URL_PRODUCTS = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/ISDgetAllData";
+
 
     private static final String URL_RED = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectRedColor";
-    private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
+    private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
     private static final String URL_UnAssinged = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
-    private ClusterManager<Items> mClusterManager;
-    private ClusterManager<Items> mClusterManagerR;
-    private java.util.List<Items> items = new ArrayList<>();
+
     private ImageView mGps;
-    private ImageView menu;
+
     String data;
     AutoCompleteTextView et;
-    String tag_json_obj = "json_obj_req";
-    private AutoCompleteTextView mSearchText;
-    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
-    private static final LatLng MOUNTAIN_VIEW = new LatLng(37.4, -122.1);
-    private Marker locationMarker;
-    private Context context;
-    private Button infoButton;
-    CheckBox AllData;
 
-    int MarkerClick;
+    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
+
+
+
     Handler handler = new Handler();
     Runnable refresh;
-    String lat3;
-    String lng3;
-    ProgressDialog pDialog;
-    String finalResult;
-    HashMap<String, String> hashMap = new HashMap<>();
-    String ParseResult;
-    HashMap<String, String> ResultHash = new HashMap<>();
-    String FinalJSonObject;
-    TextView NAME, PHONE_NUMBER, CLASS;
-    String NameHolder, NumberHolder, ClassHolder;
-    Button UpdateButton, DeleteButton;
-    String TempItem;
-    ProgressDialog progressDialog2;
 
-    Button assigned, unassigned, alld;
-    TextView lat, log, cl1, rs1, cm1, ct1, chg1, nd1, dd1, ft1, bt1, bl1, eage1, lm1;
-    //    String ip,latt,logg,cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+    String TempItem;
+
+
     String e1, e2, e3;
-    StreetViewPanorama mStreetViewPanorama;
-    Product product1;
-    //    List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
+
     RadioGroup radioGroup;
-    String flag;
+
     private RadioButton assignn;
     private RadioButton unassign;
     private RadioButton alldata;
 
-    private final Handler handler1 = new Handler();
-    ArrayList<ArrayList<String>> myList = new ArrayList<>();
-    ArrayList<String> latitude2 = new ArrayList<String>();
-    ArrayList<String> longitude2 = new ArrayList<String>();
-    ArrayList<String> ipaddress3 = new ArrayList<String>();
-    View b;
-    //    Button resetButton;
-    ImageView resetButton;
 
     private static final String URL_AMBER = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectedamberColor";
     private static final String URL_GREEN = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectGreenColor";
 
-
-
-    // this will be key for the key value pair
     public static final String BUTTON_STATE = "Button_State";
-    // this is name of shared preferences file, must be same whenever accessing
-    // the key value pair.
+
     public static final String MyPREFERENCES = "MyPrefs";
 
     SharedPreferences sharedpreferences;
@@ -239,7 +181,33 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
         Boolean lastButtonState = sharedpreferences.getBoolean(BUTTON_STATE, false);
         alldata = (RadioButton) findViewById(R.id.radioButton3);
         radioGroup.check(faultalert.getId());
+        et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    et.setShowSoftInputOnFocus(true);
+                    String location = et.getText().toString();
+                    et.getText().clear();
+                    hideSoftKeyboard();
+                    Geocoder geocoder = new Geocoder(faultassets.this);
+                    List<Address> list = null;
+                    try {
+                        list = geocoder.getFromLocationName(location, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (list.size() > 0) {
+                        Address address = list.get(0);
+                        String locality = address.getLocality();
+                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
+                        gMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                    }
+                }
+                return false;
+            }
+        });
 
         getLocationPermission();
         if (gMap != null) {
@@ -324,40 +292,15 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
 
         gMap = googleMap;
 
-
-
         getMarker(URL_RED,BitmapDescriptorFactory.HUE_RED,"Red");
-
 
         getMarker1(URL_UnAssinged);
         getMarker1(URL_GREEN);
         getMarker1(URL_AMBER);
 
 
-
-        center = new LatLng(51.52042, -3.23113);
-        mClusterManager = new ClusterManager<>(this, gMap);
-        gMap.setOnCameraIdleListener(mClusterManager);
-        gMap.setOnMarkerClickListener(mClusterManager);
-        gMap.setOnInfoWindowClickListener(mClusterManager);
-        mClusterManager.setOnClusterClickListener(this);
-        mClusterManager.setOnClusterInfoWindowClickListener(this);
-        mClusterManager.setOnClusterItemClickListener(this);
-        mClusterManager.setOnClusterItemInfoWindowClickListener(this);
-        mClusterManager.cluster();
-
-        mClusterManagerR = new ClusterManager<Items>(this, gMap);
-        gMap.setOnCameraIdleListener(mClusterManagerR);
-        gMap.setOnMarkerClickListener(mClusterManagerR);
-        gMap.setOnInfoWindowClickListener(mClusterManagerR);
-        mClusterManagerR.setOnClusterClickListener(this);
-        mClusterManagerR.setOnClusterInfoWindowClickListener(this);
-        mClusterManagerR.setOnClusterItemClickListener(this);
-        mClusterManagerR.setOnClusterItemInfoWindowClickListener(this);
-        mClusterManagerR.cluster();
-
        gMap.setOnMarkerClickListener(this);
-
+       center = new LatLng(51.52042, -3.23113);
 
         cameraPosition = new CameraPosition.Builder().target(center).zoom(5).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -375,12 +318,9 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
 
         }
 
-//        gMap.setOnInfoWindowClickListener(this);
-//        getMarkers();
 
-//        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
         gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
-        //   gMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) mClusterManager);
+
 
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -509,9 +449,6 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
     private void notalert() {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-
-//        builder1.setCancelable(false);
-//        builder1.setTitle("Alert");
         builder1.setMessage("Not an Alert Asset");
         builder1.setPositiveButton("Cancel",
                 new DialogInterface.OnClickListener() {
@@ -533,11 +470,10 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
         AlertDialog alert11 = builder1.create();
         alert11.show();
 
+
+
         Button buttonbackground1 = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
         buttonbackground1.setTextColor(Color.BLACK);
-
-
-
 
     }
 
@@ -555,11 +491,6 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
                 .snippet(snippet)
                 . icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
         gMap.addMarker(markerOptions2);
-
-
-
-
-
 
 
     }
@@ -588,7 +519,7 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
                         //      saveData();
                         //    perform HTTP POST request
                         if (checkNetworkConnection()) {
-                            new HTTPAsyncTask().execute("  https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/alert_remove");
+                            new HTTPAsyncTask().execute("https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDColumeUpdate");
 //                            onBackPressed();
                         } else {
                             Toast.makeText(faultassets.this, "Not Connected!", Toast.LENGTH_SHORT).show();
@@ -688,25 +619,7 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    @Override
-    public boolean onClusterClick(Cluster<Items> cluster) {
-        return false;
-    }
 
-    @Override
-    public void onClusterInfoWindowClick(Cluster<Items> cluster) {
-
-    }
-
-    @Override
-    public boolean onClusterItemClick(Items items) {
-        return false;
-    }
-
-    @Override
-    public void onClusterItemInfoWindowClick(Items items) {
-
-    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
@@ -755,6 +668,7 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
 
 
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("columeupdate", "4");
         jsonObject.put("iccid", ipaddr);
 
         return jsonObject;
@@ -770,11 +684,6 @@ public class faultassets extends AppCompatActivity implements OnMapReadyCallback
         writer.close();
         os.close();
     }
-
-
-
-
-
 
 
     private void saveRadioChoice() {

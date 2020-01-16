@@ -38,47 +38,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -116,7 +76,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
     public static final String columeMaterial = "material_name";
     public static final String ColumeType = "type_name";
     public static final String ColumeHight = "column_height";
-    public static final String NumDoors = "number_of_door";
+    public static final String NumDoors = "number_of_door1";
     public static final String DoorDimen = "number_of_door";
     public static final String Foundation = "foundation_type";
     public static final String ColumeBracket = "bracket_type";
@@ -125,18 +85,8 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
 
     String e1,e2,e3;
     // Url to create new category
-    private String URL_NEW_CATEGORY = "https://8jpt28d8fk.execute-api.eu-west-1.amazonaws.com/SendData/ISD";
-    private String URL_ColumeManfucture = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/column_manufacture";
-    private String URL_RaiseandLow = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/Raise_and_Lower";
-    private String URL_columeMaterial = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/column_material";
-    private String URL_ColumeType = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/column_type";
-    private String URL_ColumeHight = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/column_height_from_ground";
-    private String URL_NumDoors = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/number_of_door";
-    private String URL_DoorDimen = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/door_dimensions";
-    private String URL_Foundation = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/foundation_type";
-    private String URL_ColumeBracketType = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/bracket_type";
-    private String URL_BracketLen = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/bracket_length";
-    private String URL_EstimateAge = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/estimated_age";
+
+    private String URL_ColumeManfucture = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
 
 
     public static final String SHARED_PREFS1 = "sharedPrefs";
@@ -194,14 +144,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         logg = getIntent().getStringExtra("doubleValue_e3");
 //
 
-//        ipaddress = (TextView) findViewById(R.id.t1);
-//        lat = (TextView) findViewById(R.id.t2);
-//        log = (TextView) findViewById(R.id.t3);
 
-//
-//        ipaddress.setText(TempItem);
-//        lat.setText(latt);
-//        log.setText(logg);
 
         btnAddNewCategory = (Button) findViewById(R.id.btnSave);
         spinnerColumeManf = (Spinner) findViewById(R.id.ColumManf);
@@ -263,16 +206,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
 
 
         GetCategories();
-        GetCategories1();
-        GetCategories2();
-        GetCategories3();
-        GetCategories4();
-        GetCategories5();
-        GetCategories6();
-        GetCategories7();
-        GetCategories8();
-        GetCategories9();
-        GetCategories10();
+
 
 
         btnAddNewCategory.setOnClickListener(new View.OnClickListener() {
@@ -302,11 +236,16 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList.size(); i++) {
-            lables.add(categoriesList.get(i).getName());
-        }
+//            categoriesList.remove(null);
+            String firstArray = categoriesList.get(i).getName();
 
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
+        }
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -324,9 +263,6 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
                 if (firstItem.equals(String.valueOf(spinnerColumeManf.getSelectedItem()))) {
 
                 } else {
-//                    Toast.makeText(parent.getContext(),
-//                            "Ko Milih : " + parent.getItemAtPosition(position).toString(),
-//                            Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -345,16 +281,23 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
+
     private void populateSpinner1() {
         List<String> lables = new ArrayList<String>();
 
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList1.size(); i++) {
-            lables.add(categoriesList1.get(i).getName1());
+
+            String firstArray = categoriesList1.get(i).getName1();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -391,7 +334,60 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
             spinnerRaiseandLow.setSelection(spinnerValue1);
 
 
+
     }
+
+//    private void populateCoast() {
+//        List<String> lables = new ArrayList<String>();
+//
+//        //txtCategory.setText("");
+//
+//        for (int i = 0; i < categoriesList1.size(); i++) {
+//
+//            String firstArray = categoriesList1.get(i).getName1();
+//
+//            if (firstArray != "null" && firstArray.length() > 0) {
+//
+//                lables.add(firstArray);
+//            }
+//        }
+//
+//        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
+//
+//        // Drop down layout style - list view with radio button
+//        spinnerAdapter
+//                .setDropDownViewResource(R.layout.spinerrgb);
+//
+//        // attaching data adapter to spinner
+//        spinnerCoastKm.setAdapter(spinnerAdapter);
+//
+//
+//        final String firstItem1 = String.valueOf(spinnerCoastKm.getSelectedItem());
+//
+//        spinnerCoastKm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (firstItem1.equals(String.valueOf(spinnerCoastKm.getSelectedItem()))) {
+//
+//                } else {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+//
+//        SharedPreferences test1 = getSharedPreferences(SHARED_PREFS13, Context.MODE_PRIVATE);
+//        int spinnerValue1 = test1.getInt(TEXT13, -1);
+//        if (spinnerValue1 != -1)
+//            // set the value of the spinner
+//            spinnerCoastKm.setSelection(spinnerValue1);
+//
+//
+//
+//    }
 
     private void ColumeMat() {
         List<String> lables = new ArrayList<String>();
@@ -399,11 +395,17 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList2.size(); i++) {
-            lables.add(categoriesList2.get(i).getName2());
+
+            String firstArray = categoriesList2.get(i).getName2();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -439,6 +441,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
             spinnerColumeMat.setSelection(spinnerValue2);
 
 
+
     }
 
     private void ColumeType() {
@@ -447,11 +450,17 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList3.size(); i++) {
-            lables.add(categoriesList3.get(i).getName3());
+
+            String firstArray = categoriesList3.get(i).getName3();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -459,6 +468,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         // attaching data adapter to spinner
 
         spinnerColumeType.setAdapter(spinnerAdapter);
+
 
 
         final String firstItem3 = String.valueOf(spinnerColumeType.getSelectedItem());
@@ -489,6 +499,8 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
             spinnerColumeType.setSelection(spinnerValue3);
 
 
+
+
     }
 
     private void ColumeHight() {
@@ -497,11 +509,17 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList4.size(); i++) {
-            lables.add(categoriesList4.get(i).getName4());
+
+            String firstArray = categoriesList4.get(i).getName4();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -509,6 +527,7 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
 
         // attaching data adapter to spinner
         spinnerColumeHight.setAdapter(spinnerAdapter);
+
 
 
         final String firstItem4 = String.valueOf(spinnerColumeHight.getSelectedItem());
@@ -541,18 +560,23 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
 
 
     }
-
     private void NumberDoors() {
         List<String> lables = new ArrayList<String>();
 
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList5.size(); i++) {
-            lables.add(categoriesList5.get(i).getName5());
+
+            String firstArray = categoriesList5.get(i).getName5();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -589,23 +613,29 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
 
 
     }
-
     private void DoorDimen() {
         List<String> lables = new ArrayList<String>();
 
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList6.size(); i++) {
-            lables.add(categoriesList6.get(i).getName6());
+
+            String firstArray = categoriesList6.get(i).getName6();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
                 .setDropDownViewResource(R.layout.spinerrgb);
         // attaching data adapter to spinner
         spinnerDoorDimen.setAdapter(spinnerAdapter);
+
 
 
         final String firstItem6 = String.valueOf(spinnerDoorDimen.getSelectedItem());
@@ -637,16 +667,21 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
 
 
     }
-
     private void Foundation() {
         List<String> lables = new ArrayList<String>();
 
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList7.size(); i++) {
-            lables.add(categoriesList7.get(i).getName7());
+
+            String firstArray = categoriesList7.get(i).getName7();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -689,11 +724,17 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList8.size(); i++) {
-            lables.add(categoriesList8.get(i).getName8());
+
+            String firstArray = categoriesList8.get(i).getName8();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -732,17 +773,23 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
 
 
     }
-
     private void BracketLenght() {
         List<String> lables = new ArrayList<String>();
 
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList9.size(); i++) {
-            lables.add(categoriesList9.get(i).getName9());
+
+
+            String firstArray = categoriesList9.get(i).getName9();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -759,9 +806,6 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
                 if (firstItem9.equals(String.valueOf(spinnerBracketLength.getSelectedItem()))) {
 
                 } else {
-//                    Toast.makeText(parent.getContext(),
-//                            "Ko Milih : " + parent.getItemAtPosition(position).toString(),
-//                            Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -785,10 +829,16 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList10.size(); i++) {
-            lables.add(categoriesList10.get(i).getName10());
+
+            String firstArray = categoriesList10.get(i).getName10();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,  R.layout.color_spinner_layout, lables);
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
@@ -805,9 +855,6 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
                 if (firstItem10.equals(String.valueOf(spinnerEstimatedColAGE.getSelectedItem()))) {
 
                 } else {
-//                    Toast.makeText(parent.getContext(),
-//                            "Ko Milih : " + parent.getItemAtPosition(position).toString(),
-//                            Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -826,11 +873,6 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
-
-
-
-
-
     /**
      * Async task to get all food categories
      */
@@ -840,12 +882,14 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ColumeManfucture,
                 new Response.Listener<String>() {
                     @Override
+
                     public void onResponse(String response) {
                         try {
                             //converting the string to json array object
                             JSONArray array = new JSONArray(response);
 
                             //traversing through all the object
+
                             for (int i = 0; i < array.length(); i++) {
 
                                 //getting product object from json array
@@ -853,425 +897,51 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
                                 Category colman = new Category(catobj.getInt(ID), catobj.getString(columeManf));
                                 categoriesList.add(colman);
                                 populateSpinner();
-
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-
-
-
-    private void GetCategories1() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_RaiseandLow,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
                                 Category1 colman1 = new Category1(catobj.getInt(ID), catobj.getString(RaiseandLow));
                                 categoriesList1.add(colman1);
                                 populateSpinner1();
-
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories2() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_columeMaterial,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category2 colman = new Category2(catobj.getInt(ID), catobj.getString(columeMaterial));
-                                categoriesList2.add(colman);
+//                                populateCoast();
+                                Category2 colman3 = new Category2(catobj.getInt(ID), catobj.getString(columeMaterial));
+                                categoriesList2.add(colman3);
                                 ColumeMat();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories3() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ColumeType,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category3 colman1 = new Category3(catobj.getInt(ID), catobj.getString(ColumeType));
-                                categoriesList3.add(colman1);
+                                Category3 colman4 = new Category3(catobj.getInt(ID), catobj.getString(ColumeType));
+                                categoriesList3.add(colman4);
                                 ColumeType();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-    }
-
-    private void GetCategories4() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ColumeHight,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category4 colman = new Category4(catobj.getInt(ID), catobj.getString(ColumeHight));
-                                categoriesList4.add(colman);
+                                Category4 colman5 = new Category4(catobj.getInt(ID), catobj.getString(ColumeHight));
+                                categoriesList4.add(colman5);
                                 ColumeHight();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-    private void GetCategories5() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,URL_NumDoors,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category5 colman1 = new Category5(catobj.getInt(ID), catobj.getString(NumDoors));
-                                categoriesList5.add(colman1);
+                                Category5 colman6 = new Category5(catobj.getInt(ID), catobj.getString(NumDoors));
+                                categoriesList5.add(colman6);
                                 NumberDoors();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-    private void GetCategories6() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,URL_DoorDimen,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category6 colman = new Category6(catobj.getInt(ID), catobj.getString(DoorDimen));
-                                categoriesList6.add(colman);
+                                Category6 colman7 = new Category6(catobj.getInt(ID), catobj.getString(DoorDimen));
+                                categoriesList6.add(colman7);
                                 DoorDimen();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories7() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_Foundation,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category7 colman1 = new Category7(catobj.getInt(ID), catobj.getString(Foundation));
-                                categoriesList7.add(colman1);
+                                Category7 colman8 = new Category7(catobj.getInt(ID), catobj.getString(Foundation));
+                                categoriesList7.add(colman8);
                                 Foundation();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-    }
-    private void GetCategories8() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ColumeBracketType ,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category8 colman = new Category8(catobj.getInt(ID), catobj.getString(ColumeBracket));
-                                categoriesList8.add(colman);
+                                Category8 colman9 = new Category8(catobj.getInt(ID), catobj.getString(ColumeBracket));
+                                categoriesList8.add(colman9);
                                 BracketType();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories9() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,  URL_BracketLen,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category9 colman1 = new Category9(catobj.getInt(ID), catobj.getString(BracketLenth));
-                                categoriesList9.add(colman1);
+                                Category9 colman10 = new Category9(catobj.getInt(ID), catobj.getString(BracketLenth));
+                                categoriesList9.add(colman10);
                                 BracketLenght();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReplaceColumn.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories10() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_EstimateAge,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category10 colman = new Category10(catobj.getInt(ID), catobj.getString(EstimatedAge));
-                                categoriesList10.add(colman);
+                                Category10 colman11 = new Category10(catobj.getInt(ID), catobj.getString(EstimatedAge));
+                                categoriesList10.add(colman11);
                                 EstimatedAge();
 
+
+
                             }
-                            //creating adapter object and setting it to recyclerview
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1291,6 +961,9 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
 
 
     }
+
+
+
 
 
 
@@ -1441,20 +1114,20 @@ public class ReplaceColumn extends AppCompatActivity implements AdapterView.OnIt
             e3 = extras.getString("doubleValue_e3");
         }
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("columeupdate", "1");
         jsonObject.put("iccid", e1);
-        jsonObject.put("latitude", e2);
-        jsonObject.put("longitude", e3);
-        jsonObject.accumulate("Colume_Manfucture", spinnerColumeManf.getSelectedItem().toString());
-        jsonObject.accumulate("Raise_and_Lower", spinnerRaiseandLow.getSelectedItem().toString());
-        jsonObject.accumulate("Colume_Material", spinnerColumeMat.getSelectedItem().toString());
-        jsonObject.accumulate("Colume_Type", spinnerColumeType.getSelectedItem().toString());
-        jsonObject.accumulate("column_height_from_ground", spinnerColumeHight.getSelectedItem().toString());
-        jsonObject.accumulate("number_of_door", spinnerNumDoors.getSelectedItem().toString());
-        jsonObject.accumulate("door_dimensions", spinnerDoorDimen.getSelectedItem().toString());
+        jsonObject.accumulate("column_manufacturer", spinnerColumeManf.getSelectedItem().toString());
+        jsonObject.accumulate("raise_and_lower", spinnerRaiseandLow.getSelectedItem().toString());
+        jsonObject.accumulate("column_material", spinnerColumeMat.getSelectedItem().toString());
+        jsonObject.accumulate("column_type", spinnerColumeType.getSelectedItem().toString());
+        jsonObject.accumulate("column_height", spinnerColumeHight.getSelectedItem().toString());
+        jsonObject.accumulate("number_of_doors", spinnerNumDoors.getSelectedItem().toString());
+        jsonObject.accumulate("door_dimension", spinnerDoorDimen.getSelectedItem().toString());
         jsonObject.accumulate("foundation_type", spinnerFoundation.getSelectedItem().toString());
         jsonObject.accumulate("bracket_type", spinnerColumeBracketType.getSelectedItem().toString());
         jsonObject.accumulate("bracket_length", spinnerBracketLength.getSelectedItem().toString());
         jsonObject.accumulate("estimated_column_age", spinnerEstimatedColAGE.getSelectedItem().toString());
+
 
         return jsonObject;
     }

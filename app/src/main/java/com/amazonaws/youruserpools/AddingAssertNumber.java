@@ -288,7 +288,7 @@ public class AddingAssertNumber extends AppCompatActivity implements OnMapReadyC
                 Toast.makeText(AddingAssertNumber.this, "Data Saved SuccessFully!!!", Toast.LENGTH_SHORT).show();
 
                 if (checkNetworkConnection()) {
-                    new HTTPAsyncTask().execute("https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDcolumenumberUpdate");
+                    new HTTPAsyncTask().execute("https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDColumeUpdate");
                     onBackPressed();
                 } else
                     Toast.makeText(AddingAssertNumber.this, "Not Connected!", Toast.LENGTH_SHORT).show();
@@ -400,10 +400,9 @@ public class AddingAssertNumber extends AppCompatActivity implements OnMapReadyC
         }
 
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("columeupdate", "2");
         jsonObject.put("iccid", e1);
-        jsonObject.put("latitude", e2);
-        jsonObject.put("longitude", e3);
-        jsonObject.put("colume_number", assertNumber.getText().toString());
+        jsonObject.put("asset_id", assertNumber.getText().toString());
         return jsonObject;
     }
 

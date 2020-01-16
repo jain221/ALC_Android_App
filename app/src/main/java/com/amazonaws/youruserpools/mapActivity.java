@@ -45,6 +45,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -56,11 +61,18 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class mapActivity extends AppCompatActivity {
@@ -73,19 +85,22 @@ public class mapActivity extends AppCompatActivity {
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
     private ListView attributesList;
-
+    public static final String TITLE = "iccid";
     // Cognito user objects
     private CognitoUser user;
-
-
+    int count=0;
+    private static final String URL_UnAssinged = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
+    private static final String URL_RED = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectRedColor";
+    ArrayList<JSONObject> unassigneddata = new ArrayList<JSONObject>();
+    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
     // User details
     Animation animAlpha;
     private String username;
-
+    String title;
 
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
-
+    TextView unsassignSize,alertAsset;
 
 
 
@@ -97,7 +112,11 @@ public class mapActivity extends AppCompatActivity {
 
         // Set toolbar for this screen
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        unsassignSize =(TextView) findViewById(R.id.unassigned);
+        alertAsset =(TextView) findViewById(R.id.alert);
+
         toolbar.setTitle("");
+
         TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
         main_title.setText("Monitored Assets");
         setSupportActionBar(toolbar);
@@ -120,6 +139,8 @@ public class mapActivity extends AppCompatActivity {
         if (isServicesOK()) {
 
         }
+        getunsignedSize(URL_UnAssinged);
+        getalertSize(URL_RED);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -172,7 +193,91 @@ public class mapActivity extends AppCompatActivity {
         });
 
     }
+    private void getunsignedSize(String url) {
 
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject product = array.getJSONObject(i);
+                                title = product.getString(TITLE);
+                                unassigneddata.add(product);
+
+                            }
+                            unsassignSize.setText(unassigneddata.size()+" Unassigned Assets");
+//
+//                            Toast.makeText(mapActivity.this,  displayData.size()+" Assets are Unassigned ", Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(mapActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+
+    }
+
+    private void getalertSize(String url) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject product = array.getJSONObject(i);
+                                title = product.getString(TITLE);
+                                displayData.add(product);
+
+                            }
+
+                            alertAsset.setText(displayData.size()+" Assets Alerts");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(mapActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+
+    }
 
     public boolean isServicesOK(){
         Log.d(TAG, "isServicesOK: checking google services version");
@@ -551,4 +656,18 @@ public class mapActivity extends AppCompatActivity {
     }
 
 
+    public void alets(View view) {
+
+        Intent intent = new Intent(mapActivity.this, alert_map.class);
+
+        startActivity(intent);
+
+    }
+
+    public void reassigned(View view) {
+
+        Intent intent = new Intent(mapActivity.this, AssignedMode.class);
+
+        startActivity(intent);
+    }
 }

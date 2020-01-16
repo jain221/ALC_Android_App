@@ -24,81 +24,10 @@
     tools:context="com.amazonaws.youruserpools.mapActivity"
  >
 
-
-        <!--<Button-->
-            <!--android:id="@+id/currentlocation"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignStart="@+id/editText1"-->
-            <!--android:layout_alignLeft="@+id/editText1"-->
-            <!--android:layout_marginStart="0dp"-->
-            <!--android:layout_marginLeft="0dp"-->
-            <!--android:layout_marginBottom="-58dp"-->
-            <!--android:text=" Current Location"-->
-            <!--android:textSize="18sp" />-->
-
-        <!--<EditText-->
-            <!--android:id="@+id/editText1"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_marginStart="0dp"-->
-            <!--android:layout_marginLeft="0dp"-->
-            <!--android:layout_marginTop="0dp"-->
-            <!--android:ems="10"-->
-            <!--android:hint="Enter The Place Name"-->
-            <!--android:textSize="18sp"-->
-            <!--android:textStyle="bold" />-->
-
-
-        <!--<Button-->
-            <!--android:id="@+id/button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/editText1"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="19dp"-->
-            <!--android:text="SEARCH" />-->
-
-        <Button
-            android:id="@+id/btnNode"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="187dp"
-            android:background="@drawable/button"
-            android:gravity="center"
-            android:onClick="avaliableNode"
-            android:text="Unassigned Assets"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/database"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btnNode"
-            android:layout_alignLeft="@+id/btnNode"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="303dp"
-            android:layout_marginLeft="293dp"
-            android:layout_marginTop="-135dp"
-            android:background="@drawable/button"
-            android:gravity="center"
-            android:onClick="databaseAdd"
-            android:text="Station List"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
-
         <Button
             android:id="@+id/addData"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/btnNode"
             android:layout_alignParentTop="true"
             android:layout_marginTop="103dp"
             android:layout_marginEnd="2dp"
@@ -109,20 +38,71 @@
             android:textAllCaps="false"
             android:textSize="18sp" />
 
-        <!--<ImageView-->
-            <!--android:id="@+id/imageView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginStart="0dp"-->
-            <!--android:layout_marginTop="62dp"-->
-            <!--android:layout_marginEnd="0dp"-->
-            <!--android:layout_marginBottom="0dp"-->
-            <!--app:srcCompat="@drawable/splash3" />-->
 
+        <Button
+            android:id="@+id/database"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/addData"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="295dp"
+            android:layout_marginLeft="295dp"
+            android:layout_marginTop="103dp"
+            android:background="@drawable/button"
+            android:gravity="center"
+            android:onClick="databaseAdd"
+            android:text="Station List"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/reassigned"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/addData"
+            android:layout_alignParentStart="true"
+
+            android:layout_marginStart="151dp"
+            android:layout_marginLeft="151dp"
+            android:layout_marginTop="165dp"
+            android:background="@drawable/button"
+            android:gravity="center"
+            android:onClick="reassigned"
+            android:text="Reassigned Assets"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/unassigned"
+            android:layout_width="217dp"
+            android:layout_height="43dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="258dp"
+            android:background="@android:color/holo_blue_dark"
+            android:gravity="center"
+            android:onClick="avaliableNode"
+            android:text="Unassigned Assets"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/alert"
+            android:layout_width="217dp"
+            android:layout_height="43dp"
+            android:layout_alignLeft="@+id/addData"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="300dp"
+            android:layout_marginTop="258dp"
+            android:background="@android:color/holo_blue_dark"
+            android:gravity="center"
+            android:onClick="alets"
+            android:text="Alerts"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/logTokenButton"
@@ -130,17 +110,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/addData"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="114dp"
+            android:layout_marginTop="198dp"
             android:background="@drawable/blue_linear"
             android:text="Log Token"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="754dp"
-            android:layout_below="@+id/logTokenButton"
-            android:layout_marginTop="-80dp"
+            android:layout_height="592dp"
+            android:layout_marginTop="500dp"
             app:srcCompat="@drawable/splash2" />
 
 

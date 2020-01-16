@@ -24,9 +24,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -73,15 +75,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AssignedMode extends AppCompatActivity implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>, ClusterManager.OnClusterItemInfoWindowClickListener<Items>,GoogleMap.OnMarkerClickListener {
-    HttpParse httpParse = new HttpParse();
+
     private int ii;
-    String HttpURL = "https://o5yklvu3td.execute-api.eu-west-1.amazonaws.com/default/fetchData";
-    String ipaddress2;
+
     MapFragment mapFragment;
     GoogleMap gMap;
-    GoogleMap gMap1;
-    GoogleMap gMap2;
-    MarkerOptions markerOptions = new MarkerOptions();
+
     CameraPosition cameraPosition;
     LatLng center, latLng;
     String title;
@@ -89,29 +88,42 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     public static final String TAG1 = CurrentNode.class.getSimpleName();
     public static final String ID = "id";
     public static final String ID1 = "Id";
+
     public static final String TITLE = "iccid";
-    public static final String LAT = "latitude";
+    public static final String LAT =  "latitude";
     public static final String LNG = "longitude";
-    public static final String columeNumber = "colume_number";
-    public static final String Station11 = "Station";
-    public static final String columeManf = "Colume_Manfucture";
-    public static final String RaiseandLow = "Raise_and_Lower";
-    public static final String columeMaterial = "Colume_Material";
-    public static final String ColumeType = "Colume_Type";
-    public static final String ColumeHight = "column_height_from_ground";
-    public static final String NumDoors = "number_of_door";
-    public static final String DoorDimen = "door_dimensions";
+    public static final String Station11 = "station_name";
+    public static final String Stationcode ="station_cws";
+    public static final String columeNumber = "asset_id";
+    public static final String assettype="asset_type";
+    public static final String CoastKM= "is_costal";
+    public static final String columeManf = "column_manufacturer";
+    public static final String RaiseandLow = "raise_and_lower";
+    public static final String columeMaterial = "column_material";
+    public static final String ColumeType = "column_type";
+    public static final String ColumeHight = "column_height";
+    public static final String NumDoors = "number_of_doors";
+    public static final String DoorDimen = "door_dimension";
     public static final String Foundation = "foundation_type";
     public static final String ColumeBracket = "bracket_type";
     public static final String BracketLenth = "bracket_length";
     public static final String EstimatedAge = "estimated_column_age";
-    public static final String CoastKM = "cost_km";
     public static final String LatenManfu = "lantern_manufacturer";
+
+
+    //    -------------------------------------------------------------
+
+    public static final String IDD = "id";
+    public static final String Stat = "station";
+    public static final String Crs = "crs";
+
+
+    String ip, latt, stc,astype,logg, cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage,cstkm, lm;
     public static final String TEXT19 = "text";
     ArrayList<String> mark1 = new ArrayList<>();
     public static final String MY_PREF_KEY = "Selection";
 
-    String ip, latt, logg, cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, cstkm, lm;
+
     private Marker myMarker;
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -119,79 +131,55 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     private static final float DEFAULT_ZOOM = 17f;
     //vars
     String latit, longgg, ipaddr;
-    TextView ipaddress, lat2, log2, cl12, rs12, cm12, ct12, chg12, nd12, dd12, ft12, bt12, bl12, eage12, lm12;
+    TextView ipaddress;
     private ArrayList<SuggestGetSet> List;
     //    private SuggestionAdapter mSuggestionAdapter;
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    //    private static final String URL_PRODUCTS = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/ISDgetAllData";
+
     private static final String URL_AMBER = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectedamberColor";
     private static final String URL_GREEN = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectGreenColor";
     private static final String URL_RED = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectRedColor";
-    private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
-    private static final String URL_UnAssinged = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
+    private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
+
     private ClusterManager<Items> mClusterManager;
     private ClusterManager<Items> mClusterManagerR;
     private java.util.List<Items> items = new ArrayList<>();
     private ImageView mGps;
-    private ImageView menu;
+
     String data;
     AutoCompleteTextView et;
-    String tag_json_obj = "json_obj_req";
-    private AutoCompleteTextView mSearchText;
-    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
-    private static final LatLng MOUNTAIN_VIEW = new LatLng(37.4, -122.1);
-    private Marker locationMarker;
-    private Context context;
-    private Button infoButton;
-    CheckBox AllData;
 
-    int MarkerClick;
+    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
+
+
     Handler handler = new Handler();
     Runnable refresh;
-    String lat3;
-    String lng3;
-    ProgressDialog pDialog;
-    String finalResult;
-    HashMap<String, String> hashMap = new HashMap<>();
-    String ParseResult;
-    HashMap<String, String> ResultHash = new HashMap<>();
-    String FinalJSonObject;
-    TextView NAME, PHONE_NUMBER, CLASS;
-    String NameHolder, NumberHolder, ClassHolder;
-    Button UpdateButton, DeleteButton;
-    String TempItem;
-    ProgressDialog progressDialog2;
 
-    Button assigned, unassigned, alld;
-    TextView lat, log, cl1, rs1, cm1, ct1, chg1, nd1, dd1, ft1, bt1, bl1, eage1, lm1;
-    //    String ip,latt,logg,cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+    String TempItem;
+
+    TextView lat, log;
     String e1, e2, e3;
-    StreetViewPanorama mStreetViewPanorama;
-    Product product1;
-    //    List<SuggestGetSet> ListData = new ArrayList<SuggestGetSet>();
+
     RadioGroup radioGroup;
-    String flag;
+
     private RadioButton assignn;
     private RadioButton unassign;
     private RadioButton alldata;
 
-    private final Handler handler1 = new Handler();
+
     ArrayList<ArrayList<String>> myList = new ArrayList<>();
     ArrayList<String> latitude2 = new ArrayList<String>();
     ArrayList<String> longitude2 = new ArrayList<String>();
     ArrayList<String> ipaddress3 = new ArrayList<String>();
-    View b;
-    //    Button resetButton;
-    ImageView resetButton;
 
-    // this will be key for the key value pair
+
     public static final String BUTTON_STATE = "Button_State";
-    // this is name of shared preferences file, must be same whenever accessing
-    // the key value pair.
+
     public static final String MyPREFERENCES = "MyPrefs";
 
     SharedPreferences sharedpreferences;
+    private RadioButton faultalert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,12 +190,42 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         assignn = (RadioButton) findViewById(R.id.radioButton1);
         unassign = (RadioButton) findViewById(R.id.radioButton2);
+        faultalert = (RadioButton) findViewById(R.id.alert);
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         // grab the last saved state here on each activity start
         Boolean lastButtonState = sharedpreferences.getBoolean(BUTTON_STATE, false);
         alldata = (RadioButton) findViewById(R.id.radioButton3);
         radioGroup.check(assignn.getId());
+
+        et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    et.setShowSoftInputOnFocus(true);
+                    String location = et.getText().toString();
+                    et.getText().clear();
+                    hideSoftKeyboard();
+                    Geocoder geocoder = new Geocoder(AssignedMode.this);
+                    List<Address> list = null;
+                    try {
+                        list = geocoder.getFromLocationName(location, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (list.size() > 0) {
+                        Address address = list.get(0);
+                        String locality = address.getLocality();
+                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+                        gMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                    }
+                }
+                return false;
+            }
+        });
+
 
 
         getLocationPermission();
@@ -243,16 +261,23 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                RadioButton radioButton=(RadioButton)findViewById(checkedId);
-//                Toast.makeText(getApplicationContext(), radioButton.getText(), Toast.LENGTH_SHORT).show();
+
 
                 switch (checkedId) {
+
+                    case R.id.alert:
+                        gMap.clear();
+                        Toast.makeText(AssignedMode.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Intent intent4 = new Intent(AssignedMode.this, faultassets.class);
+//                        Intent intent = new Intent(CurrentLocation.this, AddingAssertNumber.class);
+                        startActivity(intent4);
+                        break;
                     case R.id.radioButton1:
 
                         gMap.clear();
-                        getMarkersAmber();
-                        getMarkersGreen();
-                        getMarkersRed();
+                        getMarker(URL_GREEN,BitmapDescriptorFactory.HUE_GREEN,"Green");
+                        getMarker(URL_AMBER,BitmapDescriptorFactory.HUE_ORANGE,"Amber");
+                        getMarker(URL_RED,BitmapDescriptorFactory.HUE_RED,"Red");
                         Toast.makeText(AssignedMode.this, "Assigned Mode is Selected", Toast.LENGTH_LONG).show();
                         saveRadioChoice();
                         retrieveChoices();
@@ -286,13 +311,11 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
         gMap = googleMap;
 
-//        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
-//        Log.d(TAG1, "onMapReady: map is ready");
-//        // Mengarahkan ke alun-alun Demak
         gMap.setOnMarkerClickListener(this);
-        getMarkersAmber();
-        getMarkersGreen();
-        getMarkersRed();
+
+        getMarker(URL_GREEN,BitmapDescriptorFactory.HUE_GREEN,"Green");
+        getMarker(URL_AMBER,BitmapDescriptorFactory.HUE_ORANGE,"Amber");
+        getMarker(URL_RED,BitmapDescriptorFactory.HUE_RED,"Red");
         center = new LatLng(51.52042, -3.23113);
         mClusterManager = new ClusterManager<>(this, gMap);
         gMap.setOnCameraIdleListener(mClusterManager);
@@ -334,12 +357,9 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
-//        gMap.setOnInfoWindowClickListener(this);
-//        getMarkers();
 
-//        gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
         gMap.setMapType(gMap.MAP_TYPE_SATELLITE);
-        //   gMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) mClusterManager);
+
 
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -351,6 +371,128 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
 
     }
+
+
+
+    private void getMarker(String url, final float color, final String status) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject product = array.getJSONObject(i);
+                                title = product.getString(TITLE);
+                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
+                                cnum = product.getString(columeNumber);
+                                stc = product.getString(Stationcode);
+                                astype = product.getString(assettype);
+                                cl = product.getString(columeManf);
+                                rs = product.getString(RaiseandLow);
+                                cm = product.getString(columeMaterial);
+                                ct = product.getString(ColumeType);
+                                chg = product.getString(ColumeHight);
+                                nd = product.getString(NumDoors);
+                                dd = product.getString(DoorDimen);
+                                ft = product.getString(Foundation);
+                                bt = product.getString(ColumeBracket);
+                                bl = product.getString(BracketLenth);
+                                eage = product.getString(EstimatedAge);
+                                cstkm = product.getString(CoastKM);
+                                lm = product.getString(LatenManfu);
+                                addMarkerGreen(latLng, title, color, status);
+                                displayData.add(product);
+
+
+                            }
+                            for (int i = 0; i < displayData.size(); i++) {
+                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
+                                double latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
+                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
+                                ip = displayData.get(i).get(TITLE).toString();
+                                cnum = displayData.get(i).get(columeNumber).toString();
+                                cl = displayData.get(i).get(columeManf).toString();
+                                rs = displayData.get(i).get(RaiseandLow).toString();
+                                cm = displayData.get(i).get(columeMaterial).toString();
+                                ct = displayData.get(i).get(ColumeType).toString();
+                                chg = displayData.get(i).get(ColumeHight).toString();
+                                nd = displayData.get(i).get(NumDoors).toString();
+                                dd = displayData.get(i).get(DoorDimen).toString();
+                                ft = displayData.get(i).get(Foundation).toString();
+                                bt = displayData.get(i).get(ColumeBracket).toString();
+                                bl = displayData.get(i).get(BracketLenth).toString();
+                                eage = displayData.get(i).get(EstimatedAge).toString();
+                                cstkm= displayData.get(i).get(EstimatedAge).toString();
+                                lm = displayData.get(i).get(LatenManfu).toString();
+
+
+                            }
+                            //creating adapter object and setting it to recyclerview
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(AssignedMode.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+
+    }
+
+    private void addMarkerGreen(final LatLng latLng, final String title,float color_node,String status) {
+
+
+        double lat = latLng.latitude;
+        double lng = latLng.longitude;
+        // Set he title and snippet strings.
+
+
+        final String snippet3 = (" Status : " + status  + " \n Asset ID : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
+                "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
+                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
+
+
+        MarkerOptions markerOptions2 = new MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .snippet(snippet3)
+                .icon(BitmapDescriptorFactory.defaultMarker(color_node));
+        gMap.addMarker(markerOptions2);
+
+        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker2) {
+//                Toast.makeText(CurrentLocation.this, marker2.getTitle(), Toast.LENGTH_SHORT).show();
+
+                latit = String.valueOf(marker2.getPosition().latitude);
+                longgg = String.valueOf(marker2.getPosition().longitude);
+                ipaddr = marker2.getTitle();
+                showDialog( AssignedMode.this);
+
+            }
+        });
+    }
+
+
+
+
 
     private void saveRadioChoice() {
         SharedPreferences mSharedPref = getSharedPreferences(MY_PREF_KEY, MODE_PRIVATE);
@@ -468,9 +610,6 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
     public void findLocation(View v) throws IOException {
 
-//        EditText et = (EditText) findViewById(R.id.editText);
-
-
         String location = et.getText().toString();
         et.getText().clear();
         hideSoftKeyboard();
@@ -482,14 +621,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             gMap.addMarker(new MarkerOptions().position(latLng).title("Find Pro"));
             gMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-            if (myMarker != null)
-                myMarker.remove();
-            myMarker = gMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(locality)
-                    .snippet("Latitude:" + latLng.latitude + ",Longitude" + latLng.longitude)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
-            ;
+
 
         } else {
             Toast.makeText(AssignedMode.this, "Check Spelling Or Try Again !", Toast.LENGTH_SHORT).show();
@@ -564,12 +696,6 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
     private void multipledata() {
 
-
-//        myList.add(ipaddress3);
-//        myList.add(latitude2);
-//        myList.add(longitude2);
-
-
         Intent intent = new Intent(AssignedMode.this, AddingUnassignedAttribute.class);
         for (int i = 0; i < ipaddress3.size(); i++) {
             intent.putExtra("doubleValue_e1", ipaddress3.get(i));
@@ -619,7 +745,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
                 String lat = latit;
                 String lng = longgg;
                 String ipaddress = ipaddr;
-                Intent intent = new Intent(AssignedMode.this, editeColumeNumber.class);
+                Intent intent = new Intent(AssignedMode.this, AddingAssertNumber.class);
                     //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
                     intent.putExtra("doubleValue_e1", ipaddress);
                     intent.putExtra("doubleValue_e2", lat);
@@ -666,7 +792,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
                 String lng = longgg;
                 String ipaddress = ipaddr;
 
-                Intent intent = new Intent(AssignedMode.this, ReplaceLatern.class);
+                Intent intent = new Intent(AssignedMode.this, ReplaceNode.class);
                 //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
                 intent.putExtra("doubleValue_e1", ipaddress);
                 intent.putExtra("doubleValue_e2", lat);
@@ -733,369 +859,6 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-        vectorDrawable.setBounds(1, 1, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
-
-    //                    marker1.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
-    private void getMarkersAmber() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_AMBER,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                title = product.getString(TITLE);
-                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
-                                double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
-                                double lng3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
-                                //adding the product to product list
-                                cnum = product.getString(columeNumber);
-                                cl = product.getString(columeManf);
-                                rs = product.getString(RaiseandLow);
-                                cm = product.getString(columeMaterial);
-                                ct = product.getString(ColumeType);
-                                chg = product.getString(ColumeHight);
-                                nd = product.getString(NumDoors);
-                                dd = product.getString(DoorDimen);
-                                ft = product.getString(Foundation);
-                                bt = product.getString(ColumeBracket);
-                                bl = product.getString(BracketLenth);
-                                eage = product.getString(EstimatedAge);
-                                cstkm = product.getString(CoastKM);
-                                lm = product.getString(LatenManfu);
-                                addMarker2(latLng, title);
-                                displayData.add(product);
-
-
-                            }
-                            for (int i = 0; i < displayData.size(); i++) {
-                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
-                                double latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
-                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
-                                ip = displayData.get(i).get(TITLE).toString();
-                                cnum = displayData.get(i).get(columeNumber).toString();
-                                cl = displayData.get(i).get(columeManf).toString();
-                                rs = displayData.get(i).get(RaiseandLow).toString();
-                                cm = displayData.get(i).get(columeMaterial).toString();
-                                ct = displayData.get(i).get(ColumeType).toString();
-                                chg = displayData.get(i).get(ColumeHight).toString();
-                                nd = displayData.get(i).get(NumDoors).toString();
-                                dd = displayData.get(i).get(DoorDimen).toString();
-                                ft = displayData.get(i).get(Foundation).toString();
-                                bt = displayData.get(i).get(ColumeBracket).toString();
-                                bl = displayData.get(i).get(BracketLenth).toString();
-                                eage = displayData.get(i).get(EstimatedAge).toString();
-                                cstkm = displayData.get(i).get(EstimatedAge).toString();
-                                lm = displayData.get(i).get(LatenManfu).toString();
-
-
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AssignedMode.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-    }
-
-    private void addMarker2(final LatLng latLng, final String title) {
-        double lat = latLng.latitude;
-        double lng = latLng.longitude;
-        // Set he title and snippet strings.
-
-
-        final String snippet2 = (" Status : Amber " + " \n Asset ID : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
-                "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
-                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
-
-// Create a cluster item for the marker and set the title and snippet using the constructor.
-        //  Items infoWindowItem = new Items(lat,lng, title, snippet);
-        MarkerOptions markerOptions2 = new MarkerOptions()
-                .position(latLng)
-                .title(title)
-                .snippet(snippet2)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-        gMap.addMarker(markerOptions2);
-
-        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker2) {
-//                Toast.makeText(CurrentLocation.this, marker2.getTitle(), Toast.LENGTH_SHORT).show();
-
-                latit = String.valueOf(marker2.getPosition().latitude);
-                longgg = String.valueOf(marker2.getPosition().longitude);
-                ipaddr = marker2.getTitle();
-                showDialog( AssignedMode.this);
-
-            }
-        });
-    }
-
-
-    private void getMarkersGreen() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_GREEN,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                title = product.getString(TITLE);
-                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
-                                double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
-                                double lng3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
-                                //adding the product to product list
-                                cnum = product.getString(columeNumber);
-                                cl = product.getString(columeManf);
-                                rs = product.getString(RaiseandLow);
-                                cm = product.getString(columeMaterial);
-                                ct = product.getString(ColumeType);
-                                chg = product.getString(ColumeHight);
-                                nd = product.getString(NumDoors);
-                                dd = product.getString(DoorDimen);
-                                ft = product.getString(Foundation);
-                                bt = product.getString(ColumeBracket);
-                                bl = product.getString(BracketLenth);
-                                cstkm = product.getString(CoastKM);
-                                eage = product.getString(EstimatedAge);
-                                lm = product.getString(LatenManfu);
-                                addMarker(latLng, title);
-                                displayData.add(product);
-                                // onMarkerClick(latLng);
-//                                product1 = new Product(title,lat3,lng3,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm);
-
-                            }
-                            for (int i = 0; i < displayData.size(); i++) {
-                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
-                                double latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
-                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
-                                ip = displayData.get(i).get(TITLE).toString();
-                                cnum = displayData.get(i).get(columeNumber).toString();
-                                cl = displayData.get(i).get(columeManf).toString();
-                                rs = displayData.get(i).get(RaiseandLow).toString();
-                                cm = displayData.get(i).get(columeMaterial).toString();
-                                ct = displayData.get(i).get(ColumeType).toString();
-                                chg = displayData.get(i).get(ColumeHight).toString();
-                                nd = displayData.get(i).get(NumDoors).toString();
-                                dd = displayData.get(i).get(DoorDimen).toString();
-                                ft = displayData.get(i).get(Foundation).toString();
-                                bt = displayData.get(i).get(ColumeBracket).toString();
-                                bl = displayData.get(i).get(BracketLenth).toString();
-                                eage = displayData.get(i).get(EstimatedAge).toString();
-                                cstkm = displayData.get(i).get(EstimatedAge).toString();
-                                lm = displayData.get(i).get(LatenManfu).toString();
-
-
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AssignedMode.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-    }
-
-    private void addMarker(final LatLng latLng, final String title) {
-
-
-        double lat = latLng.latitude;
-        double lng = latLng.longitude;
-        // Set he title and snippet strings.
-
-
-        final String snippet3 = (" Status : Green " + " \n Asset ID : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
-                "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
-                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
-
-        MarkerOptions markerOptions3 = new MarkerOptions()
-                .position(latLng)
-                .title(title)
-                .snippet(snippet3)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        gMap.addMarker(markerOptions3);
-
-        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker2) {
-//                Toast.makeText(CurrentLocation.this, marker3.getTitle(), Toast.LENGTH_SHORT).show();
-
-                latit = String.valueOf(marker2.getPosition().latitude);
-                longgg = String.valueOf(marker2.getPosition().longitude);
-                ipaddr = marker2.getTitle();
-                showDialog( AssignedMode.this);
-
-            }
-        });
-
-
-    }
-
-    private void getMarkersRed() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_RED,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                title = product.getString(TITLE);
-                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
-                                double lat3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LAT))));
-                                double lng3 = Double.parseDouble(String.valueOf(Double.parseDouble(product.getString(LNG))));
-                                //adding the product to product list
-                                cnum = product.getString(columeNumber);
-                                cl = product.getString(columeManf);
-                                rs = product.getString(RaiseandLow);
-                                cm = product.getString(columeMaterial);
-                                ct = product.getString(ColumeType);
-                                chg = product.getString(ColumeHight);
-                                nd = product.getString(NumDoors);
-                                dd = product.getString(DoorDimen);
-                                ft = product.getString(Foundation);
-                                bt = product.getString(ColumeBracket);
-                                bl = product.getString(BracketLenth);
-                                eage = product.getString(EstimatedAge);
-                                cstkm = product.getString(CoastKM);
-                                lm = product.getString(LatenManfu);
-                                addMarker1(latLng, title);
-                                displayData.add(product);
-                                // onMarkerClick(latLng);
-//                                product1 = new Product(title,lat3,lng3,cl,rs,cm,ct,chg,nd,dd,ft,bt,bl,eage,lm);
-
-                            }
-                            for (int i = 0; i < displayData.size(); i++) {
-                                //    String ip, latt, logg, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage, lm;
-                                double latt = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LAT).toString())));
-                                double logg = Double.parseDouble(String.valueOf(Double.parseDouble(displayData.get(i).get(LNG).toString())));
-                                ip = displayData.get(i).get(TITLE).toString();
-                                cnum = displayData.get(i).get(columeNumber).toString();
-                                cl = displayData.get(i).get(columeManf).toString();
-                                rs = displayData.get(i).get(RaiseandLow).toString();
-                                cm = displayData.get(i).get(columeMaterial).toString();
-                                ct = displayData.get(i).get(ColumeType).toString();
-                                chg = displayData.get(i).get(ColumeHight).toString();
-                                nd = displayData.get(i).get(NumDoors).toString();
-                                dd = displayData.get(i).get(DoorDimen).toString();
-                                ft = displayData.get(i).get(Foundation).toString();
-                                bt = displayData.get(i).get(ColumeBracket).toString();
-                                bl = displayData.get(i).get(BracketLenth).toString();
-                                eage = displayData.get(i).get(EstimatedAge).toString();
-                                cstkm = displayData.get(i).get(EstimatedAge).toString();
-                                lm = displayData.get(i).get(LatenManfu).toString();
-
-
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AssignedMode.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-    }
-
-    private void addMarker1(final LatLng latLng, final String title) {
-        double lat = latLng.latitude;
-        double lng = latLng.longitude;
-        // Set he title and snippet strings.
-
-
-        final String snippet4 = (" Status : Red " + " \n Asset ID : " + cnum + " \n Lat: " + lat + ",Longitude: " + lng + " \n Colume Manf: " + cl + "\n Raise & Lower: " + rs +
-                "\n Colume Material: " + cm + " \n Colume Type: " + ct + " \n Colume Height: " + chg + " \n Number of Door: " + nd + " \n Door Dimen: " + dd + "\n Foundation type: " + ft +
-                "\n Column Bracket:" + bt + " \n Bracket Length:" + bl + "\n Estimated Age of Lat:" + eage + "\n Installation coast 5Km ?:" + cstkm + " \n Lat. Manf: " + lm);
-
-// Create a cluster item for the marker and set the title and snippet using the constructor.
-        //  Items infoWindowItem = new Items(lat,lng, title, snippet);
-        MarkerOptions markerOptions4 = new MarkerOptions()
-                .position(latLng)
-                .title(title)
-                .snippet(snippet4)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        gMap.addMarker(markerOptions4);
-
-
-        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker2) {
-//                Toast.makeText(CurrentLocation.this, marker4.getTitle(), Toast.LENGTH_SHORT).show();
-                latit = String.valueOf(marker2.getPosition().latitude);
-                longgg = String.valueOf(marker2.getPosition().longitude);
-                ipaddr = marker2.getTitle();
-                showDialog( AssignedMode.this);
-
-            }
-        });
-
-    }
 
 
     private void getAutoComlete() {
@@ -1114,7 +877,7 @@ public class AssignedMode extends AppCompatActivity implements OnMapReadyCallbac
 
                                 //getting product object from json array
                                 JSONObject catobj = array.getJSONObject(i);
-                                SuggestGetSet colman = new SuggestGetSet(catobj.getString(ID1), catobj.getString(Station11));
+                                SuggestGetSet colman = new SuggestGetSet(catobj.getString(IDD), catobj.getString(Stat));
 //                                ListData.add(new SuggestGetSet(r.getString("Id"),r.getString("Station")));
                                 List.add(colman);
 //                                populateSpinner();

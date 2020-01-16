@@ -84,7 +84,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>,  ClusterManager.OnClusterItemInfoWindowClickListener<Items> {
+public class alert_map extends AppCompatActivity  implements  GoogleMap.OnMarkerClickListener,OnMapReadyCallback,ClusterManager.OnClusterClickListener<Items>, ClusterManager.OnClusterInfoWindowClickListener<Items>, ClusterManager.OnClusterItemClickListener<Items>,  ClusterManager.OnClusterItemInfoWindowClickListener<Items> {
 
     int size =0;
     private int ii;
@@ -94,7 +94,7 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
     LatLng center, latLng;
     String title;
 
-    String   stname,stcode,assertid,alertdate, alerttype ;
+    String  ipaddr,iccid, stname,stcode,assertid,alertdate, alerttype ;
 
 
     private RequestQueue mRequestQueue;
@@ -114,7 +114,7 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
     ArrayList<String> ipaddress3 = new ArrayList<String>();
     private ArrayList<SuggestGetSet> List;
 
-
+    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
@@ -194,7 +194,7 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
         mClusterManager.setOnClusterItemInfoWindowClickListener(this);
         mClusterManager.cluster();
         builder = new LatLngBounds.Builder();
-
+        gMap.setOnMarkerClickListener(this);
 // Creating Marker Using MySQL database and calling that function.
         gMap.clear();
         getMarkers();
@@ -375,7 +375,7 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
         // Set he title and snippet strings.
 
 
-        final String snippet = "Latitude:" + latLng.latitude + ",Longitude" + latLng.longitude;
+        final String snippet = ("Status : Red " + " \nICCID : " + title+"\nAlert Type : " + alerttype +"\nAsset ID : " +  assertid + "\nStation Name: " + stname +", "+stcode+ "\nAlert TimeStamp:  " + alertdate);
 
 // Create a cluster item for the marker and set the title and snippet using the constructor.
         Items infoWindowItem = new Items(lat,lng, title, snippet);
@@ -425,6 +425,16 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        ipaddr = marker.getTitle();
+        InfoWndowAdapter markerInfoWindowAdapter = new InfoWndowAdapter(getApplicationContext());
+        gMap.setInfoWindowAdapter(markerInfoWindowAdapter);
+        mulitpleMarker();
+
+        return false;
     }
 
 
@@ -544,9 +554,19 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
                                 alertdate = product.getString("date_added");
 
                                 addMarker(latLng, title);
+                                displayData.add(product);
+                            }
+                            for (int i = 0; i < displayData.size(); i++) {
+
+
+                                iccid = displayData.get(i).get("iccid").toString();
+                                alerttype = displayData.get(i).get("alert_type").toString();
+                                assertid = displayData.get(i).get("asset_id").toString();
+                                stname = displayData.get(i).get("station_name").toString();
+                                stcode = displayData.get(i).get("station_cws").toString();
+                                alertdate = displayData.get(i).get("date_added").toString();
 
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -570,10 +590,10 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
     private void mulitpleMarker() {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-//        builder1.setIcon(R.drawable.refereshbutton);
+
         builder1.setCancelable(false);
         builder1.setTitle("Alert");
-        builder1.setMessage("Status : Red " + " \nICCID : " + title +"\nAlert Type : " + alerttype +"\nAsset ID : " +  assertid + "\nStation Name: " + stname +", "+stcode+ "\nAlert TimeStamp:  " + alertdate +"\nHave you corrected Asset Alert?");
+        builder1.setMessage("Have you corrected Asset Alert?");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -582,15 +602,22 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
                         //      saveData();
                         //    perform HTTP POST request
                         if (checkNetworkConnection()) {
-                            new HTTPAsyncTask().execute("  https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/alert_remove");
+                            new HTTPAsyncTask().execute( "https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDColumeUpdate");
 //                            onBackPressed();
-                        } else
+                        } else {
                             Toast.makeText(alert_map.this, "Not Connected!", Toast.LENGTH_SHORT).show();
+                        }
 
-
-
-
+                        Intent intent = getIntent();
+                        overridePendingTransition(0, 0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(intent);
                     }
+
+
+
                 });
 
         builder1.setNeutralButton("No", new DialogInterface.OnClickListener() {
@@ -602,6 +629,11 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
         });
 
         AlertDialog alert11 = builder1.create();
+
+        WindowManager.LayoutParams wmlp = alert11.getWindow().getAttributes();
+        wmlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        wmlp.x = 120;   //x position
+        wmlp.y = 5;   //y position
         alert11.show();
 
 
@@ -612,17 +644,7 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
 
         Button buttonbackground2 = alert11.getButton(DialogInterface.BUTTON_NEUTRAL);
         buttonbackground2.setTextColor(Color.BLACK);
-        alert11.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                Intent intent = getIntent();
-                overridePendingTransition(0, 0);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(intent);
-            }
-        });
+
 
     }
 
@@ -699,7 +721,8 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
 
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("iccid", title);
+        jsonObject.put("columeupdate", "4");
+        jsonObject.put("iccid", ipaddr);
 
         return jsonObject;
     }
@@ -829,7 +852,7 @@ public class alert_map extends AppCompatActivity  implements OnMapReadyCallback,
     public boolean onClusterItemClick(Items items) {
 
 
-        mulitpleMarker();
+
 
 
         return true;

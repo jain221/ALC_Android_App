@@ -229,9 +229,9 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
         List = new ArrayList<SuggestGetSet>();
         getAutoComlete();
         getMarkers1();
-        getMarkersAmber1();
-        getMarkersGreen1();
-        getMarkersRed1();
+//        getMarkersAmber1();
+//        getMarkersGreen1();
+//        getMarkersRed1();
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -1108,7 +1108,7 @@ public class StationLocation extends AppCompatActivity  implements OnMapReadyCal
                 String lng = longgg;
                 String ipaddress =ipaddr;
 
-                Intent intent = new Intent(StationLocation.this,editeColumeNumber.class);
+                Intent intent = new Intent(StationLocation.this,AddingAssertNumber.class);
                 //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
                 intent.putExtra("doubleValue_e1", ipaddress);
                 intent.putExtra("doubleValue_e2", lat);

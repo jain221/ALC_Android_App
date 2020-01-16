@@ -886,7 +886,7 @@ public class UnassignedEditData extends AppCompatActivity implements OnMapReadyC
                 String lng = longgg;
                 String ipaddress = ipaddr;
 
-                Intent intent = new Intent(UnassignedEditData.this, editeColumeNumber.class);
+                Intent intent = new Intent(UnassignedEditData.this, AddingAssertNumber.class);
                 //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
                 intent.putExtra("doubleValue_e1", ipaddress);
                 intent.putExtra("doubleValue_e2", lat);

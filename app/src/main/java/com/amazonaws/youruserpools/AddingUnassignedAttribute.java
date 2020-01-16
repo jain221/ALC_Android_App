@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 //
 //public class database_colume_node extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
@@ -92,7 +94,7 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
     public static final String columeMaterial = "material_name";
     public static final String ColumeType = "type_name";
     public static final String ColumeHight = "column_height";
-    public static final String NumDoors = "number_of_door";
+    public static final String NumDoors = "number_of_door1";
     public static final String DoorDimen = "number_of_door";
     public static final String Foundation = "foundation_type";
     public static final String ColumeBracket = "bracket_type";
@@ -103,21 +105,9 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
     ProgressDialog pDialog;
 
     int size;
-    // API urls
-    // Url to create new category
-    private String URL_NEW_CATEGORY = "https://8jpt28d8fk.execute-api.eu-west-1.amazonaws.com/SendData/ISD";
-    private String URL_ColumeManfucture = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/column_manufacture";
-    private String URL_RaiseandLow = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/Raise_and_Lower";
-    private String URL_columeMaterial = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/column_material";
-    private String URL_ColumeType = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/column_type";
-    private String URL_ColumeHight = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/column_height_from_ground";
-    private String URL_NumDoors = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/number_of_door";
-    private String URL_DoorDimen = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/door_dimensions";
-    private String URL_Foundation = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/foundation_type";
-    private String URL_ColumeBracketType = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/bracket_type";
-    private String URL_BracketLen = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/bracket_length";
-    private String URL_EstimateAge = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/estimated_age";
-    private String URL_LateManfu = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/lantern_manufacturer";
+
+    private String URL_ColumeManfucture = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
+
     private SharedPreferences sharedPreferences;
 
     EditText StudentName;
@@ -206,7 +196,7 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
     public static final String SHARED_PREFS13 = "sharedPrefs12";
     public static final String TEXT13 = "text12";
 
-    private static final String URL_Data = "https://qcqjrkuq8d.execute-api.eu-west-1.amazonaws.com/default/StationNameGetFunction";
+    private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
 
 
 
@@ -289,17 +279,7 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
 
         getAutoComlete();
         GetCategories();
-        GetCategories1();
-        GetCategories2();
-        GetCategories3();
-        GetCategories4();
-        GetCategories5();
-        GetCategories6();
-        GetCategories7();
-        GetCategories8();
-        GetCategories9();
-        GetCategories10();
-        GetCategories11();
+
 
         btnAddNewCategory.setOnClickListener(new View.OnClickListener() {
 
@@ -307,7 +287,7 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
             public void onClick(View v) {
 
                 if (checkNetworkConnection()) {
-                    new HTTPAsyncTask().execute(" https://8jpt28d8fk.execute-api.eu-west-1.amazonaws.com/SendData/ISD");
+                    new HTTPAsyncTask().execute("https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDColumeUpdate");
                     onBackPressed();
                 } else
                     Toast.makeText(AddingUnassignedAttribute.this, "Not Connected!", Toast.LENGTH_SHORT).show();
@@ -322,6 +302,8 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
 
 
     }
+
+
 
 
     private void getAutoComlete() {
@@ -400,9 +382,14 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList.size(); i++) {
-            lables.add(categoriesList.get(i).getName());
-        }
+//            categoriesList.remove(null);
+            String firstArray = categoriesList.get(i).getName();
 
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
+        }
         // Creating adapter for spinner
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
@@ -447,7 +434,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList1.size(); i++) {
-            lables.add(categoriesList1.get(i).getName1());
+
+            String firstArray = categoriesList1.get(i).getName1();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
@@ -496,7 +489,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList1.size(); i++) {
-            lables.add(categoriesList1.get(i).getName1());
+
+            String firstArray = categoriesList1.get(i).getName1();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
@@ -542,7 +541,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList2.size(); i++) {
-            lables.add(categoriesList2.get(i).getName2());
+
+            String firstArray = categoriesList2.get(i).getName2();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
@@ -591,7 +596,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList3.size(); i++) {
-            lables.add(categoriesList3.get(i).getName3());
+
+            String firstArray = categoriesList3.get(i).getName3();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
@@ -644,7 +655,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList4.size(); i++) {
-            lables.add(categoriesList4.get(i).getName4());
+
+            String firstArray = categoriesList4.get(i).getName4();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
@@ -695,7 +712,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList5.size(); i++) {
-            lables.add(categoriesList5.get(i).getName5());
+
+            String firstArray = categoriesList5.get(i).getName5();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
@@ -742,7 +765,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList6.size(); i++) {
-            lables.add(categoriesList6.get(i).getName6());
+
+            String firstArray = categoriesList6.get(i).getName6();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
@@ -790,7 +819,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList7.size(); i++) {
-            lables.add(categoriesList7.get(i).getName7());
+
+            String firstArray = categoriesList7.get(i).getName7();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this,  R.layout.color_spinner_layout,lables);
 
@@ -835,7 +870,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList8.size(); i++) {
-            lables.add(categoriesList8.get(i).getName8());
+
+            String firstArray = categoriesList8.get(i).getName8();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         // Creating adapter for spinner
@@ -884,7 +925,14 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList9.size(); i++) {
-            lables.add(categoriesList9.get(i).getName9());
+
+
+            String firstArray = categoriesList9.get(i).getName9();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
@@ -927,7 +975,13 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList10.size(); i++) {
-            lables.add(categoriesList10.get(i).getName10());
+
+            String firstArray = categoriesList10.get(i).getName10();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
 
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
@@ -969,17 +1023,20 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         //txtCategory.setText("");
 
         for (int i = 0; i < categoriesList11.size(); i++) {
-            lables.add(categoriesList11.get(i).getName11());
+
+            String firstArray = categoriesList11.get(i).getName11();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
         }
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
-        // Drop down layout style - list view with radio button
-        spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+        spinnerAdapter.setDropDownViewResource(R.layout.spinerrgb);
 
         // attaching data adapter to spinner
         spinnerlaternManuf.setAdapter(spinnerAdapter);
-
 
         final String firstItem11 = String.valueOf( spinnerlaternManuf.getSelectedItem());
 
@@ -989,10 +1046,7 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
                 if (firstItem11.equals(String.valueOf( spinnerlaternManuf.getSelectedItem()))) {
 
                 } else {
-//                    Toast.makeText(parent.getContext(),
-//                            "Ko Milih : " + parent.getItemAtPosition(position).toString(),
-//                            Toast.LENGTH_LONG).show();
-
+//
                 }
             }
 
@@ -1010,6 +1064,7 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
     }
 
 
+
     /**
      * Async task to get all food categories
      */
@@ -1019,12 +1074,14 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ColumeManfucture,
                 new Response.Listener<String>() {
                     @Override
+
                     public void onResponse(String response) {
                         try {
                             //converting the string to json array object
                             JSONArray array = new JSONArray(response);
 
                             //traversing through all the object
+
                             for (int i = 0; i < array.length(); i++) {
 
                                 //getting product object from json array
@@ -1032,467 +1089,53 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
                                 Category colman = new Category(catobj.getInt(ID), catobj.getString(columeManf));
                                 categoriesList.add(colman);
                                 populateSpinner();
-
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-
-
-
-    private void GetCategories1() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_RaiseandLow,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
                                 Category1 colman1 = new Category1(catobj.getInt(ID), catobj.getString(RaiseandLow));
                                 categoriesList1.add(colman1);
                                 populateSpinner1();
                                 populateCoast();
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories2() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_columeMaterial,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category2 colman = new Category2(catobj.getInt(ID), catobj.getString(columeMaterial));
-                                categoriesList2.add(colman);
+                                Category2 colman3 = new Category2(catobj.getInt(ID), catobj.getString(columeMaterial));
+                                categoriesList2.add(colman3);
                                 ColumeMat();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories3() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ColumeType,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category3 colman1 = new Category3(catobj.getInt(ID), catobj.getString(ColumeType));
-                                categoriesList3.add(colman1);
+                                Category3 colman4 = new Category3(catobj.getInt(ID), catobj.getString(ColumeType));
+                                categoriesList3.add(colman4);
                                 ColumeType();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-    }
-
-    private void GetCategories4() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ColumeHight,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category4 colman = new Category4(catobj.getInt(ID), catobj.getString(ColumeHight));
-                                categoriesList4.add(colman);
+                                Category4 colman5 = new Category4(catobj.getInt(ID), catobj.getString(ColumeHight));
+                                categoriesList4.add(colman5);
                                 ColumeHight();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-    private void GetCategories5() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,URL_NumDoors,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category5 colman1 = new Category5(catobj.getInt(ID), catobj.getString(NumDoors));
-                                categoriesList5.add(colman1);
+                                Category5 colman6 = new Category5(catobj.getInt(ID), catobj.getString(NumDoors));
+                                categoriesList5.add(colman6);
                                 NumberDoors();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-    private void GetCategories6() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,URL_DoorDimen,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category6 colman = new Category6(catobj.getInt(ID), catobj.getString(DoorDimen));
-                                categoriesList6.add(colman);
+                                Category6 colman7 = new Category6(catobj.getInt(ID), catobj.getString(DoorDimen));
+                                categoriesList6.add(colman7);
                                 DoorDimen();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories7() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_Foundation,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category7 colman1 = new Category7(catobj.getInt(ID), catobj.getString(Foundation));
-                                categoriesList7.add(colman1);
+                                Category7 colman8 = new Category7(catobj.getInt(ID), catobj.getString(Foundation));
+                                categoriesList7.add(colman8);
                                 Foundation();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-    }
-    private void GetCategories8() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ColumeBracketType ,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category8 colman = new Category8(catobj.getInt(ID), catobj.getString(ColumeBracket));
-                                categoriesList8.add(colman);
+                                Category8 colman9 = new Category8(catobj.getInt(ID), catobj.getString(ColumeBracket));
+                                categoriesList8.add(colman9);
                                 BracketType();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories9() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,  URL_BracketLen,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category9 colman1 = new Category9(catobj.getInt(ID), catobj.getString(BracketLenth));
-                                categoriesList9.add(colman1);
+                                Category9 colman10 = new Category9(catobj.getInt(ID), catobj.getString(BracketLenth));
+                                categoriesList9.add(colman10);
                                 BracketLenght();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories10() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_EstimateAge,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category10 colman = new Category10(catobj.getInt(ID), catobj.getString(EstimatedAge));
-                                categoriesList10.add(colman);
+                                Category10 colman11 = new Category10(catobj.getInt(ID), catobj.getString(EstimatedAge));
+                                categoriesList10.add(colman11);
                                 EstimatedAge();
 
-                            }
-                            //creating adapter object and setting it to recyclerview
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddingUnassignedAttribute.this, error.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
-
-
-    }
-
-    private void GetCategories11() {
-
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_LateManfu,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting product object from json array
-                                JSONObject catobj = array.getJSONObject(i);
-                                Category11 colman1 = new Category11(catobj.getInt(ID), catobj.getString(LatenManfu));
-                                categoriesList11.add(colman1);
+                                Category11 colman12 = new Category11(catobj.getInt(ID), catobj.getString(LatenManfu));
+                                categoriesList11.add(colman12);
                                 LatentManfu();
 
                             }
-                            //creating adapter object and setting it to recyclerview
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1509,7 +1152,10 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(this).add(stringRequest);
+
+
     }
+
 
     @Override
     public void onPause() {
@@ -1670,24 +1316,26 @@ public class AddingUnassignedAttribute extends AppCompatActivity  implements Ada
         }
 
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("columeupdate", "5");
         jsonObject.put("iccid", e1);
-        jsonObject.put("latitude",  e2);
-        jsonObject.put("longitude", e3);
-        jsonObject.put("colume_number", StudentName.getText().toString());
-        jsonObject.accumulate("Colume_Manfucture", spinnerColumeManf.getSelectedItem().toString());
-        jsonObject.accumulate("Raise_and_Lower", spinnerRaiseandLow.getSelectedItem().toString());
-        jsonObject.accumulate("Colume_Material", spinnerColumeMat.getSelectedItem().toString());
-        jsonObject.accumulate("Colume_Type", spinnerColumeType.getSelectedItem().toString());
-        jsonObject.accumulate("column_height_from_ground", spinnerColumeHight.getSelectedItem().toString());
-        jsonObject.accumulate("number_of_door", spinnerNumDoors.getSelectedItem().toString());
-        jsonObject.accumulate("door_dimensions", spinnerDoorDimen.getSelectedItem().toString());
+        jsonObject.put("station_name", AutostationName.getText().toString());
+        jsonObject.put("station_cws", "COY");
+        jsonObject.put("asset_id", "");
+        jsonObject.accumulate("asset_type","CCTV System");
+        jsonObject.accumulate("is_costal", spinnerCoastKm.getSelectedItem().toString());
+        jsonObject.accumulate("column_manufacturer", spinnerColumeManf.getSelectedItem().toString());
+        jsonObject.accumulate("raise_and_lower", spinnerRaiseandLow.getSelectedItem().toString());
+        jsonObject.accumulate("column_material", spinnerColumeMat.getSelectedItem().toString());
+        jsonObject.accumulate("column_type", spinnerColumeType.getSelectedItem().toString());
+        jsonObject.accumulate("column_height", spinnerColumeHight.getSelectedItem().toString());
+        jsonObject.accumulate("number_of_doors", spinnerNumDoors.getSelectedItem().toString());
+        jsonObject.accumulate("door_dimension", spinnerDoorDimen.getSelectedItem().toString());
         jsonObject.accumulate("foundation_type", spinnerFoundation.getSelectedItem().toString());
         jsonObject.accumulate("bracket_type", spinnerColumeBracketType.getSelectedItem().toString());
         jsonObject.accumulate("bracket_length", spinnerBracketLength.getSelectedItem().toString());
         jsonObject.accumulate("estimated_column_age", spinnerEstimatedColAGE.getSelectedItem().toString());
-        jsonObject.accumulate("cost_km", spinnerCoastKm.getSelectedItem().toString());
         jsonObject.accumulate("lantern_manufacturer", spinnerlaternManuf.getSelectedItem().toString());
-        jsonObject.put("station_name", AutostationName.getText().toString());
+
         return jsonObject;
 
     }
