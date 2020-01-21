@@ -1,24 +1,50 @@
+/*
+ * Copyright 2013-2017 Amazon.com,
+ * Inc. or its affiliates. All Rights Reserved.
+ *
+ * Licensed under the Amazon Software License (the "License").
+ * You may not use this file except in compliance with the
+ * License. A copy of the License is located at
+ *
+ *      http://aws.amazon.com/asl/
+ *
+ * or in the "license" file accompanying this file. This file is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, express or implied. See the License
+ * for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.amazonaws.youruserpools;
+
 import android.Manifest;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,11 +59,14 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -46,6 +75,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -60,7 +100,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,23 +113,42 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCallback {
 
-public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCallback{
+
+    private final String TAG="Map_Main_Activity";
+    private NavigationView nDrawer;
+    private DrawerLayout mDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar toolbar;
+    private AlertDialog userDialog;
+    private ProgressDialog waitDialog;
+    public static final String TITLE = "iccid";
 
 
+    // Cognito user objects
+    private CognitoUser user;
+
+
+    ArrayList<JSONObject> unassigneddata = new ArrayList<JSONObject>();
+    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
+
+    private String username;
+    String title;
+
+    private static final int ERROR_DIALOG_REQUEST = 9001;
     private int ii;
-    static CurrentLocation instance;
     MapFragment mapFragment;
     GoogleMap gMap;
 
     CameraPosition cameraPosition;
     LatLng center, latLng;
-    String title;
+
     private RequestQueue mRequestQueue;
     public static final String TAG1 = CurrentNode.class.getSimpleName();
     public static final String ID = "id";
     public static final String ID1 = "Id";
-    public static final String TITLE = "iccid";
+
     public static final String LAT =  "latitude";
     public static final String LNG = "longitude";
     public static final String Station11 = "station_name";
@@ -110,24 +168,14 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
     public static final String BracketLenth = "bracket_length";
     public static final String EstimatedAge = "estimated_column_age";
     public static final String LatenManfu = "lantern_manufacturer";
-    ToggleButton on, off;
-    String light;
-    String ippp;
-//    -------------------------------------------------------------
-
     public static final String IDD = "id";
     public static final String Stat = "station";
     public static final String Crs = "crs";
-    String ip, latt, stc,astype,logg, cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage,cstkm, lm;
-    private Marker myMarker;
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 17f;
-    TextView ipaddress;
-    private ArrayList<SuggestGetSet> List;
-    private Boolean mLocationPermissionsGranted = false;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
+
     private static final String URL_UnAssinged = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
     private static final String URL_AMBER = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectedamberColor";
     private static final String URL_GREEN = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectGreenColor";
@@ -135,32 +183,70 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
     private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
 
 
+    TextView ipaddress;
+    private ArrayList<SuggestGetSet> List;
+    private Boolean mLocationPermissionsGranted = false;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    String light;
+    String ippp;
 
+//    ----------
+
+
+    String ip, latt, stc,astype,logg, cnum, cl, rs, cm, ct, chg, nd, dd, ft, bt, bl, eage,cstkm, lm;
+    private Marker myMarker;
     private ImageView mGps;
 
     String data;
     AutoCompleteTextView et;
 
-    ArrayList<JSONObject> displayData = new ArrayList<JSONObject>();
+    MenuItem unsassignSize,alertAsset;
 
     Handler handler = new Handler();
     Runnable refresh;
     String TempItem;
-    TextView lat, log;
-    String e1, e2, e3;
 
+    Menu menu2;
     RadioGroup radioGroup;
 
     private RadioButton assignn;
     private RadioButton unassign;
     private RadioButton alldata;
     private RadioButton faultalert;
+    private DrawerLayout mDrawerLayout;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.current_location);
+        setContentView(R.layout.activity_user);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+//         Set toolbar for this screen
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+
+        toolbar.setTitle("");
+        mDrawer = (DrawerLayout) findViewById(R.id.user_drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+        mDrawer.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+        nDrawer = (NavigationView) findViewById(R.id.nav_view);
+        setNavDrawer();
+        init();
+        View navigationHeader = nDrawer.getHeaderView(0);
+
+        Menu menu3 = nDrawer.getMenu();
+        unsassignSize =menu3.findItem(R.id.nav_unassigned_assets);
+        alertAsset =menu3.findItem(R.id.nav_alert_assets);
+
+        TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
+        navHeaderSubTitle.setText(username);
+//         Map_Main_Activity();
+
+
+        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        main_title.setText("Monitored Assets");
+        setSupportActionBar(toolbar);
 
         mGps = (ImageView) findViewById(R.id.ic_gps);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
@@ -179,7 +265,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                     String location = et.getText().toString();
                     et.getText().clear();
                     hideSoftKeyboard();
-                    Geocoder geocoder = new Geocoder(CurrentLocation.this);
+                    Geocoder geocoder = new Geocoder(Map_Main_Activity.this);
                     List<Address> list = null;
                     try {
                         list = geocoder.getFromLocationName(location, 1);
@@ -199,13 +285,28 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
             }
         });
 
+        // [END handle_data_extras]
+
+        Button menubar = findViewById(R.id.bar);
+        menubar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ( mDrawer.isDrawerOpen(Gravity.LEFT)) {
+                    mDrawer.closeDrawer(Gravity.LEFT);
+                } else {
+                    mDrawer.openDrawer(Gravity.LEFT);
+                }
+            }
+
+        });
+
         getLocationPermission();
         if (gMap != null) {
 
             gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
-                    Geocoder geocoder = new Geocoder(CurrentLocation.this);
+                    Geocoder geocoder = new Geocoder(Map_Main_Activity.this);
                     List<Address> list;
                     try {
                         list = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
@@ -238,24 +339,26 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
 
                     case R.id.alert:
                         gMap.clear();
-                        Toast.makeText(CurrentLocation.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                        Intent intent4 = new Intent(CurrentLocation.this, faultassets.class);
-//                        Intent intent = new Intent(CurrentLocation.this, AddingAssertNumber.class);
+                        Toast.makeText(Map_Main_Activity.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Intent intent4 = new Intent(Map_Main_Activity.this, faultassets.class);
+
                         startActivity(intent4);
+
+
                         break;
 
                     case R.id.radioButton1:
                         gMap.clear();
-                        Toast.makeText(CurrentLocation.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(CurrentLocation.this, AssignedMode.class);
-//                        Intent intent = new Intent(CurrentLocation.this, AddingAssertNumber.class);
+                        Toast.makeText(Map_Main_Activity.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Map_Main_Activity.this, AssignedMode.class);
+//                        Intent intent = new Intent(Map_Main_Activity.this, AddingAssertNumber.class);
                         startActivity(intent);
                         break;
 
                     case R.id.radioButton2:
                         gMap.clear();
-                        Toast.makeText(CurrentLocation.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                        Intent intent1 = new Intent(CurrentLocation.this, UnassignedMode.class);
+                        Toast.makeText(Map_Main_Activity.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
+                        Intent intent1 = new Intent(Map_Main_Activity.this, UnassignedMode.class);
                         startActivity(intent1);
 
                         break;
@@ -263,7 +366,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                     case R.id.radioButton3:
                         gMap.clear();
 
-                        Toast.makeText(CurrentLocation.this,"All Data Selected", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Map_Main_Activity.this,"All Data Selected", Toast.LENGTH_LONG).show();
                         break;
                 }
             }
@@ -271,8 +374,414 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
 
 
 
+
+        if (isServicesOK()) {
+
+        }
+        getunsignedSize(URL_UnAssinged);
+        getalertSize(URL_RED);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            String channelId  = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+
+
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                Object value = getIntent().getExtras().get(key);
+                Log.d(TAG, "Key: " + key + " Value: " + value);
+            }
+        }
+
+
     }
 
+
+ //--------------------------------------------------------------------------------------------------
+
+    // Handle when the a navigation item is selected
+    private void setNavDrawer() {
+        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                performAction(item);
+                return true;
+            }
+        });
+    }
+
+    // Perform the action for the selected navigation item
+    private void performAction(MenuItem item) {
+        // Close the navigation drawer
+        mDrawer.closeDrawers();
+
+        // Find which item was selected
+        switch(item.getItemId()) {
+
+
+            case R.id.nav_user_verify_attribute:
+                attributesVerification();
+                break;
+
+            case R.id.nav_reassigned_assets:
+                Intent reassignd = new Intent(Map_Main_Activity.this,  AssignedMode.class);
+                startActivity(reassignd);
+                break;
+
+            case R.id.nav_unassigned_assets:
+                Intent unassigned = new Intent(Map_Main_Activity.this,  UnAssignedData.class);
+                startActivity(unassigned);
+                break;
+
+            case R.id.nav_alert_assets:
+                Intent intent = new Intent(Map_Main_Activity.this,  alert_map.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_user_about:
+                // For the inquisitive
+                Intent aboutAppActivity = new Intent(this, DetailsAboutCompany.class);
+                startActivity(aboutAppActivity);
+                break;
+
+            case R.id.nav_user_email:
+                // For the inquisitive
+                Intent contact = new Intent(this, emailActivity.class);
+                startActivity(contact);
+                break;
+
+            case R.id.nav_user_sign_out:
+
+                signOut();
+                break;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_user_menu, menu);
+        return true;
+    }
+
+
+    // Get user details from CIP service
+    private void getDetails() {
+        AppHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
+    }
+
+
+    // Update attributes
+    private void updateAttribute(String attributeType, String attributeValue) {
+
+        if(attributeType == null || attributeType.length() < 1) {
+            return;
+        }
+        CognitoUserAttributes updatedUserAttributes = new CognitoUserAttributes();
+        updatedUserAttributes.addAttribute(attributeType, attributeValue);
+        Toast.makeText(getApplicationContext(), attributeType + ": " + attributeValue, Toast.LENGTH_LONG);
+        showWaitDialog("Updating...");
+        AppHelper.getPool().getUser(AppHelper.getCurrUser()).updateAttributesInBackground(updatedUserAttributes, updateHandler);
+    }
+
+
+
+    // Verify attributes
+    private void attributesVerification() {
+        Intent attrbutesActivity = new Intent(this,UserActivity.class);
+        startActivityForResult(attrbutesActivity, 21);
+    }
+
+
+    // Sign out user
+    private void signOut() {
+        user.signOut();
+        exit();
+    }
+
+    // Initialize this activity
+    private void init() {
+        // Get the user name
+        Bundle extras = getIntent().getExtras();
+        username = AppHelper.getCurrUser();
+        user = AppHelper.getPool().getUser(username);
+
+        getDetails();
+    }
+
+    GetDetailsHandler detailsHandler = new GetDetailsHandler() {
+        @Override
+        public void onSuccess(CognitoUserDetails cognitoUserDetails) {
+            closeWaitDialog();
+            // Store details in the AppHandler
+            AppHelper.setUserDetails(cognitoUserDetails);
+            //  showAttributes();
+            // Trusted devices?
+            handleTrustedDevice();
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            closeWaitDialog();
+            showDialogMessage("Could not fetch user details!", AppHelper.formatException(exception), true);
+        }
+    };
+
+    private void handleTrustedDevice() {
+        CognitoDevice newDevice = AppHelper.getNewDevice();
+        if (newDevice != null) {
+            AppHelper.newDevice(null);
+            trustedDeviceDialog(newDevice);
+        }
+    }
+
+    private void updateDeviceStatus(CognitoDevice device) {
+        device.rememberThisDeviceInBackground(trustedDeviceHandler);
+    }
+
+    private void trustedDeviceDialog(final CognitoDevice newDevice) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Remember this device?");
+        //final EditText input = new EditText(UserActivity.this);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        //input.setLayoutParams(lp);
+        //input.requestFocus();
+        //builder.setView(input);
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    //String newValue = input.getText().toString();
+                    showWaitDialog("Remembering this device...");
+                    updateDeviceStatus(newDevice);
+                    userDialog.dismiss();
+                } catch (Exception e) {
+                    // Log failure
+                }
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    userDialog.dismiss();
+                } catch (Exception e) {
+                    // Log failure
+                }
+            }
+        });
+        userDialog = builder.create();
+        userDialog.show();
+    }
+
+    // Callback handlers
+
+    UpdateAttributesHandler updateHandler = new UpdateAttributesHandler() {
+        @Override
+        public void onSuccess(List<CognitoUserCodeDeliveryDetails> attributesVerificationList) {
+            // Update successful
+            if(attributesVerificationList.size() > 0) {
+                showDialogMessage("Updated", "The updated attributes has to be verified",  false);
+            }
+            getDetails();
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            // Update failed
+            closeWaitDialog();
+            showDialogMessage("Update failed", AppHelper.formatException(exception), false);
+        }
+    };
+
+    GenericHandler deleteHandler = new GenericHandler() {
+        @Override
+        public void onSuccess() {
+            closeWaitDialog();
+            // Attribute was deleted
+            Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT);
+
+            // Fetch user details from the the service
+            getDetails();
+        }
+
+        @Override
+        public void onFailure(Exception e) {
+            closeWaitDialog();
+            // Attribute delete failed
+            showDialogMessage("Delete failed", AppHelper.formatException(e), false);
+
+            // Fetch user details from the service
+            getDetails();
+        }
+    };
+
+    GenericHandler trustedDeviceHandler = new GenericHandler() {
+        @Override
+        public void onSuccess() {
+            // Close wait dialog
+            closeWaitDialog();
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            closeWaitDialog();
+            showDialogMessage("Failed to update device status", AppHelper.formatException(exception), true);
+        }
+    };
+
+
+
+    private void showWaitDialog(String message) {
+        closeWaitDialog();
+        waitDialog = new ProgressDialog(this);
+        waitDialog.setTitle(message);
+        waitDialog.show();
+    }
+
+    private void showDialogMessage(String title, String body, final boolean exit) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    userDialog.dismiss();
+                    if(exit) {
+                        exit();
+                    }
+                } catch (Exception e) {
+                    // Log failure
+                    Log.e(TAG," -- Dialog dismiss failed");
+                    if(exit) {
+                        exit();
+                    }
+                }
+            }
+        });
+        userDialog = builder.create();
+        userDialog.show();
+    }
+
+    private void closeWaitDialog() {
+        try {
+            waitDialog.dismiss();
+        }
+        catch (Exception e) {
+            //
+        }
+    }
+
+    private void exit () {
+        Intent intent = new Intent();
+        if(username == null)
+            username = "";
+        intent.putExtra("name",username);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    private void getunsignedSize(String url) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject product = array.getJSONObject(i);
+                                title = product.getString(TITLE);
+                                unassigneddata.add(product);
+
+                            }
+                            unsassignSize.setTitle(unassigneddata.size()+" Unassigned Assets");
+
+                            Toast.makeText(Map_Main_Activity.this,  displayData.size()+" Assets are Unassigned ", Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Map_Main_Activity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+
+    }
+
+    private void getalertSize(String url) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject product = array.getJSONObject(i);
+                                title = product.getString(TITLE);
+                                displayData.add(product);
+
+                            }
+
+                            alertAsset.setTitle(displayData.size()+" Assets Alerts");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Map_Main_Activity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+
+    }
+
+
+    //-------------------------------------------------------------------------------------------------
+
+
+
+    ///-------------------------------------------Main_Map_activity_All_Assets-------------------------
 
 
     @Override
@@ -337,27 +846,27 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                             for (int i = 0; i < array.length(); i++) {
 
                                 //getting product object from json array
-                                     JSONObject product = array.getJSONObject(i);
-                                    title = product.getString(TITLE);
-                                    latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
-                                    cnum = product.getString(columeNumber);
-                                    stc = product.getString(Stationcode);
-                                    astype = product.getString(assettype);
-                                    cl = product.getString(columeManf);
-                                    rs = product.getString(RaiseandLow);
-                                    cm = product.getString(columeMaterial);
-                                    ct = product.getString(ColumeType);
-                                    chg = product.getString(ColumeHight);
-                                    nd = product.getString(NumDoors);
-                                    dd = product.getString(DoorDimen);
-                                    ft = product.getString(Foundation);
-                                    bt = product.getString(ColumeBracket);
-                                    bl = product.getString(BracketLenth);
-                                    eage = product.getString(EstimatedAge);
-                                    cstkm = product.getString(CoastKM);
-                                    lm = product.getString(LatenManfu);
-                                    addMarkerGreen(latLng, title, color, status);
-                                    displayData.add(product);
+                                JSONObject product = array.getJSONObject(i);
+                                title = product.getString(TITLE);
+                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
+                                cnum = product.getString(columeNumber);
+                                stc = product.getString(Stationcode);
+                                astype = product.getString(assettype);
+                                cl = product.getString(columeManf);
+                                rs = product.getString(RaiseandLow);
+                                cm = product.getString(columeMaterial);
+                                ct = product.getString(ColumeType);
+                                chg = product.getString(ColumeHight);
+                                nd = product.getString(NumDoors);
+                                dd = product.getString(DoorDimen);
+                                ft = product.getString(Foundation);
+                                bt = product.getString(ColumeBracket);
+                                bl = product.getString(BracketLenth);
+                                eage = product.getString(EstimatedAge);
+                                cstkm = product.getString(CoastKM);
+                                lm = product.getString(LatenManfu);
+                                addMarkerGreen(latLng, title, color, status);
+                                displayData.add(product);
 
 
                             }
@@ -395,7 +904,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(CurrentLocation.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Map_Main_Activity.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -432,7 +941,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                 //
                 ippp = marker.getTitle();
 
-                showDialog(CurrentLocation.this);
+                showDialog(Map_Main_Activity.this);
 
 
                 return false;
@@ -442,10 +951,10 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         });
     }
 
-    private void showDialog(CurrentLocation currentLocation) {
+    private void showDialog(Map_Main_Activity Map_Main_Activity) {
 
 
-        final Dialog dialog = new Dialog(currentLocation);
+        final Dialog dialog = new Dialog(Map_Main_Activity);
         dialog.setCancelable(false);
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         dialog.setContentView(R.layout.switchonoff);
@@ -470,10 +979,10 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                 light = "1";
 
                 if (checkNetworkConnection()) {
-                    new HTTPAsyncTask().execute("  https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/assetswitch");
+                    new Map_Main_Activity.HTTPAsyncTask().execute("  https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/assetswitch");
 //                            onBackPressed();
                 } else {
-                    Toast.makeText(CurrentLocation.this, "Not Connected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Map_Main_Activity.this, "Not Connected!", Toast.LENGTH_SHORT).show();
                 }
 
                 dialog.dismiss();
@@ -493,12 +1002,12 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                 light = "0";
 
                 if (checkNetworkConnection()) {
-                    new HTTPAsyncTask().execute("  https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/assetswitch");
+                    new Map_Main_Activity.HTTPAsyncTask().execute("  https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/assetswitch");
 //                            onBackPressed();
                 } else{
-                    Toast.makeText(CurrentLocation.this, "Not Connected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Map_Main_Activity.this, "Not Connected!", Toast.LENGTH_SHORT).show();
 
-            }
+                }
                 dialog.dismiss();
 
 
@@ -516,6 +1025,12 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         dialog.show();
 
     }
+
+
+    //-------------------------END-----------------------------------------------------------------------
+
+
+    //------------------------Aws send data connection---------------------------------------------------
     // check network connection
     public boolean checkNetworkConnection() {
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -603,18 +1118,24 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         OutputStream os = conn.getOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
         writer.write(jsonObject.toString());
-        Log.i(MainActivity.class.toString(), jsonObject.toString());
+        Log.i(LoginPage.class.toString(), jsonObject.toString());
         writer.flush();
         writer.close();
         os.close();
     }
 
+ //-------------------------##END-----------------------------------------------------------------------
+
+
+
+
+//---------------------##same in each actvity----------------------------------------------------------
 
 
     public void getDeviceLocation() {
         Log.d(TAG1, "getDeviceLocation: getting the devices current location");
 
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(CurrentLocation.this);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(Map_Main_Activity.this);
 
         try {
             if (mLocationPermissionsGranted) {
@@ -625,15 +1146,15 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG1, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
+                            Location mapActivity = (Location) task.getResult();
 
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                            moveCamera(new LatLng(mapActivity.getLatitude(), mapActivity.getLongitude()),
                                     DEFAULT_ZOOM);
 
 
                         } else {
                             Log.d(TAG1, "onComplete: current location is null");
-                            Toast.makeText(CurrentLocation.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Map_Main_Activity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -674,7 +1195,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
     private void initMap() {
         Log.d(TAG1, "initMap: initializing map");
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(CurrentLocation.this);
+        mapFragment.getMapAsync(Map_Main_Activity.this);
 
 
     }
@@ -739,63 +1260,6 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
 
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.add:
-                Toast.makeText(this, "Multiple data is selected", Toast.LENGTH_SHORT)
-                        .show();
-
-
-                break;
-            case R.id.action_refresh:
-                Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
-                        .show();
-                Referesh();
-                break;
-            case R.id.mapTypeNone:
-                gMap.setMapType(GoogleMap.MAP_TYPE_NONE);
-                break;
-            case R.id.mapTypeNormal:
-                gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                break;
-            case R.id.mapTypeSatellite:
-                gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                break;
-            case R.id.mapTypeTerrain:
-                gMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                break;
-            case R.id.mapTypeHybrid:
-                gMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                break;
-
-            case R.id.stationList:
-                Intent intent = new Intent(CurrentLocation.this, StationList.class);
-                startActivity(intent);
-                break;
-
-
-            default:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    private void Referesh() {
-        finish();
-        startActivity(getIntent());
-        handler.post(refresh);
-    }
-
-
-
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
@@ -848,7 +1312,7 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(CurrentLocation.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Map_Main_Activity.this, error.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -900,12 +1364,57 @@ public class CurrentLocation extends AppCompatActivity  implements OnMapReadyCal
         }
     }
 
+//------------------------------------------------------------------------------------------------------
+
+
+//---------##Service Check------------------------------------------------------------------------------
+
+    public boolean isServicesOK(){
+        Log.d(TAG, "isServicesOK: checking google services version");
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(Map_Main_Activity.this);
+
+        if(available == ConnectionResult.SUCCESS){
+            //everything is fine and the user can make map requests
+            Log.d(TAG, "isServicesOK: Google Play Services is working");
+            return true;
+        }
+        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            //an error occured but we can resolve it
+            Log.d(TAG, "isServicesOK: an error occured but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(Map_Main_Activity.this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }else{
+            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
 
 
 
 
+
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case 20:
+                // Settings
+                if(resultCode == RESULT_OK) {
+                    boolean refresh = data.getBooleanExtra("refresh", true);
+                    if (refresh) {
+                       // showAttributes();
+                    }
+                }
+                break;
+
+        }
+    }
+//--------------------------------------END Activity Program----------------------------------------------
 
 }
-
-
-
