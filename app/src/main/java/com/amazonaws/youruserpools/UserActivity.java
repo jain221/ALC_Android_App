@@ -22,18 +22,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,7 +43,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
-import com.amazonaws.youruserpools.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +72,7 @@ public class UserActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_AboutApp);
         toolbar.setTitle("");
         TextView title = (TextView) findViewById(R.id.about_toolbar_title);
-        title.setText("About");
+        title.setText("Personal Details");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -154,7 +148,7 @@ public class UserActivity extends AppCompatActivity {
 
     // Get user details from CIP service
     private void getDetails() {
-        AppHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
+        Cognito_Connection.getPool().getUser(username).getDetailsInBackground(detailsHandler);
     }
 
     // Show user attributes from CIP service
@@ -186,7 +180,7 @@ public class UserActivity extends AppCompatActivity {
         updatedUserAttributes.addAttribute(attributeType, attributeValue);
         Toast.makeText(getApplicationContext(), attributeType + ": " + attributeValue, Toast.LENGTH_LONG);
         showWaitDialog("Updating...");
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).updateAttributesInBackground(updatedUserAttributes, updateHandler);
+        Cognito_Connection.getPool().getUser(Cognito_Connection.getCurrUser()).updateAttributesInBackground(updatedUserAttributes, updateHandler);
     }
 
 
@@ -197,7 +191,7 @@ public class UserActivity extends AppCompatActivity {
         showWaitDialog("Deleting...");
         List<String> attributesToDelete = new ArrayList<>();
         attributesToDelete.add(attributeName);
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).deleteAttributesInBackground(attributesToDelete, deleteHandler);
+        Cognito_Connection.getPool().getUser(Cognito_Connection.getCurrUser()).deleteAttributesInBackground(attributesToDelete, deleteHandler);
     }
 
 
@@ -205,8 +199,8 @@ public class UserActivity extends AppCompatActivity {
     private void init() {
         // Get the user name
         Bundle extras = getIntent().getExtras();
-        username = AppHelper.getCurrUser();
-        user = AppHelper.getPool().getUser(username);
+        username = Cognito_Connection.getCurrUser();
+        user = Cognito_Connection.getPool().getUser(username);
         getDetails();
     }
 
@@ -215,7 +209,7 @@ public class UserActivity extends AppCompatActivity {
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();
             // Store details in the AppHandler
-            AppHelper.setUserDetails(cognitoUserDetails);
+            Cognito_Connection.setUserDetails(cognitoUserDetails);
             showAttributes();
             // Trusted devices?
             handleTrustedDevice();
@@ -224,14 +218,14 @@ public class UserActivity extends AppCompatActivity {
         @Override
         public void onFailure(Exception exception) {
             closeWaitDialog();
-            showDialogMessage("Could not fetch user details!", AppHelper.formatException(exception), true);
+            showDialogMessage("Could not fetch user details!", Cognito_Connection.formatException(exception), true);
         }
     };
 
     private void handleTrustedDevice() {
-        CognitoDevice newDevice = AppHelper.getNewDevice();
+        CognitoDevice newDevice = Cognito_Connection.getNewDevice();
         if (newDevice != null) {
-            AppHelper.newDevice(null);
+            Cognito_Connection.newDevice(null);
             trustedDeviceDialog(newDevice);
         }
     }
@@ -292,7 +286,7 @@ public class UserActivity extends AppCompatActivity {
         public void onFailure(Exception exception) {
             // Update failed
             closeWaitDialog();
-            showDialogMessage("Update failed", AppHelper.formatException(exception), false);
+            showDialogMessage("Update failed", Cognito_Connection.formatException(exception), false);
         }
     };
 
@@ -311,7 +305,7 @@ public class UserActivity extends AppCompatActivity {
         public void onFailure(Exception e) {
             closeWaitDialog();
             // Attribute delete failed
-            showDialogMessage("Delete failed", AppHelper.formatException(e), false);
+            showDialogMessage("Delete failed", Cognito_Connection.formatException(e), false);
 
             // Fetch user details from the service
             getDetails();
@@ -331,7 +325,7 @@ public class UserActivity extends AppCompatActivity {
         @Override
         public void onFailure(Exception exception) {
             closeWaitDialog();
-            showDialogMessage("Failed to update device status", AppHelper.formatException(exception), true);
+            showDialogMessage("Failed to update device status", Cognito_Connection.formatException(exception), true);
         }
     };
 
@@ -356,7 +350,7 @@ public class UserActivity extends AppCompatActivity {
                     String newValue = input.getText().toString();
                     if(!newValue.equals(attributeValue)) {
                         showWaitDialog("Updating...");
-                        updateAttribute(AppHelper.getSignUpFieldsC2O().get(attributeType), newValue);
+                        updateAttribute(Cognito_Connection.getSignUpFieldsC2O().get(attributeType), newValue);
                     }
                     userDialog.dismiss();
                 } catch (Exception e) {
@@ -368,7 +362,7 @@ public class UserActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     userDialog.dismiss();
-                    deleteAttribute(AppHelper.getSignUpFieldsC2O().get(attributeType));
+                    deleteAttribute(Cognito_Connection.getSignUpFieldsC2O().get(attributeType));
                 } catch (Exception e) {
                     // Log failure
                 }

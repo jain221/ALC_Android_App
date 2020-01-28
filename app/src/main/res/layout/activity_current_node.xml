@@ -173,7 +173,7 @@
         android:layout_marginTop="34dp"
         android:layout_marginRight="10dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_gps" />
+        android:src="@mipmap/ic_gps" />
 
     <!--<ImageView-->
         <!--android:id="@+id/sattel"-->

@@ -25,8 +25,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.amazonaws.youruserpools.R;
-
 public class UserAttributesAdapter extends BaseAdapter {
     private String TAG = "UserAttributesAdapter";
     private Context context;
@@ -36,7 +34,7 @@ public class UserAttributesAdapter extends BaseAdapter {
     public UserAttributesAdapter(Context context) {
         this.context = context;
 
-        count = AppHelper.getItemCount();
+        count = Cognito_Connection.getItemCount();
 
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -72,7 +70,7 @@ public class UserAttributesAdapter extends BaseAdapter {
             holder = (Holder) convertView.getTag();
         }
 
-        ItemToDisplay item = AppHelper.getItemForDisplay(position);
+        ItemToDisplay item = Cognito_Connection.getItemForDisplay(position);
         holder.label.setText(item.getLabelText());
         holder.label.setTextColor(item.getLabelColor());
         holder.data.setHint(item.getLabelText());

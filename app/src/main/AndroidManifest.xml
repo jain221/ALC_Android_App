@@ -26,55 +26,39 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".faultassets"
+            android:name=".Map_Alert_Activity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets Alerts"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:parentActivityName=".Map_Main_Activity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".alert_map"
+            android:name=".Map_All_Alert_Asserts"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets Alerts"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:parentActivityName=".Map_Main_Activity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddingAssertNumber"
+            android:name=".Enter_Assert_Number"
             android:label="Enter Asset ID"
-            android:parentActivityName=".mapActivity"
+            android:parentActivityName=".Map_Main_Activity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".infoWindoEdit" />
+        <activity android:name=".Assign_info_Windo_Edit" />
         <activity
-            android:name=".UnassignedEditData"
-            android:label="Edit Assets"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".UnassignedStation"
-            android:label="Unassigned Assets"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".AssignedStation"
+            android:name=".Map_Assigned_Activity"
             android:label="Assigned Assets"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:parentActivityName=".Map_Main_Activity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AssignedMode"
-            android:label="Assigned Assets"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".UnassignedMode"
+            android:name=".Map_Unassigned_Activity"
             android:label="Unassigned Assets"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:parentActivityName=".Map_Main_Activity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".StationList"
-            android:label="STATION LIST"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".splash"
+            android:name=".SplashScreen_Activity"
             android:label="ISD"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
@@ -84,14 +68,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -115,11 +91,11 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Login_Page"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".mapActivity"
+            android:name=".Map_Main_Activity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="MAP"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -128,56 +104,47 @@
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".DetailsAboutCompany"
+            android:name=".Contact_Us_Page"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/title_activity_about_app"
+            android:label="Information"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
-            android:name=".StationLocation"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Assets View"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".CurrentLocation"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Assets View"
-            android:parentActivityName=".mapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".upDateDataBase"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:parentActivityName=".CurrentLocation" />
-        <activity
-            android:name=".AddingUnassignedAttribute"
+            android:name=".Spinner_Unassigned_Attribute"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets Attribute Data"
-            android:parentActivityName=".UnAssignedData" />
+            android:parentActivityName=".Map_All_UnassignedData" />
         <activity
-            android:name=".UnAssignedData"
+            android:name=".Map_All_UnassignedData"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets View Map"
-            android:parentActivityName=".mapActivity"
+            android:parentActivityName=".Map_Main_Activity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".ReplaceNode"
+        <activity android:name=".Replace_Node_Map"
             android:label="Replace Asset"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:parentActivityName=".AssignedMode"/>
+            android:parentActivityName=".Map_Assigned_Activity"/>
         <activity
-            android:name=".ReplaceLatern"
+            android:name=".Replace_Latern_Attribute"
             android:label="Edit Lantern Manufacture"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:parentActivityName=".Map_Assigned_Activity"/>
         <activity
-            android:name=".ReplaceColumn"
+            android:name=".Replace_Column_Attribute"
             android:label="Edit Asset Data"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".InstructionActivity" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:parentActivityName=".Map_Assigned_Activity"/>
+        <activity android:name=".Video_Instruction_Activity"
+            android:label="Instruction Video"
+            android:parentActivityName=".Login_Page"/>
         <activity
-            android:name=".emailActivity"
-            android:label="@string/title_activity_email"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".InfoWndow2" />
-        <activity android:name=".StreetViewMap" />
+            android:name=".Email_Activity"
+            android:label="Email ISD"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:parentActivityName=".Map_Main_Activity"/>
+        <activity android:name=".All_Assets_Info_Wndow" />
+
     </application>
 
 </manifest>

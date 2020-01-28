@@ -1,267 +1,297 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright 2013-2016 Amazon.com,
-  ~ Inc. or its affiliates. All Rights Reserved.
-  ~
-  ~ Licensed under the Amazon Software License (the "License").
-  ~ You may not use this file except in compliance with the
-  ~ License. A copy of the License is located at
-  ~
-  ~     http://aws.amazon.com/asl/
-  ~
-  ~ or in the "license" file accompanying this file. This file is
-  ~ distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-  ~ CONDITIONS OF ANY KIND, express or implied. See the License
-  ~ for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
+<!--<com.amazonaws.youruserpools.MapWrapperLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:id="@+id/map_relative_layout"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:background="@color/grey"-->
+<!--    android:layout_height="match_parent"-->
+<!--    >-->
+<!--<RelativeLayout-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent">-->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!--&lt;!&ndash;<fragment xmlns:android="http://schemas.android.com/apk/res/android"&ndash;&gt;-->
+<!--&lt;!&ndash;xmlns:tools="http://schemas.android.com/tools"&ndash;&gt;-->
+<!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;android:id="@+id/map"&ndash;&gt;-->
+<!--&lt;!&ndash;tools:context=".CurrentNode"&ndash;&gt;-->
+<!--&lt;!&ndash;android:name="com.google.android.gms.maps.SupportMapFragment" />&ndash;&gt;-->
+
+<!--    <fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:tools="http://schemas.android.com/tools"-->
+<!--        android:id="@+id/map"-->
+<!--        android:name="com.google.android.gms.maps.MapFragment"-->
+<!--        android:layout_width="601dp"-->
+<!--        android:layout_height="855dp"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_marginStart="-2dp"-->
+<!--        android:layout_marginTop="106dp"-->
+<!--        tools:context=".CurrentLocation" />-->
+
+
+<!--<RelativeLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="50dp"-->
+<!--    android:layout_marginTop="10dp"-->
+<!--    android:layout_marginRight="10dp"-->
+<!--    android:layout_marginLeft="10dp"-->
+<!--    android:elevation="10dp"-->
+<!--    android:background="@drawable/all_rounded"-->
+<!--    android:id="@+id/relLayout1">-->
+
+
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="34dp"-->
+<!--        android:layout_height="36dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginBottom="3dp"-->
+<!--        android:background="@drawable/ic_action_name"-->
+<!--        android:onClick="findLocation" />-->
+
+
+<!--    <AutoCompleteTextView-->
+<!--        android:id="@+id/editText"-->
+<!--        android:layout_width="531dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginLeft="6dp"-->
+<!--        android:layout_toRightOf="@+id/button"-->
+<!--        android:background="@null"-->
+<!--        android:inputType="textVisiblePassword"-->
+<!--        android:hint="  Enter Address, City or Postcode"-->
+<!--        android:textColor="@color/toolbar_background"-->
+<!--        android:textColorHint="@color/toolbar_background"-->
+<!--        android:textSize="20sp" />-->
+<!--    &lt;!&ndash;android:imeOptions="actionSearch"/>&ndash;&gt;-->
+
+
+
+<!--</RelativeLayout>-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/ic_gps"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_marginTop="105dp"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/ic_gps" />-->
+
+
+
+
+<!--</RelativeLayout>-->
+
+<!--    <RadioGroup-->
+<!--        android:id="@+id/radioGroup"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="65dp"-->
+<!--        android:checkedButton="@+id/radioButton3"-->
+<!--        android:orientation="horizontal">-->
+
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/alert"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignTop="@+id/radioGroup"-->
+<!--            android:text="Alert Assets"-->
+<!--            android:textColor="@color/toolbar_background"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/radioButton1"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignTop="@+id/radioGroup"-->
+<!--            android:text="Assigned Assets     "-->
+<!--            android:textColor="@color/toolbar_background"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/radioButton2"-->
+<!--            android:layout_width="159dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignTop="@+id/radioGroup"-->
+<!--            android:text="Unassigned Assets          "-->
+<!--            android:textColor="@color/toolbar_background"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/radioButton3"-->
+<!--            android:layout_width="180dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignTop="@+id/radioGroup"-->
+<!--            android:layout_alignEnd="@+id/radioGroup"-->
+<!--            android:text="All Assets"-->
+<!--            android:textColor="@color/toolbar_background"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textStyle="bold" />-->
+
+
+<!--    </RadioGroup>-->
+
+<!--</com.amazonaws.youruserpools.MapWrapperLayout>-->
+
+
+<com.amazonaws.youruserpools.MapWrapperLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_relative_layout"
     android:layout_width="match_parent"
+    android:background="@color/grey"
     android:layout_height="match_parent"
-    tools:context="com.amazonaws.youruserpools.mapActivity"
- >
-
-        <Button
-            android:id="@+id/addData"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="103dp"
-            android:layout_marginEnd="2dp"
-            android:background="@drawable/button"
-            android:gravity="center"
-            android:onClick="addData"
-            android:text="Current Location"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
 
 
-        <Button
-            android:id="@+id/database"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/addData"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="295dp"
-            android:layout_marginLeft="295dp"
-            android:layout_marginTop="103dp"
-            android:background="@drawable/button"
-            android:gravity="center"
-            android:onClick="databaseAdd"
-            android:text="Station List"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/reassigned"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/addData"
-            android:layout_alignParentStart="true"
-
-            android:layout_marginStart="151dp"
-            android:layout_marginLeft="151dp"
-            android:layout_marginTop="165dp"
-            android:background="@drawable/button"
-            android:gravity="center"
-            android:onClick="reassigned"
-            android:text="Reassigned Assets"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/unassigned"
-            android:layout_width="217dp"
-            android:layout_height="43dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="258dp"
-            android:background="@android:color/holo_blue_dark"
-            android:gravity="center"
-            android:onClick="avaliableNode"
-            android:text="Unassigned Assets"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/alert"
-            android:layout_width="217dp"
-            android:layout_height="43dp"
-            android:layout_alignLeft="@+id/addData"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="300dp"
-            android:layout_marginTop="258dp"
-            android:background="@android:color/holo_blue_dark"
-            android:gravity="center"
-            android:onClick="alets"
-            android:text="Alerts"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/logTokenButton"
-            android:layout_width="230dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/addData"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="198dp"
-            android:background="@drawable/blue_linear"
-            android:text="Log Token"
-            android:textSize="18sp"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="592dp"
-            android:layout_marginTop="500dp"
-            app:srcCompat="@drawable/splash2" />
-
-
-</RelativeLayout>
-
-
-
-<!--
-  ~ Copyright 2013-2016 Amazon.com,
-  ~ Inc. or its affiliates. All Rights Reserved.
-  ~
-  ~ Licensed under the Amazon Software License (the "License").
-  ~ You may not use this file except in compliance with the
-  ~ License. A copy of the License is located at
-  ~
-  ~     http://aws.amazon.com/asl/
-  ~
-  ~ or in the "license" file accompanying this file. This file is
-  ~ distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-  ~ CONDITIONS OF ANY KIND, express or implied. See the License
-  ~ for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-<!--
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.amazonaws.youruserpools.mapActivity"
     >
 
-
-        &lt;!&ndash;<Button&ndash;&gt;
-        &lt;!&ndash;android:id="@+id/currentlocation"&ndash;&gt;
-        &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
-        &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
-        &lt;!&ndash;android:layout_alignStart="@+id/editText1"&ndash;&gt;
-        &lt;!&ndash;android:layout_alignLeft="@+id/editText1"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginStart="0dp"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginLeft="0dp"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginBottom="-58dp"&ndash;&gt;
-        &lt;!&ndash;android:text=" Current Location"&ndash;&gt;
-        &lt;!&ndash;android:textSize="18sp" />&ndash;&gt;
-
-        &lt;!&ndash;<EditText&ndash;&gt;
-        &lt;!&ndash;android:id="@+id/editText1"&ndash;&gt;
-        &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
-        &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
-        &lt;!&ndash;android:layout_alignParentStart="true"&ndash;&gt;
-        &lt;!&ndash;android:layout_alignParentLeft="true"&ndash;&gt;
-        &lt;!&ndash;android:layout_alignParentTop="true"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginStart="0dp"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginLeft="0dp"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginTop="0dp"&ndash;&gt;
-        &lt;!&ndash;android:ems="10"&ndash;&gt;
-        &lt;!&ndash;android:hint="Enter The Place Name"&ndash;&gt;
-        &lt;!&ndash;android:textSize="18sp"&ndash;&gt;
-        &lt;!&ndash;android:textStyle="bold" />&ndash;&gt;
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-        &lt;!&ndash;<Button&ndash;&gt;
-        &lt;!&ndash;android:id="@+id/button"&ndash;&gt;
-        &lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;
-        &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
-        &lt;!&ndash;android:layout_below="@+id/editText1"&ndash;&gt;
-        &lt;!&ndash;android:layout_centerHorizontal="true"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginTop="19dp"&ndash;&gt;
-        &lt;!&ndash;android:text="SEARCH" />&ndash;&gt;
-
-        <Button
-            android:id="@+id/btnNode"
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="100dp"
-            android:background="@drawable/button"
-            android:onClick="avaliableNode"
-            android:text="Installation Data"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="106dp"
+            tools:context=".Map_Main_Activity" />
 
-        &lt;!&ndash;<Button&ndash;&gt;
-        &lt;!&ndash;android:id="@+id/database"&ndash;&gt;
-        &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
-        &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
-        &lt;!&ndash;android:layout_below="@+id/btnNode"&ndash;&gt;
-        &lt;!&ndash;android:layout_alignParentStart="true"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginStart="0dp"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginTop="25dp"&ndash;&gt;
-        &lt;!&ndash;android:onClick="databaseAdd"&ndash;&gt;
-        &lt;!&ndash;android:text="Add Multiple Data"&ndash;&gt;
-        &lt;!&ndash;android:textSize="18sp" />&ndash;&gt;
-
-        <Button
-            android:id="@+id/addData"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/btnNode"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="170dp"
-            android:layout_marginEnd="89dp"
+        <RelativeLayout
+            android:id="@+id/relLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/button"
-            android:gravity="center"
-            android:onClick="addData"
-            android:text="Present Data"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
+            android:elevation="10dp">
+
+            <Button
+                android:id="@+id/bar"
+                android:layout_width="34dp"
+                android:layout_height="36dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/ic_menu_black"
+                android:onClick="findLocation" />
+
+
+            <RelativeLayout
+                android:id="@+id/relLayou"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/all_rounded"
+                android:elevation="10dp">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="34dp"
+                android:layout_height="36dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/ic_action_name"
+                android:onClick="findLocation" />
+
+
+            <AutoCompleteTextView
+                android:id="@+id/editText"
+                android:layout_width="531dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/button"
+                android:background="@null"
+                android:hint="  Enter Address, City or Postcode"
+                android:inputType="textVisiblePassword"
+                android:textColor="@color/toolbar_background"
+                android:textColorHint="@color/toolbar_background"
+                android:textSize="20sp" />
+            <!--android:imeOptions="actionSearch"/>-->
+
+            </RelativeLayout>
+        </RelativeLayout>
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="505dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="62dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            app:srcCompat="@drawable/splash3" />
+            android:id="@+id/ic_gps"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="125dp"
+            android:layout_marginRight="10dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_gps" />
 
 
-        &lt;!&ndash;<Button&ndash;&gt;
-        &lt;!&ndash;android:id="@+id/currentlocation"&ndash;&gt;
-        &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
-        &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
-        &lt;!&ndash;android:layout_below="@+id/addData"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginStart="0dp"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginLeft="0dp"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginTop="-7dp"&ndash;&gt;
-        &lt;!&ndash;android:layout_marginBottom="-58dp"&ndash;&gt;
-        &lt;!&ndash;android:text=" Current Location"&ndash;&gt;
-        &lt;!&ndash;android:textSize="18sp" />&ndash;&gt;
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:checkedButton="@+id/radioButton3"
+        android:orientation="horizontal">
 
 
+        <RadioButton
+            android:id="@+id/alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:text="Alert Assets"
+            android:textColor="@color/toolbar_background"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="164dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:text="Reassigned Assets     "
+            android:textColor="@color/toolbar_background"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="159dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:text="Unassigned Assets          "
+            android:textColor="@color/toolbar_background"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:layout_alignEnd="@+id/radioGroup"
+            android:text="All Assets"
+            android:textColor="@color/toolbar_background"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
 
-</RelativeLayout>
--->
+    </RadioGroup>
+
+</com.amazonaws.youruserpools.MapWrapperLayout>

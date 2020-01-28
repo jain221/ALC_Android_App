@@ -11,7 +11,7 @@
         android:layout_marginTop="0dp"
         android:orientation="horizontal"
         android:paddingLeft="10dip"
-       tools:context=".InfoWndow2">
+       tools:context=".All_Assets_Info_Wndow">
 
 
     <LinearLayout

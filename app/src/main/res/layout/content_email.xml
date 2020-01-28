@@ -4,17 +4,15 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".emailActivity"
+        tools:context=".Email_Activity"
         >
-
-
     <TextView
+        android:id="@+id/textTo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="63dp"
+        android:layout_marginStart="2dp"
+        android:background="@drawable/text_border_selector"
         android:text="To:"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -23,16 +21,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="101dp"
-        android:hint="sgodha111@gmail.com"
-        android:inputType="textEmailAddress" />
+        android:layout_marginStart="5dp"
+        android:layout_below="@+id/textTo"
+        android:layout_marginTop="6dp"
+        android:hint="abcd@gmail.com"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text_to"
-        android:layout_alignParentStart="true"
+        android:background="@drawable/text_border_selector"
+        android:id="@+id/subjecttext"
+        android:layout_marginStart="2dp"
         android:text="Subject:"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -40,10 +42,10 @@
         android:id="@+id/edit_text_subject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_text_to"
+        android:layout_below="@+id/subjecttext"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="6dp"
         android:inputType="textEmailSubject" />
 
     <TextView
@@ -51,6 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_text_subject"
         android:layout_alignParentStart="true"
+        android:layout_marginStart="2dp"
+        android:background="@drawable/text_border_selector"
         android:id="@+id/message"
         android:text="Message:"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -58,10 +62,10 @@
     <EditText
         android:id="@+id/edit_text_message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
         android:layout_below="@+id/message"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="14dp"
         android:gravity="start|top"
         android:lines="10" />
@@ -71,7 +75,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/edit_text_message"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/text_border_selector"
         android:layout_marginBottom="265dp"
         android:text="send" />
 

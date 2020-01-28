@@ -29,7 +29,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        tools:context="com.amazonaws.youruserpools.DetailsAboutCompany"
+        tools:context="com.amazonaws.youruserpools.Contact_Us_Page"
         tools:showIn="@layout/details_about_company">
 
 
@@ -72,17 +72,5 @@
             android:layout_alignParentStart="true"
             android:id="@+id/space_about_3" />
 
-        <Button
-            android:id="@+id/aboutBack"
-            android:layout_width="190dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/space_about_3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="0dp"
-            android:background="@drawable/button"
-            android:text="Back"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/activity_button_text_size" />
     </RelativeLayout>
 </ScrollView>

@@ -65,7 +65,7 @@ android:layout_height="match_parent"
         android:layout_marginTop="4dp"
         android:layout_marginRight="25dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_gps" />
+        android:src="@mipmap/ic_gps" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

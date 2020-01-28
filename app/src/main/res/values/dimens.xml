@@ -24,7 +24,19 @@
     <dimen name="spacing_big">32dp</dimen>
     <dimen name="switcher_padding">28dp</dimen>
 
+    <dimen name="spacehight">5dp</dimen>
+    <dimen name="buttonhight">35dp</dimen>
+    <dimen name="spinnerwidth">200dp</dimen>
+    <dimen name="spaceshiht">15dp</dimen>
+    <dimen name="spacespinner">320dp</dimen>
+    <dimen name="textsizespinner">15dp</dimen>
+
     <dimen name="option_margin">24dp</dimen>
+
+    <dimen name="imagehight">55dp</dimen>
+    <dimen name="imagewidth">75dp</dimen>
+    <dimen name="textSize">24dp</dimen>
+    <dimen name="imagespce">24dp</dimen>
 
     <dimen name="extra_left_padding">108dp</dimen>
     <dimen name="extra_right_padding">108dp</dimen>

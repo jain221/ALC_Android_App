@@ -52,6 +52,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -60,12 +61,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 
 import com.android.volley.DefaultRetryPolicy;
@@ -145,7 +144,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
     LatLng center, latLng;
 
     private RequestQueue mRequestQueue;
-    public static final String TAG1 = CurrentNode.class.getSimpleName();
+    public static final String TAG1 = Map_Main_Activity.class.getSimpleName();
     public static final String ID = "id";
     public static final String ID1 = "Id";
 
@@ -184,7 +183,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
 
     TextView ipaddress;
-    private ArrayList<SuggestGetSet> List;
+    private ArrayList<Class_Get_Station_Name> List;
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     String light;
@@ -222,9 +221,15 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 //         Set toolbar for this screen
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+//
+//        toolbar.setTitle("");
 
-        toolbar.setTitle("");
+        //        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+//        main_title.setText("Monitored Assets");
+//        setSupportActionBar(toolbar);
+
+   //-------------------------------------------------------------------------------------------------------
         mDrawer = (DrawerLayout) findViewById(R.id.user_drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
         mDrawer.addDrawerListener(mDrawerToggle);
@@ -241,12 +246,23 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
         TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
         navHeaderSubTitle.setText(username);
-//         Map_Main_Activity();
 
 
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
-        main_title.setText("Monitored Assets");
-        setSupportActionBar(toolbar);
+        Button menubar = findViewById(R.id.bar);
+        menubar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ( mDrawer.isDrawerOpen(Gravity.LEFT)) {
+                    mDrawer.closeDrawer(Gravity.LEFT);
+                } else {
+                    mDrawer.openDrawer(Gravity.LEFT);
+                }
+            }
+
+        });
+//-----------------------------------------------------------------------------------------------------------
+
+
 
         mGps = (ImageView) findViewById(R.id.ic_gps);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
@@ -255,6 +271,34 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         unassign = (RadioButton) findViewById(R.id.radioButton2);
         alldata = (RadioButton) findViewById(R.id.radioButton3);
         faultalert = (RadioButton) findViewById(R.id.alert);
+        getLocationPermission();
+        if (gMap != null) {
+
+            gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                @Override
+                public void onMapLongClick(LatLng latLng) {
+                    Geocoder geocoder = new Geocoder(Map_Main_Activity.this);
+                    List<Address> list;
+                    try {
+                        list = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                    } catch (IOException e) {
+                        return;
+                    }
+
+                    Address address = list.get(0);
+                    if (myMarker != null) {
+                        myMarker.remove();
+                    }
+
+                    MarkerOptions options = new MarkerOptions()
+                            .title(address.getLocality())
+                            .position(new LatLng(latLng.latitude, latLng.longitude));
+
+                    myMarker = gMap.addMarker(options);
+                }
+            });
+        }
+
 
 
         et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -285,50 +329,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
             }
         });
 
-        // [END handle_data_extras]
-
-        Button menubar = findViewById(R.id.bar);
-        menubar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ( mDrawer.isDrawerOpen(Gravity.LEFT)) {
-                    mDrawer.closeDrawer(Gravity.LEFT);
-                } else {
-                    mDrawer.openDrawer(Gravity.LEFT);
-                }
-            }
-
-        });
-
-        getLocationPermission();
-        if (gMap != null) {
-
-            gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-                @Override
-                public void onMapLongClick(LatLng latLng) {
-                    Geocoder geocoder = new Geocoder(Map_Main_Activity.this);
-                    List<Address> list;
-                    try {
-                        list = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                    } catch (IOException e) {
-                        return;
-                    }
-
-                    Address address = list.get(0);
-                    if (myMarker != null) {
-                        myMarker.remove();
-                    }
-
-                    MarkerOptions options = new MarkerOptions()
-                            .title(address.getLocality())
-                            .position(new LatLng(latLng.latitude, latLng.longitude));
-
-                    myMarker = gMap.addMarker(options);
-                }
-            });
-        }
-
-        List = new ArrayList<SuggestGetSet>();
+        List = new ArrayList<Class_Get_Station_Name>();
         getAutoComlete();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -340,8 +341,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
                     case R.id.alert:
                         gMap.clear();
                         Toast.makeText(Map_Main_Activity.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                        Intent intent4 = new Intent(Map_Main_Activity.this, faultassets.class);
-
+                        Intent intent4 = new Intent(Map_Main_Activity.this, Map_Alert_Activity.class);
                         startActivity(intent4);
 
 
@@ -350,22 +350,21 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
                     case R.id.radioButton1:
                         gMap.clear();
                         Toast.makeText(Map_Main_Activity.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(Map_Main_Activity.this, AssignedMode.class);
-//                        Intent intent = new Intent(Map_Main_Activity.this, AddingAssertNumber.class);
+                        Intent intent = new Intent(Map_Main_Activity.this, Map_Assigned_Activity.class);
+//                        Intent intent = new Intent(Map_Main_Activity.this, Enter_Assert_Number.class);
                         startActivity(intent);
                         break;
 
                     case R.id.radioButton2:
                         gMap.clear();
                         Toast.makeText(Map_Main_Activity.this,"Edit Mode is Selected", Toast.LENGTH_LONG).show();
-                        Intent intent1 = new Intent(Map_Main_Activity.this, UnassignedMode.class);
+                        Intent intent1 = new Intent(Map_Main_Activity.this, Map_Unassigned_Activity.class);
                         startActivity(intent1);
 
                         break;
 
                     case R.id.radioButton3:
                         gMap.clear();
-
                         Toast.makeText(Map_Main_Activity.this,"All Data Selected", Toast.LENGTH_LONG).show();
                         break;
                 }
@@ -431,28 +430,28 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
                 break;
 
             case R.id.nav_reassigned_assets:
-                Intent reassignd = new Intent(Map_Main_Activity.this,  AssignedMode.class);
+                Intent reassignd = new Intent(Map_Main_Activity.this,  Map_Assigned_Activity.class);
                 startActivity(reassignd);
                 break;
 
             case R.id.nav_unassigned_assets:
-                Intent unassigned = new Intent(Map_Main_Activity.this,  UnAssignedData.class);
+                Intent unassigned = new Intent(Map_Main_Activity.this,  Map_All_UnassignedData.class);
                 startActivity(unassigned);
                 break;
 
             case R.id.nav_alert_assets:
-                Intent intent = new Intent(Map_Main_Activity.this,  alert_map.class);
+                Intent intent = new Intent(Map_Main_Activity.this,  Map_All_Alert_Asserts.class);
                 startActivity(intent);
                 break;
             case R.id.nav_user_about:
                 // For the inquisitive
-                Intent aboutAppActivity = new Intent(this, DetailsAboutCompany.class);
+                Intent aboutAppActivity = new Intent(this, Contact_Us_Page.class);
                 startActivity(aboutAppActivity);
                 break;
 
             case R.id.nav_user_email:
                 // For the inquisitive
-                Intent contact = new Intent(this, emailActivity.class);
+                Intent contact = new Intent(this, Email_Activity.class);
                 startActivity(contact);
                 break;
 
@@ -473,7 +472,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
     // Get user details from CIP service
     private void getDetails() {
-        AppHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
+        Cognito_Connection.getPool().getUser(username).getDetailsInBackground(detailsHandler);
     }
 
 
@@ -487,7 +486,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         updatedUserAttributes.addAttribute(attributeType, attributeValue);
         Toast.makeText(getApplicationContext(), attributeType + ": " + attributeValue, Toast.LENGTH_LONG);
         showWaitDialog("Updating...");
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).updateAttributesInBackground(updatedUserAttributes, updateHandler);
+        Cognito_Connection.getPool().getUser(Cognito_Connection.getCurrUser()).updateAttributesInBackground(updatedUserAttributes, updateHandler);
     }
 
 
@@ -509,8 +508,8 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
     private void init() {
         // Get the user name
         Bundle extras = getIntent().getExtras();
-        username = AppHelper.getCurrUser();
-        user = AppHelper.getPool().getUser(username);
+        username = Cognito_Connection.getCurrUser();
+        user = Cognito_Connection.getPool().getUser(username);
 
         getDetails();
     }
@@ -520,7 +519,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();
             // Store details in the AppHandler
-            AppHelper.setUserDetails(cognitoUserDetails);
+            Cognito_Connection.setUserDetails(cognitoUserDetails);
             //  showAttributes();
             // Trusted devices?
             handleTrustedDevice();
@@ -529,14 +528,14 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         @Override
         public void onFailure(Exception exception) {
             closeWaitDialog();
-            showDialogMessage("Could not fetch user details!", AppHelper.formatException(exception), true);
+            showDialogMessage("Could not fetch user details!", Cognito_Connection.formatException(exception), true);
         }
     };
 
     private void handleTrustedDevice() {
-        CognitoDevice newDevice = AppHelper.getNewDevice();
+        CognitoDevice newDevice = Cognito_Connection.getNewDevice();
         if (newDevice != null) {
-            AppHelper.newDevice(null);
+            Cognito_Connection.newDevice(null);
             trustedDeviceDialog(newDevice);
         }
     }
@@ -600,7 +599,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         public void onFailure(Exception exception) {
             // Update failed
             closeWaitDialog();
-            showDialogMessage("Update failed", AppHelper.formatException(exception), false);
+            showDialogMessage("Update failed", Cognito_Connection.formatException(exception), false);
         }
     };
 
@@ -619,7 +618,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         public void onFailure(Exception e) {
             closeWaitDialog();
             // Attribute delete failed
-            showDialogMessage("Delete failed", AppHelper.formatException(e), false);
+            showDialogMessage("Delete failed", Cognito_Connection.formatException(e), false);
 
             // Fetch user details from the service
             getDetails();
@@ -636,7 +635,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         @Override
         public void onFailure(Exception exception) {
             closeWaitDialog();
-            showDialogMessage("Failed to update device status", AppHelper.formatException(exception), true);
+            showDialogMessage("Failed to update device status", Cognito_Connection.formatException(exception), true);
         }
     };
 
@@ -681,7 +680,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
-    private void exit () {
+    private void exit() {
         Intent intent = new Intent();
         if(username == null)
             username = "";
@@ -711,7 +710,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
                             }
                             unsassignSize.setTitle(unassigneddata.size()+" Unassigned Assets");
 
-                            Toast.makeText(Map_Main_Activity.this,  displayData.size()+" Assets are Unassigned ", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Map_Main_Activity.this,  displayData.size()+" Assets are Unassigned ", Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -797,7 +796,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         getMarker(URL_AMBER,BitmapDescriptorFactory.HUE_ORANGE,"Amber");
         getMarker(URL_RED,BitmapDescriptorFactory.HUE_RED,"Red");
 
-        InfoWndow2 markerInfoWindowAdapter = new InfoWndow2(getApplicationContext());
+        All_Assets_Info_Wndow markerInfoWindowAdapter = new All_Assets_Info_Wndow(getApplicationContext());
         gMap.setInfoWindowAdapter(markerInfoWindowAdapter);
 
 
@@ -956,13 +955,12 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
         final Dialog dialog = new Dialog(Map_Main_Activity);
         dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         dialog.setContentView(R.layout.switchonoff);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
 
-        dialog.setTitle("        \b Switch Lantern");
-
-
-
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogSlideAnim;
         Button btndialog = (Button) dialog.findViewById(R.id.cancel);
         btndialog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1018,9 +1016,11 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
 
         WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-        wmlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
-        wmlp.x = 120;   //x position
-        wmlp.y = 5;   //y position
+        Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        wmlp.gravity = Gravity.BOTTOM | Gravity.CENTER;
+//        wmlp.x = 120;   //x position
+//        wmlp.y = 5;   //y position
 
         dialog.show();
 
@@ -1118,7 +1118,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         OutputStream os = conn.getOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
         writer.write(jsonObject.toString());
-        Log.i(LoginPage.class.toString(), jsonObject.toString());
+        Log.i(Login_Page.class.toString(), jsonObject.toString());
         writer.flush();
         writer.close();
         os.close();
@@ -1293,8 +1293,8 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
                                 //getting product object from json array
                                 JSONObject catobj = array.getJSONObject(i);
-                                SuggestGetSet colman = new SuggestGetSet(catobj.getString(IDD), catobj.getString(Stat));
-//                                ListData.add(new SuggestGetSet(r.getString("Id"),r.getString("Station")));
+                                Class_Get_Station_Name colman = new Class_Get_Station_Name(catobj.getString(IDD), catobj.getString(Stat));
+//                                ListData.add(new Class_Get_Station_Name(r.getString("Id"),r.getString("Station")));
                                 List.add(colman);
 //                                populateSpinner();
                                 getData();

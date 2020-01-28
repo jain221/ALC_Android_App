@@ -90,12 +90,15 @@
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <ScrollView
         android:id="@+id/ScrollView01"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:fillViewport="true"
-        android:scrollbars="none" >
+        android:scrollbars="none">
 
         <include layout="@layout/content_user_det" />
     </ScrollView>

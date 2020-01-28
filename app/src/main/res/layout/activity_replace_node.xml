@@ -10,7 +10,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ReplaceNode">
+            tools:context=".Replace_Node_Map">
 
 
             <TextView
