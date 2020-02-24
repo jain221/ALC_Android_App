@@ -6,7 +6,7 @@
         android:width="@dimen/activity_text_border"
         android:color="@color/alert"/>
     <corners
-        android:radius="0dp"/>
+        android:radius="4dp"/>
 
     <padding
         android:top="0dp"

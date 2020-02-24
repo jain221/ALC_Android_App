@@ -1,7 +1,6 @@
 package com.amazonaws.youruserpools;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,7 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -40,9 +42,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+
+
+//import com.tutorials.hp.mdmysqlselect.mDataObject.Spacecraft;
+//import com.tutorials.hp.mdmysqlselect.mListView.CustomAdapter;
+
 //
 //public class database_colume_node extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
-public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
+public class Spinner_Unassigned_Attribute extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
 
     TextView ipaddress, lat, logg;
@@ -62,14 +70,16 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
     private Spinner spinnerEstimatedColAGE;
     private Spinner spinnerlaternManuf;
     private Spinner spinnerCoastKm;
-
+    private Spinner spinnerasset_use;
+    private Spinner spinnerlaternModel;
+    private String URLline = "";
     // array list for spinner adapter
     private Switch switch1;
-
+    URL urll;
     String[] e11;
     String[] e12;
     String[] e13;
-
+    final String lantern_manufacturer="Urbis Schraeder";
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String TE = "text";
     public static final String SWITCH1 = "switch1";
@@ -86,7 +96,12 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
     private ArrayList<Bracket_Length> categoriesList9;
     private ArrayList<Lantern_Estimated_Age> categoriesList10;
     private ArrayList<Lanten_Manf> categoriesList11;
+    private ArrayList<Asset_use> assetlist;
     private ArrayList<Class_Get_Station_Name> List;
+    private ArrayList<lantern_model> lantern_modelslist;
+
+
+    Context c;
     public static final String ID = "id";
     public static final String columeManf = "manufacturer_name";
     public static final String RaiseandLow = "flag";
@@ -101,11 +116,25 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
     public static final String EstimatedAge = "column_ages";
     public static final String LatenManfu = "lantern_manufacturer";
     public static final String coastKm = "cost_km";
+    public static final String CRS = "crs";
+    public static final String AssetUse = "asset_type";
+    public static final String Lantern_Model  ="lantern_model";
     ProgressDialog pDialog;
 
     int size;
 
     private String URL_ColumeManfucture = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
+//    private String Url_lantern = " https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/lanternm?lantern_manufacturer=Urbis Schraeder";
+//    private String Url_lantern = " https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/lanternm?lantern_manufacturer="+"Urbis Schraeder";
+//    private String Url_lantern = " https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/lanternm";
+
+
+//   private String Url_lantern = "  https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetLanternModel/postlanternmodel?operand1="+"Urbis Schraeder";
+
+
+//    private String Url_lantern = " https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/lanternm?lantern_manufacturer=Urbis Schraeder";
+
+    private String Url_lantern = " https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/lanternm";
 
     private SharedPreferences sharedPreferences;
 
@@ -120,7 +149,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
     //* Fields to contain the current position and display contents of the spinner
     ArrayList<String> myList = new ArrayList<String>();
 
-
+    Queue<StringRequest> queue;
     /**
      * ArrayAdapter connects the spinner widget to array-based data.
      */
@@ -136,6 +165,8 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
     protected ArrayAdapter<CharSequence> mAdapter9;
     protected ArrayAdapter<CharSequence> mAdapter10;
     protected ArrayAdapter<CharSequence> mAdapter11;
+    protected ArrayAdapter<CharSequence> mAdapter12;
+    protected ArrayAdapter<CharSequence> mAdapter13;
     /**
      * These values are used to read and write the properties file.
      * PROPERTY_DELIMITER delimits the key and value in a Java properties file.
@@ -194,14 +225,21 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
     public static final String SHARED_PREFS13 = "sharedPrefs12";
     public static final String TEXT13 = "text12";
 
+    public static final String SHARED_PREFS14 = "sharedPrefs14";
+    public static final String TEXT14 = "text14";
+
+    public static final String SHARED_PREFS15 = "sharedPrefs15";
+    public static final String TEXT15 = "text15";
+    String FinalJSonObject ;
     private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
     ArrayList<String> list;
-
-
+    private static Spinner_Unassigned_Attribute mInstance;
+    String itemManfucture;
+    private RequestQueue requestQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spinner_unassigned);
+        setContentView(R.layout.spinner_unassigned);
         btnAddNewCategory = (Button) findViewById(R.id.btnSave);
         spinnerColumeManf = (Spinner) findViewById(R.id.ColumManf);
         spinnerRaiseandLow = (Spinner) findViewById(R.id.RaiseandLow);
@@ -215,13 +253,16 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
         spinnerBracketLength = (Spinner) findViewById(R.id.BracketLength);
         spinnerEstimatedColAGE = (Spinner) findViewById(R.id.ColumeAge);
         spinnerlaternManuf = (Spinner) findViewById(R.id.lantern_manufacturer);
+        spinnerlaternModel = (Spinner) findViewById(R.id.model_latenr);
+
+
         StudentName = (EditText) findViewById(R.id.editName);
         mPrefs = getSharedPreferences("label", 0);
         CountryName = new ArrayList<>();
         spinnerCoastKm = (Spinner) findViewById(R.id.Coast);
         AutostationName = (AutoCompleteTextView) findViewById(R.id.editStationName);
         TextView ipaddress = (TextView) findViewById(R.id.ipadddress);
-
+        spinnerasset_use = (Spinner) findViewById(R.id.asset_use);
 
 //        Bundle extras = getIntent().getExtras();
 //        if (extras != null) {
@@ -245,6 +286,10 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
         categoriesList10 = new ArrayList<Lantern_Estimated_Age>();
         categoriesList11 = new ArrayList<Lanten_Manf>();
 
+       lantern_modelslist = new ArrayList<lantern_model>();
+
+        assetlist = new ArrayList<Asset_use>();
+
         List = new ArrayList<Class_Get_Station_Name>();
 
         spinnerColumeManf.setOnItemSelectedListener(this);
@@ -260,6 +305,9 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
         spinnerEstimatedColAGE.setOnItemSelectedListener(this);
         spinnerCoastKm.setOnItemSelectedListener(this);
         spinnerlaternManuf.setOnItemSelectedListener(this);
+        spinnerasset_use.setOnItemSelectedListener(this);
+        spinnerlaternModel.setOnItemSelectedListener(this);
+
         sharedPreferences = getSharedPreferences(TE, MODE_PRIVATE);
         spinnerColumeManf.setSelection(sharedPreferences.getInt(SHARED_PREFS, 0));
         spinnerRaiseandLow.setSelection(sharedPreferences.getInt(SHARED_PREFS2, 0));
@@ -274,73 +322,132 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
         spinnerEstimatedColAGE.setSelection(sharedPreferences.getInt(SHARED_PREFS11, 0));
         spinnerlaternManuf.setSelection(sharedPreferences.getInt(SHARED_PREFS12, 0));
         spinnerCoastKm.setSelection(sharedPreferences.getInt(SHARED_PREFS13, 0));
+        spinnerasset_use.setSelection(sharedPreferences.getInt(SHARED_PREFS14, 0));
 
-
+        spinnerlaternModel.setSelection(sharedPreferences.getInt(SHARED_PREFS15, 0));
+        spinnerlaternModel.setAdapter(null);
+        mInstance = this;
         getAutoComlete();
         GetCategories();
 
-//        Bundle ext = getIntent().getExtras();
+        spinnerlaternManuf.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
 
-        Intent intent = getIntent();
-        Bundle args = intent.getBundleExtra("BUNDLE");
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
 
+                spinnerlaternModel.setAdapter(null);
+
+                switch(position){
+                    default:
+                        spinnerlaternModel.setAdapter(null);
+
+
+                        itemManfucture = spinnerlaternManuf.getSelectedItem().toString();
+
+//                        Toast.makeText(parent.getContext(), "Selected: " + itemManfucture, Toast.LENGTH_LONG).show();
+                        String lanternS=itemManfucture;
+//                        Toast.makeText(parent.getContext(), "item" +lanternS, Toast.LENGTH_LONG).show();
+                        Getlatern(lanternS);
+                        break;
+
+
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
+
+//
 
 
         btnAddNewCategory.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-//                icci=list.get(0);
+
                 if (checkNetworkConnection()) {
                     new HTTPAsyncTask().execute("https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDColumeUpdate");
                     onBackPressed();
+
+
                 } else
-                    Toast.makeText(Spinner_Unassigned_Attribute.this, "Not Connected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Spinner_Unassigned_Attribute.this, "Not Connecte  onBackPressed();d!", Toast.LENGTH_SHORT).show();
 //
-//                multidata();
-//////
-//////
-//////            }
-//
-//                for (int i = 0; i < list.size(); i++) {
-//                    icci = list.get(i);
-//                    if (checkNetworkConnection()) {
-//                        new HTTPAsyncTask().execute("https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDColumeUpdate");
-//                        onBackPressed();
-//                    } else
-//                        Toast.makeText(Spinner_Unassigned_Attribute.this, "Not Connected!", Toast.LENGTH_SHORT).show();
-////
-//                }
             }
+
 
 
         });
 
+    }
+
+
+    private void Getlatern(String lanternS) {
+
+
+        String lanternM = lanternS;
 
 
 
+        URLline = String.format("https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/lantermodelget?lantern_manufacturer="+lanternM);
+        String url = URLline.replace(" ", "%20");
 
+//        Toast.makeText(Spinner_Unassigned_Attribute.this, ""+url , Toast.LENGTH_SHORT).show();
+
+
+       getValue(url);
 
     }
 
-    private void multidata() {
+    private void getValue(String urLline) {
+        lantern_modelslist.clear();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,urLline,
+                new Listener<String>() {
+                    @Override
+
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
 
 
-//        Toast.makeText(this, ""+list.size(), Toast.LENGTH_SHORT).show();
-//        int i= 0;
-//      do {
-//            icci = list.get(i);
-//            if (checkNetworkConnection()) {
-//                new HTTPAsyncTask().execute("https://svjuuau0x8.execute-api.eu-west-1.amazonaws.com/default/ISDColumeUpdate");
-//                onBackPressed();
-//            } else
-//                Toast.makeText(Spinner_Unassigned_Attribute.this, "Not Connected!", Toast.LENGTH_SHORT).show();
-//
-//            i++;
-////
-//        }while (i < list.size());
-//
+                            for (int i = 0; i < array.length(); i++) {
 
+                                //getting product object from json array
+                                JSONObject data =array.getJSONObject(i);
+                                lantern_model colman = new lantern_model( data.getInt(ID),data.getString("lantern_model"));
+                                lantern_modelslist.add(colman);
+                                Spinnerlanternmodel();
+
+
+
+                            }
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Toast.makeText(Spinner_Unassigned_Attribute.this, "Something went wrong",Toast.LENGTH_LONG).show();
+                        error.printStackTrace();
+
+                    }
+                });
+
+        // request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(stringRequest);
 
     }
 
@@ -349,7 +456,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_Data,
-                new Response.Listener<String>() {
+                new Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -361,7 +468,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
                                 //getting product object from json array
                                 JSONObject catobj= array.getJSONObject(i);
-                                Class_Get_Station_Name colman = new Class_Get_Station_Name(catobj.getString(IDD), catobj.getString(Stat));
+                                Class_Get_Station_Name colman = new Class_Get_Station_Name(catobj.getString(IDD), catobj.getString(Stat),catobj.getString(CRS));
 //                                ListData.add(new Class_Get_Station_Name(r.getString("Id"),r.getString("Station")));
                                 List.add(colman);
 //                                populateSpinner();
@@ -436,7 +543,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerColumeManf.setAdapter(spinnerAdapter);
@@ -469,6 +576,68 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
 
 
+
+
+
+
+
+
+
+    private void Spinnerlanternmodel() {
+        spinnerlaternModel.setAdapter(null);
+
+        List<String> lables = new ArrayList<String>();
+
+        //txtCategory.setText("");
+
+        for (int i = 0; i < lantern_modelslist.size(); i++) {
+//            categoriesList.remove(null);
+            String firstArray = lantern_modelslist.get(i).getLantern_model();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
+        }
+//        Toast.makeText(Spinner_Unassigned_Attribute.this, ""+lables,Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, ""+lables, Toast.LENGTH_SHORT).show();
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_layout);
+
+        // attaching data adapter to spinner
+        spinnerlaternModel.setAdapter(spinnerAdapter);
+//
+//        final String firstItem = String.valueOf(spinnerlaternModel.getSelectedItem());
+//
+//
+//        spinnerlaternModel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (firstItem.equals(String.valueOf(spinnerlaternModel.getSelectedItem()))) {
+//
+//                } else {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+
+//        SharedPreferences test15 = getSharedPreferences(SHARED_PREFS15, Context.MODE_PRIVATE);
+//        int spinnerValue15 = test15.getInt(TEXT15, -1);
+//        if (spinnerValue15 != -1)
+//            // set the value of the spinner
+//            spinnerlaternModel.setSelection(spinnerValue15);
+
+    }
+
+
+
     private void populateSpinner1() {
         List<String> lables = new ArrayList<String>();
 
@@ -488,7 +657,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerRaiseandLow.setAdapter(spinnerAdapter);
@@ -543,7 +712,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerCoastKm.setAdapter(spinnerAdapter);
@@ -596,7 +765,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
         // attaching data adapter to spinner
         spinnerColumeMat.setAdapter(spinnerAdapter);
 
@@ -651,7 +820,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
         // attaching data adapter to spinner
 
         spinnerColumeType.setAdapter(spinnerAdapter);
@@ -710,7 +879,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerColumeHight.setAdapter(spinnerAdapter);
@@ -767,7 +936,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
         // attaching data adapter to spinner
         spinnerNumDoors.setAdapter(spinnerAdapter);
 
@@ -819,7 +988,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
         // attaching data adapter to spinner
         spinnerDoorDimen.setAdapter(spinnerAdapter);
 
@@ -872,7 +1041,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerFoundation.setAdapter(spinnerAdapter);
@@ -925,7 +1094,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerColumeBracketType.setAdapter(spinnerAdapter);
@@ -980,7 +1149,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerBracketLength.setAdapter(spinnerAdapter);
@@ -1029,7 +1198,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerEstimatedColAGE.setAdapter(spinnerAdapter);
@@ -1058,6 +1227,56 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
             spinnerEstimatedColAGE.setSelection(spinnerValue10);
 
     }
+
+    private void Assetuse() {
+
+        List<String> lables = new ArrayList<String>();
+
+        //txtCategory.setText("");
+
+        for (int i = 0; i < assetlist.size(); i++) {
+
+            String firstArray = assetlist.get(i).getAsset_use();
+
+            if (firstArray != "null" && firstArray.length() > 0) {
+
+                lables.add(firstArray);
+            }
+        }
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
+
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_layout);
+
+        // attaching data adapter to spinner
+        spinnerasset_use.setAdapter(spinnerAdapter);
+
+        final String firstItem11 = String.valueOf( spinnerasset_use.getSelectedItem());
+
+        spinnerasset_use.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (firstItem11.equals(String.valueOf( spinnerasset_use.getSelectedItem()))) {
+
+                } else {
+//
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        SharedPreferences test12 = getSharedPreferences(SHARED_PREFS14, Context.MODE_PRIVATE);
+        int spinnerValue12 = test12.getInt(TEXT14, -1);
+        if (spinnerValue12 != -1)
+            // set the value of the spinner
+            spinnerasset_use.setSelection(spinnerValue12);
+
+
+
+    }
+
     private void LatentManfu() {
         List<String> lables = new ArrayList<String>();
 
@@ -1074,33 +1293,53 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
         }
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<String>(this, R.layout.color_spinner_layout,lables);
 
-        spinnerAdapter.setDropDownViewResource(R.layout.spinerrgb);
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerlaternManuf.setAdapter(spinnerAdapter);
 
-        final String firstItem11 = String.valueOf( spinnerlaternManuf.getSelectedItem());
+//        final String firstItem11 = String.valueOf( spinnerlaternManuf.getSelectedItem());
 
-        spinnerlaternManuf.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (firstItem11.equals(String.valueOf( spinnerlaternManuf.getSelectedItem()))) {
-
-                } else {
+//        spinnerlaternManuf.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //
-                }
-            }
+//                // On selecting a spinner item
+//                itemManfucture = parent.getItemAtPosition(position).toString();
+//
+//                // Showing selected spinner item
+//
+//
+//                if(!itemManfucture.equals("")){
+//                    Toast.makeText(parent.getContext(), "Selected: " + itemManfucture, Toast.LENGTH_LONG).show();
+//                    String lanternS=itemManfucture;
+//                    Toast.makeText(parent.getContext(), "item" +lanternS, Toast.LENGTH_LONG).show();
+//                    Getlatern(lanternS);
+//                }
+//
+//
+//                if (firstItem11.equals(String.valueOf( spinnerlaternManuf.getSelectedItem()))) {
+//
+////                    String lanternS=firstItem11;
+////                    Toast.makeText(parent.getContext(), "item" +lanternS, Toast.LENGTH_LONG).show();
+////                    Getlatern(lanternS);
+//
+//                } else {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+//        SharedPreferences test11 = getSharedPreferences(SHARED_PREFS12, Context.MODE_PRIVATE);
+//        int spinnerValue11 = test11.getInt(TEXT12, -1);
+//        if (spinnerValue11 != -1)
+//            // set the value of the spinner
+//            spinnerlaternManuf.setSelection(spinnerValue11);
 
-        SharedPreferences test11 = getSharedPreferences(SHARED_PREFS12, Context.MODE_PRIVATE);
-        int spinnerValue11 = test11.getInt(TEXT12, -1);
-        if (spinnerValue11 != -1)
-            // set the value of the spinner
-            spinnerlaternManuf.setSelection(spinnerValue11);
 
     }
 
@@ -1113,7 +1352,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ColumeManfucture,
-                new Response.Listener<String>() {
+                new Listener<String>() {
                     @Override
 
                     public void onResponse(String response) {
@@ -1122,7 +1361,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
                             JSONArray array = new JSONArray(response);
 
                             //traversing through all the object
-
+//                            Toast.makeText(Spinner_Unassigned_Attribute.this, "!"+ array, Toast.LENGTH_SHORT).show();
                             for (int i = 0; i < array.length(); i++) {
 
                                 //getting product object from json array
@@ -1174,6 +1413,10 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
                                 categoriesList11.add(colman12);
                                 LatentManfu();
 
+                                Asset_use colman13 = new Asset_use(catobj.getInt(ID), catobj.getString(AssetUse));
+                                assetlist.add(colman13);
+                                Assetuse();
+
                             }
 
 
@@ -1196,6 +1439,7 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
 
     }
+
 
 
     @Override
@@ -1270,6 +1514,16 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
         SharedPreferences.Editor prefEditor11 = getSharedPreferences(SHARED_PREFS12, 0).edit();
         prefEditor11.putInt(TEXT12,   spinnerlaternManuf.getSelectedItemPosition());
         prefEditor11.apply();
+
+        spinnerasset_use  = (Spinner) findViewById(R.id.asset_use);
+        SharedPreferences.Editor prefEditor12 = getSharedPreferences(SHARED_PREFS14, 0).edit();
+        prefEditor12.putInt(TEXT14,   spinnerasset_use.getSelectedItemPosition());
+        prefEditor12.apply();
+
+        spinnerlaternModel  = (Spinner) findViewById(R.id.model_latenr);
+        SharedPreferences.Editor prefEditor15 = getSharedPreferences(SHARED_PREFS15, 0).edit();
+        prefEditor15.putInt(TEXT15,   spinnerlaternModel.getSelectedItemPosition());
+        prefEditor15.apply();
 
 
     }
@@ -1348,50 +1602,25 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
 
 
     private JSONObject buidJsonObject() throws JSONException {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            e1 = extras.getString("doubleValue_e1");
-            e2 = extras.getString("doubleValue_e2");
-            e3 = extras.getString("doubleValue_e3");
 
-        }
+        list = (ArrayList<String>) getIntent().getSerializableExtra("key_one");
 
-//        list = (ArrayList<String>) getIntent().getSerializableExtra("key_one");
+        JSONArray jsArray = new JSONArray(list);
 
-
-
-//         jsonArrayContacts = new JsonArray();
-//        for (int i = 0; i < list.size(); i++) {
-//
-//            String iccid = list.get(i);
-//            jsonArrayContacts.add(iccid);
-//
-//
-//        }
-//        JSONArray jsArray = new JSONArray(list);
-//
-//        JSONObject jsono = new JSONObject();
-//        jsono.put("count",jsArray.toString());
-
-
-
-
-
-//        Toast.makeText(Spinner_Unassigned_Attribute.this, ""+jsonArrayContacts.toString(), Toast.LENGTH_SHORT).show();
 
             // Add contacts jsonArray to jsonObject
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("columeupdate", "5");
-            jsonObject.put("iccid", e1);
+            jsonObject.put("iccid", jsArray);
             jsonObject.put("station_name", AutostationName.getText().toString());
-            jsonObject.put("station_cws", "COY");
+            jsonObject.put("station_cws", "");
             jsonObject.put("asset_id", "");
-            jsonObject.accumulate("asset_type", "CCTV System");
+            jsonObject.accumulate("asset_use", spinnerasset_use.getSelectedItem().toString());
             jsonObject.accumulate("is_costal", spinnerCoastKm.getSelectedItem().toString());
             jsonObject.accumulate("column_manufacturer", spinnerColumeManf.getSelectedItem().toString());
             jsonObject.accumulate("raise_and_lower", spinnerRaiseandLow.getSelectedItem().toString());
             jsonObject.accumulate("column_material", spinnerColumeMat.getSelectedItem().toString());
-            jsonObject.accumulate("column_type", spinnerColumeType.getSelectedItem().toString());
+            jsonObject.accumulate("asset_type", spinnerColumeType.getSelectedItem().toString());
             jsonObject.accumulate("column_height", spinnerColumeHight.getSelectedItem().toString());
             jsonObject.accumulate("number_of_doors", spinnerNumDoors.getSelectedItem().toString());
             jsonObject.accumulate("door_dimension", spinnerDoorDimen.getSelectedItem().toString());
@@ -1417,6 +1646,9 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity  implements 
         writer.close();
         os.close();
     }
+
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,

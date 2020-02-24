@@ -31,12 +31,14 @@
             android:label="Assets Alerts"
             android:parentActivityName=".Map_Main_Activity"
             android:windowSoftInputMode="stateAlwaysHidden"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Map_All_Alert_Asserts"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets Alerts"
             android:windowSoftInputMode="stateAlwaysHidden"
+            android:noHistory="true"
             android:parentActivityName=".Map_Main_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -48,12 +50,14 @@
         <activity
             android:name=".Map_Assigned_Activity"
             android:label="Assigned Assets"
+            android:noHistory="true"
             android:parentActivityName=".Map_Main_Activity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Map_Unassigned_Activity"
             android:label="Unassigned Assets"
+            android:noHistory="true"
             android:parentActivityName=".Map_Main_Activity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -69,9 +73,7 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/notification" />
+
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
@@ -93,10 +95,13 @@
         <activity
             android:name=".Login_Page"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Map_Main_Activity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:noHistory = "true"
             android:label="MAP"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -119,6 +124,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets View Map"
             android:parentActivityName=".Map_Main_Activity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Replace_Node_Map"

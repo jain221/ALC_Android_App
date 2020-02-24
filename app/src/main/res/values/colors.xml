@@ -26,7 +26,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="spacespinner">#fff</color>
-
+    <color name="radioCircle">#237c27</color>
     <color name="color_sign_up">#f51f0166</color>
     <color name="color_log_in">#eff10783</color>
 

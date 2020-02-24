@@ -153,12 +153,12 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
     public static final String Station11 = "station_name";
     public static final String Stationcode ="station_cws";
     public static final String columeNumber = "asset_id";
-    public static final String assettype="asset_type";
+    public static final String assettype="asset_use";
     public static final String CoastKM= "is_costal";
     public static final String columeManf = "column_manufacturer";
     public static final String RaiseandLow = "raise_and_lower";
     public static final String columeMaterial = "column_material";
-    public static final String ColumeType = "column_type";
+    public static final String ColumeType = "asset_type";
     public static final String ColumeHight = "column_height";
     public static final String NumDoors = "number_of_doors";
     public static final String DoorDimen = "door_dimension";
@@ -176,9 +176,11 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
     private static final float DEFAULT_ZOOM = 17f;
 
     private static final String URL_UnAssinged = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
-    private static final String URL_AMBER = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectedamberColor";
-    private static final String URL_GREEN = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectGreenColor";
-    private static final String URL_RED = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectRedColor";
+    private static final int URL_AMBER = R.string.AmberRagStatus;
+    private static final int URL_GREEN = R.string.GreenRagStatus;
+    private static final int URL_RED_Alert = R.string.RedAlertStatus ;
+    private static final int URL_RED_Rag_Status = R.string.RedRagStatus ;
+    private static final int URL_Yellow_Rag_Status = R.string.YellowRagStatus ;
     private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
 
 
@@ -217,7 +219,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.map_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 //         Set toolbar for this screen
@@ -378,7 +380,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
         }
         getunsignedSize(URL_UnAssinged);
-        getalertSize(URL_RED);
+        getalertSize(getString(URL_RED_Alert));
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -402,6 +404,10 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
     }
 
+//    public onBackPressed(){
+//
+//
+//    }
 
  //--------------------------------------------------------------------------------------------------
 
@@ -498,11 +504,6 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
     }
 
 
-    // Sign out user
-    private void signOut() {
-        user.signOut();
-        exit();
-    }
 
     // Initialize this activity
     private void init() {
@@ -687,6 +688,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         intent.putExtra("name",username);
         setResult(RESULT_OK, intent);
         finish();
+
     }
 
     private void getunsignedSize(String url) {
@@ -792,10 +794,11 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
 
         getMarker(URL_UnAssinged,BitmapDescriptorFactory.HUE_BLUE,"Unassigned Assets");
-        getMarker(URL_GREEN,BitmapDescriptorFactory.HUE_GREEN,"Green");
-        getMarker(URL_AMBER,BitmapDescriptorFactory.HUE_ORANGE,"Amber");
-        getMarker(URL_RED,BitmapDescriptorFactory.HUE_RED,"Red");
-
+        getMarker(getString(URL_GREEN),BitmapDescriptorFactory.HUE_GREEN,"Green");
+        getMarker(getString(URL_AMBER),BitmapDescriptorFactory.HUE_ORANGE,"Amber Rag Status");
+        getMarker(getString(URL_RED_Alert) ,BitmapDescriptorFactory.HUE_VIOLET,"Alert Asset");
+        getMarker(getString(URL_RED_Rag_Status) ,BitmapDescriptorFactory.HUE_RED,"Red Rag Status");
+        getMarker(getString(URL_Yellow_Rag_Status) ,BitmapDescriptorFactory.HUE_YELLOW,"Yellow Rag Status");
         All_Assets_Info_Wndow markerInfoWindowAdapter = new All_Assets_Info_Wndow(getApplicationContext());
         gMap.setInfoWindowAdapter(markerInfoWindowAdapter);
 
@@ -1396,6 +1399,17 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public void onBackPressed() {
+
+//        moveTaskToBack(true);
+        exit();
+    }
+
+
+
+    // Sign out user
+    private void signOut() {
+        user.signOut();
+//        moveTaskToBack(true);
         exit();
     }
 

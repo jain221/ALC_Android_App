@@ -135,7 +135,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_replace_column);
+        setContentView(R.layout.replace_column_attribute);
 
         TempItem = getIntent().getStringExtra("doubleValue_e1");
         latt = getIntent().getStringExtra("doubleValue_e2");
@@ -247,7 +247,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerColumeManf.setAdapter(spinnerAdapter);
@@ -299,7 +299,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerRaiseandLow.setAdapter(spinnerAdapter);
@@ -354,7 +354,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 //
 //        // Drop down layout style - list view with radio button
 //        spinnerAdapter
-//                .setDropDownViewResource(R.layout.spinerrgb);
+//                .setDropDownViewResource(R.layout.spinner_layout);
 //
 //        // attaching data adapter to spinner
 //        spinnerCoastKm.setAdapter(spinnerAdapter);
@@ -407,7 +407,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
         // attaching data adapter to spinner
         spinnerColumeMat.setAdapter(spinnerAdapter);
 
@@ -462,7 +462,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
         // attaching data adapter to spinner
 
         spinnerColumeType.setAdapter(spinnerAdapter);
@@ -521,7 +521,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerColumeHight.setAdapter(spinnerAdapter);
@@ -578,7 +578,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
         // attaching data adapter to spinner
         spinnerNumDoors.setAdapter(spinnerAdapter);
 
@@ -630,7 +630,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
         // attaching data adapter to spinner
         spinnerDoorDimen.setAdapter(spinnerAdapter);
 
@@ -683,7 +683,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerFoundation.setAdapter(spinnerAdapter);
@@ -736,7 +736,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerColumeBracketType.setAdapter(spinnerAdapter);
@@ -791,7 +791,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerBracketLength.setAdapter(spinnerAdapter);
@@ -840,7 +840,7 @@ public class Replace_Column_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerEstimatedColAGE.setAdapter(spinnerAdapter);

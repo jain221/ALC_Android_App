@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.amazonaws.youruserpools.MapWrapperLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map_relative_layout"
     android:layout_width="match_parent"
-    android:background="#fff"
+android:background="#fff"
     android:layout_height="match_parent"
 
 
@@ -16,19 +15,16 @@
         android:layout_height="match_parent">
 
 
-
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="-2dp"
-            android:layout_marginTop="106dp"
+            android:layout_marginStart="-3dp"
+            android:layout_marginTop="107dp"
             tools:context=".Map_Main_Activity" />
-
 
         <RelativeLayout
             android:id="@+id/relLayout1"
@@ -45,9 +41,9 @@
                 android:layout_width="34dp"
                 android:layout_height="36dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="9dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/ic_back_icon"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/ic_menu_black"
                 android:onClick="findLocation" />
 
 
@@ -60,30 +56,30 @@
                 android:background="@drawable/all_rounded"
                 android:elevation="10dp">
 
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="34dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/ic_action_name"
-                    android:onClick="findLocation" />
+            <Button
+                android:id="@+id/button"
+                android:layout_width="34dp"
+                android:layout_height="36dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/ic_action_name"
+                android:onClick="findLocation" />
 
 
-                <AutoCompleteTextView
-                    android:id="@+id/editText"
-                    android:layout_width="531dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="6dp"
-                    android:layout_toRightOf="@+id/button"
-                    android:background="@null"
-                    android:hint="  Enter Address, City or Postcode"
-                    android:inputType="textVisiblePassword"
-                    android:textColor="@color/toolbar_background"
-                    android:textColorHint="@color/toolbar_background"
-                    android:textSize="20sp" />
-                <!--android:imeOptions="actionSearch"/>-->
+            <AutoCompleteTextView
+                android:id="@+id/editText"
+                android:layout_width="531dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/button"
+                android:background="@null"
+                android:hint="  Enter Address, City or Postcode"
+                android:inputType="textVisiblePassword"
+                android:textColor="@color/toolbar_background"
+                android:textColorHint="@color/toolbar_background"
+                android:textSize="20sp" />
+            <!--android:imeOptions="actionSearch"/>-->
 
             </RelativeLayout>
         </RelativeLayout>
@@ -106,6 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
+        android:buttonTint="@color/radioCircle"
         android:checkedButton="@+id/radioButton3"
         android:orientation="horizontal">
 
@@ -116,15 +113,15 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/radioGroup"
             android:text="Alert Assets"
-            android:textColor="@color/toolbar_background"
             android:buttonTint="@color/radioCircle"
+            android:textColor="@color/toolbar_background"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/radioButton1"
-            android:layout_width="145dp"
-            android:layout_height="wrap_content"
+            android:layout_width="149dp"
+            android:layout_height="match_parent"
             android:layout_alignTop="@+id/radioGroup"
             android:buttonTint="@color/radioCircle"
             android:text="Assigned Assets     "
@@ -150,7 +147,6 @@
             android:layout_alignTop="@+id/radioGroup"
             android:layout_alignEnd="@+id/radioGroup"
             android:text="All Assets"
-            android:buttonTint="@color/radioCircle"
             android:textColor="@color/toolbar_background"
             android:textSize="14sp"
             android:textStyle="bold" />

@@ -21,6 +21,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -73,12 +76,13 @@ public class Login_Page extends AppCompatActivity {
     // User Details
     private String username;
     private String password;
+    private Image iconeye;
     private AppCompatCheckBox checkbox;
     // Mandatory overrides first
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_main);
+        setContentView(R.layout.login_page);
         // Set toolbar for this screen
 //        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
 //        toolbar.setTitle("");
@@ -111,14 +115,15 @@ public class Login_Page extends AppCompatActivity {
 
 
     private void showStartDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("ISD App Proces")
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("ISD APP Instruction Video")
                 .setMessage("Would you like to See Video for User Instruction")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent internt = new Intent(Login_Page.this, Video_Instruction_Activity.class);
                         startActivity(internt);
+//                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -126,11 +131,15 @@ public class Login_Page extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
-                })
-                .create().show();
+                });
 
+        AlertDialog dialog = builder1.create();
+        dialog.show();
+        Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setTextColor(Color.BLACK);
 
-
+        Button buttonbackground2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        buttonbackground2.setTextColor(Color.BLACK);
 
 
 
@@ -342,7 +351,7 @@ public class Login_Page extends AppCompatActivity {
         username = inUsername.getText().toString();
         if(username == null || username.length() < 1) {
             TextView label = (TextView) findViewById(R.id.textViewUserIdMessage);
-            label.setText(inUsername.getHint()+" cannot be empty");
+            label.setText("Username cannot be empty");
             inUsername.setBackground(getDrawable(R.drawable.text_border_error));
             return;
         }
@@ -352,7 +361,7 @@ public class Login_Page extends AppCompatActivity {
         password = inPassword.getText().toString();
         if(password == null || password.length() < 1) {
             TextView label = (TextView) findViewById(R.id.textViewUserPasswordMessage);
-            label.setText(inPassword.getHint()+" cannot be empty");
+            label.setText("Password cannot be empty");
             inPassword.setBackground(getDrawable(R.drawable.text_border_error));
             return;
         }
@@ -460,14 +469,14 @@ public class Login_Page extends AppCompatActivity {
             password = inPassword.getText().toString();
             if(password == null) {
                 TextView label = (TextView) findViewById(R.id.textViewUserPasswordMessage);
-                label.setText(inPassword.getHint()+" enter password");
+                label.setText("Password is empty");
                 inPassword.setBackground(getDrawable(R.drawable.text_border_error));
                 return;
             }
 
             if(password.length() < 1) {
                 TextView label = (TextView) findViewById(R.id.textViewUserPasswordMessage);
-                label.setText(inPassword.getHint()+" enter password");
+                label.setText(" Enter password");
                 inPassword.setBackground(getDrawable(R.drawable.text_border_error));
                 return;
             }
@@ -682,45 +691,5 @@ public class Login_Page extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void ShowHidePass(View view) {
 
-//        if(view.getId()==R.id.show_pass_btn) {
-//
-//            if (inPassword.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())) {
-//                {
-//                    ((ImageView) view).setImageResource(R.drawable.hide_password);
-//
-//                    //Show Password
-//                    inPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-//                }
-//            else{
-//                    ((ImageView) view).setImageResource(R.drawable.show_password);
-//
-//                    //Hide Password
-//                    inPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-//
-//                }
-//            }
-//        }
-
-
-//        if(view.getId()==R.id.show_pass_btn){
-//
-//            if(inPassword.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
-//                ((ImageView) view).setImageResource(R.drawable.hide_password);
-//
-//                //Show Password
-//                inPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-//            }
-//            else{
-//                ((ImageView)(view)).setImageResource(R.drawable.show_password);
-//
-//                //Hide Password
-//                inPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-//
-//            }
-//        }
-//
-//            }
-    }
 }

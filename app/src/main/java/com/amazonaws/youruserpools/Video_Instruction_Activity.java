@@ -16,7 +16,7 @@ public class Video_Instruction_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_instruction);
+        setContentView(R.layout.video_instruction);
 
         Button buttonPlayVideo2 = (Button)findViewById(R.id.button1);
 
@@ -42,4 +42,9 @@ public class Video_Instruction_Activity extends AppCompatActivity {
 
         });
     }
+
+//    @Override
+//    public void onBackPressed() {
+////        moveTaskToBack(true);
+//    }
 }

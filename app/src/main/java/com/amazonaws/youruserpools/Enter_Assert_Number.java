@@ -1,5 +1,9 @@
 package com.amazonaws.youruserpools;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -18,6 +22,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -27,6 +32,9 @@ import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -34,6 +42,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -41,6 +50,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedWriter;
@@ -49,6 +60,9 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Enter_Assert_Number extends AppCompatActivity implements OnMapReadyCallback {
 
     private RequestQueue mRequestQueue;
@@ -61,19 +75,25 @@ public class Enter_Assert_Number extends AppCompatActivity implements OnMapReady
     private static final float DEFAULT_ZOOM = 17f;
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-
+    HashMap<Integer, Marker> markerMap = new HashMap<Integer, Marker>();
     MapFragment mapFragment;
     GoogleMap gMap;
-
+    public static final String TITLE = "iccid";
+    public static final String LAT =  "latitude";
+    public static final String LNG = "longitude";
     LatLng latLng;
     EditText assertNumber;
-    String ip, latt, logg,title,data,e1, e2, e3,TempItem;
+    String ip, latt, logg,title,data,e1, e2, e3,TempItem,GREEN;
     TextView ipaddress,lat, log,Log1;
     Handler handler = new Handler();
     Runnable refresh;
-
-
-
+    ArrayList<Double> latitude2 = new ArrayList<Double>();
+    ArrayList<Double> longitude2 = new ArrayList<Double>();
+    private static final String URL_UnAssinged = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
+    private static final String URL_AMBER = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectedamberColor";
+    private static final String URL_GREEN = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectGreenColor";
+    Marker marker ;
+    LatLng latttt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +106,10 @@ public class Enter_Assert_Number extends AppCompatActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
 
         gMap = googleMap;
+
+        getMarker1(URL_UnAssinged);
+        getMarker1(URL_GREEN);
+        getMarker1(URL_AMBER);
         getMarker();
         if (mLocationPermissionsGranted) {
 //            getDeviceLocation();
@@ -105,7 +129,57 @@ public class Enter_Assert_Number extends AppCompatActivity implements OnMapReady
 
     }
 
+    private void getMarker1(String url) {
 
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting product object from json array
+                                JSONObject product = array.getJSONObject(i);
+                                title = product.getString(TITLE);
+                                latLng = new LatLng(Double.parseDouble(product.getString(LAT)), Double.parseDouble(product.getString(LNG)));
+                                addMarkerGreen1(latLng, title);
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Enter_Assert_Number.this, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(this).add(stringRequest);
+
+    }
+
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(1, 1, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
 
 
     private void getDeviceLocation() {
@@ -235,6 +309,43 @@ public class Enter_Assert_Number extends AppCompatActivity implements OnMapReady
         }
     }
 
+
+    private void addMarkerGreen1(final LatLng latLng, final String title) {
+
+        latitude2.add(latLng.latitude);
+        longitude2.add(latLng.longitude);
+
+
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            e1 = extras.getString("doubleValue_e1");
+            ll = Double.parseDouble((extras.getString("doubleValue_e2")));
+            lg= Double.parseDouble((extras.getString("doubleValue_e3")));
+
+        }
+        latitude2.remove(ll);
+        longitude2.remove(lg);
+
+        for(int i=0; i < latitude2.size();i++ ) {
+         latttt = new LatLng(latitude2.get(i), longitude2.get(i));
+         markercreate(latttt);
+        }
+
+
+
+
+
+
+
+    }
+
+    private void markercreate(LatLng latttt) {
+        MarkerOptions markerOptions1 = new MarkerOptions().position(latttt).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        gMap.addMarker(markerOptions1);
+    }
+
+
     private void getMarker() {
 
         Bundle extras = getIntent().getExtras();
@@ -265,10 +376,11 @@ public class Enter_Assert_Number extends AppCompatActivity implements OnMapReady
     private void showDialog(Enter_Assert_Number currentLocation) {
 
         final Dialog dialog = new Dialog(currentLocation);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); //before
         dialog.setCancelable(false);
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        dialog.setContentView(R.layout.activity_edite_colume_number);
-        dialog.setTitle("Enter Asset ID");
+        dialog.setContentView(R.layout.dialog_enter_assets_number);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             e1 = extras.getString("doubleValue_e1");
@@ -278,6 +390,7 @@ public class Enter_Assert_Number extends AppCompatActivity implements OnMapReady
         }
         assertNumber = (EditText) dialog.findViewById(R.id.editName);
         Button saveNumber = (Button) dialog.findViewById(R.id.btnSave);
+        Button Back = (Button) dialog.findViewById(R.id.btnback);
 
         assertNumber.setShowSoftInputOnFocus(true);
         saveNumber.setOnClickListener(new View.OnClickListener() {
@@ -291,6 +404,20 @@ public class Enter_Assert_Number extends AppCompatActivity implements OnMapReady
                 } else
                     Toast.makeText(Enter_Assert_Number.this, "Not Connected!", Toast.LENGTH_SHORT).show();
 //                    dialog.dismiss();
+
+            }
+        });
+
+        Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(Enter_Assert_Number.this, "Data Saved SuccessFully!!!", Toast.LENGTH_SHORT).show();
+//
+//                Intent intent4 = new Intent(Enter_Assert_Number.this, Map_Alert_Activity.class);
+////                        Intent intent = new Intent(CurrentLocation.this, Enter_Assert_Number.class);
+//                startActivity(intent4);
+
+                onBackPressed();
 
             }
         });

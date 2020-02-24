@@ -116,7 +116,7 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
 
     private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
     private ClusterManager<Cluster_items> mClusterManager;
-    private static final String URL_RED = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectRedColor";
+    private static final int URL_RED_Alert = R.string.RedAlertStatus;
     private ImageView mGps;
 
     String data;
@@ -405,7 +405,7 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
         // Set he title and snippet strings.
 
 
-        final String snippet = ("Status : Red " + " \nICCID : " + title+"\nAlert Type : " + alerttype +"\nAsset ID : " +  assertid + "\nStation Name: " + stname +", "+stcode+ "\nAlert TimeStamp:  " + alertdate);
+        final String snippet = ("Status : Alert Asset " + " \nICCID : " + title+"\nAlert Type : " + alerttype +"\nAsset ID : " +  assertid + "\nStation Name: " + stname +", "+stcode+ "\nAlert TimeStamp:  " + alertdate);
 
 // Create a cluster item for the marker and set the title and snippet using the constructor.
         Cluster_items infoWindowItem = new Cluster_items(lat,lng, title, snippet);
@@ -482,7 +482,7 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
         @Override
         protected void onBeforeClusterItemRendered(Cluster_items item, MarkerOptions markerOptions) {
 
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
         }
 
     }
@@ -559,7 +559,7 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
 
     private void getMarkers() {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_RED,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,  (getString(URL_RED_Alert)) ,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

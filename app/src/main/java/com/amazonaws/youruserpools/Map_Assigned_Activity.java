@@ -90,12 +90,12 @@ public class Map_Assigned_Activity extends AppCompatActivity implements OnMapRea
     public static final String Station11 = "station_name";
     public static final String Stationcode ="station_cws";
     public static final String columeNumber = "asset_id";
-    public static final String assettype="asset_type";
+    public static final String assettype="asset_use";
     public static final String CoastKM= "is_costal";
     public static final String columeManf = "column_manufacturer";
     public static final String RaiseandLow = "raise_and_lower";
     public static final String columeMaterial = "column_material";
-    public static final String ColumeType = "column_type";
+    public static final String ColumeType = "asset_type";
     public static final String ColumeHight = "column_height";
     public static final String NumDoors = "number_of_doors";
     public static final String DoorDimen = "door_dimension";
@@ -132,9 +132,11 @@ public class Map_Assigned_Activity extends AppCompatActivity implements OnMapRea
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    private static final String URL_AMBER = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectedamberColor";
-    private static final String URL_GREEN = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectGreenColor";
-    private static final String URL_RED = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectRedColor";
+    private static final int URL_AMBER = R.string.AmberRagStatus;
+    private static final int URL_GREEN = R.string.GreenRagStatus;
+    private static final int URL_RED_Alert = R.string.RedAlertStatus;
+    private static final int URL_RED_Rag_Status = R.string.RedRagStatus ;
+    private static final int URL_Yellow_Rag_Status = R.string.YellowRagStatus ;
     private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
 
     private ClusterManager<Cluster_items> mClusterManager;
@@ -282,9 +284,11 @@ public class Map_Assigned_Activity extends AppCompatActivity implements OnMapRea
                     case R.id.radioButton1:
 
                         gMap.clear();
-                        getMarker(URL_GREEN,BitmapDescriptorFactory.HUE_GREEN,"Green");
-                        getMarker(URL_AMBER,BitmapDescriptorFactory.HUE_ORANGE,"Amber");
-                        getMarker(URL_RED,BitmapDescriptorFactory.HUE_RED,"Red");
+                        getMarker(getString(URL_GREEN),BitmapDescriptorFactory.HUE_GREEN,"Green");
+                        getMarker(getString(URL_RED_Rag_Status),BitmapDescriptorFactory.HUE_RED,"Red Rag Status");
+                        getMarker(getString(URL_Yellow_Rag_Status) ,BitmapDescriptorFactory.HUE_YELLOW,"Yellow Rag Status");
+                        getMarker(getString(URL_AMBER),BitmapDescriptorFactory.HUE_ORANGE,"Amber Rag Status");
+                        getMarker(getString(URL_RED_Alert),BitmapDescriptorFactory.HUE_VIOLET,"Alert Asset");
                         Toast.makeText(Map_Assigned_Activity.this, "Assigned Mode is Selected", Toast.LENGTH_LONG).show();
                         saveRadioChoice();
                         retrieveChoices();
@@ -311,10 +315,24 @@ public class Map_Assigned_Activity extends AppCompatActivity implements OnMapRea
 
 
     }
+
     @Override
     public void onBackPressed() {
 //        moveTaskToBack(true);
+
+//        Intent intent1 = new Intent(Map_Unassigned_Activity.this, Map_Main_Activity.class);
+//        startActivity(intent1);
+//        moveTaskToBack(true);
+//        finish();
+//        System.exit(0);
+        super.onBackPressed();
     }
+//    @Override
+//    public void onBackPressed() {
+////        moveTaskToBack(true);
+
+
+//    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -322,10 +340,11 @@ public class Map_Assigned_Activity extends AppCompatActivity implements OnMapRea
         gMap = googleMap;
 
         gMap.setOnMarkerClickListener(this);
-
-        getMarker(URL_GREEN,BitmapDescriptorFactory.HUE_GREEN,"Green");
-        getMarker(URL_AMBER,BitmapDescriptorFactory.HUE_ORANGE,"Amber");
-        getMarker(URL_RED,BitmapDescriptorFactory.HUE_RED,"Red");
+        getMarker(getString(URL_RED_Rag_Status),BitmapDescriptorFactory.HUE_RED,"Red Rag Status");
+        getMarker(getString(URL_Yellow_Rag_Status) ,BitmapDescriptorFactory.HUE_YELLOW,"Yellow Rag Status");
+        getMarker(getString(URL_GREEN),BitmapDescriptorFactory.HUE_GREEN,"Green");
+        getMarker(getString(URL_AMBER),BitmapDescriptorFactory.HUE_ORANGE,"Amber Rag Status");
+        getMarker(getString(URL_RED_Alert) ,BitmapDescriptorFactory.HUE_VIOLET,"Alert Asset");
         center = new LatLng(51.52042, -3.23113);
         mClusterManager = new ClusterManager<>(this, gMap);
         gMap.setOnCameraIdleListener(mClusterManager);

@@ -224,7 +224,31 @@ class Lantern_Estimated_Age {
         return this.column_ages;
     }
 }
+class Asset_use{
+    private int id;
+    private String asset_use;
 
+    public Asset_use(int id, String asset_use) {
+        this.id = id;
+        this.asset_use = asset_use;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAsset_use() {
+        return asset_use;
+    }
+
+    public void setAsset_use(String asset_use) {
+        this.asset_use = asset_use;
+    }
+}
 
 class Lanten_Manf {
     private int id;
@@ -243,5 +267,21 @@ class Lanten_Manf {
 
     public String getName11() {
         return this.lantern_manufacturer;
+    }
+}
+
+class lantern_model {
+    private int id;
+    private String lantern_model;
+
+    public lantern_model(int id,String lantern_model) {
+        this.id = id;
+        this.lantern_model = lantern_model;
+    }
+    public int getid() {
+        return this.id;
+    }
+    public String getLantern_model() {
+        return lantern_model;
     }
 }

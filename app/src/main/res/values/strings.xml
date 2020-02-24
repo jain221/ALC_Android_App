@@ -35,7 +35,11 @@
     <string name="default_notification_channel_name" translatable="true">Weather</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="textVisiblePassword">done</string>
-
+    <string name="RedAlertStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectRedColor</string>
+    <string name="AmberRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectedamberColor</string>
+    <string name="GreenRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectGreenColor</string>
+    <string name="YellowRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectYelloRagStatis</string>
+    <string name="RedRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectRagRedStatus</string>
 
     <string name="title_activity_splash">splashActivity</string>
 

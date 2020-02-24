@@ -90,7 +90,7 @@ public class Replace_Latern_Attribute extends AppCompatActivity implements Adapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_replace_latern);
+        setContentView(R.layout.replace_latern);
 
         TempItem = getIntent().getStringExtra("doubleValue_e1");
         latt = getIntent().getStringExtra("doubleValue_e2");
@@ -171,7 +171,7 @@ public class Replace_Latern_Attribute extends AppCompatActivity implements Adapt
 
         // Drop down layout style - list view with radio button
         spinnerAdapter
-                .setDropDownViewResource(R.layout.spinerrgb);
+                .setDropDownViewResource(R.layout.spinner_layout);
 
         // attaching data adapter to spinner
         spinnerlaternManuf.setAdapter(spinnerAdapter);

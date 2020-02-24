@@ -103,7 +103,7 @@ public class Replace_Node_Map extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plain_map);
+        setContentView(R.layout.map_replace_node);
 
         TempItem = getIntent().getStringExtra("doubleValue_e1");
         latt = getIntent().getStringExtra("doubleValue_e2");
@@ -397,7 +397,7 @@ public class Replace_Node_Map extends AppCompatActivity implements OnMapReadyCal
 //
 //
 //
-//        dialog.setContentView(R.layout.activity_edite_colume_number);
+//        dialog.setContentView(R.layout.dialog_enter_assets_number);
 //
 //        Bundle extras = getIntent().getExtras();
 //        if (extras != null) {

@@ -121,8 +121,9 @@ public class Map_Alert_Activity extends AppCompatActivity implements OnMapReadyC
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
 
-    private static final String URL_RED = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectRedColor";
+    private static final int URL_RED_Alert = R.string.RedAlertStatus;
     private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
+
     private static final String URL_UnAssinged = "https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/idname";
 
     private ImageView mGps;
@@ -149,8 +150,10 @@ public class Map_Alert_Activity extends AppCompatActivity implements OnMapReadyC
     private RadioButton alldata;
 
 
-    private static final String URL_AMBER = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectedamberColor";
-    private static final String URL_GREEN = "https://48b6kzowq1.execute-api.eu-west-1.amazonaws.com/default/SelectGreenColor";
+    private static final int URL_AMBER = R.string.AmberRagStatus;
+    private static final int URL_GREEN = R.string.GreenRagStatus;
+    private static final int URL_RED_Rag_Status = R.string.RedRagStatus ;
+    private static final int URL_Yellow_Rag_Status = R.string.YellowRagStatus ;
 
     public static final String BUTTON_STATE = "Button_State";
 
@@ -290,18 +293,32 @@ public class Map_Alert_Activity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onBackPressed() {
 //        moveTaskToBack(true);
-    }
 
+        super.onBackPressed();
+    }
+//@Override
+////public void onBackPressed() {
+////        moveTaskToBack(true);
+//
+////        Intent intent1 = new Intent(Map_Unassigned_Activity.this, Map_Main_Activity.class);
+////        startActivity(intent1);
+//    moveTaskToBack(true);
+//    finish();
+////        System.exit(0);
+//
+//}
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         gMap = googleMap;
 
-        getMarker(URL_RED,BitmapDescriptorFactory.HUE_RED,"Red");
+        getMarker(getString(URL_RED_Alert),BitmapDescriptorFactory.HUE_VIOLET,"Alert Asset");
 
         getMarker1(URL_UnAssinged);
-        getMarker1(URL_GREEN);
-        getMarker1(URL_AMBER);
+        getMarker1(getString(URL_GREEN));
+        getMarker1(getString(URL_Yellow_Rag_Status));
+        getMarker1(getString(URL_RED_Rag_Status));
+        getMarker1(getString(URL_AMBER));
 
 
        gMap.setOnMarkerClickListener(this);

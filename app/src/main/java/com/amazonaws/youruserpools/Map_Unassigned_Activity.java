@@ -273,10 +273,18 @@ public class Map_Unassigned_Activity extends AppCompatActivity implements OnMapR
         getAutoComlete();
 
     }
-
-    @Override
+//
+//    @Override
     public void onBackPressed() {
 //        moveTaskToBack(true);
+
+//        Intent intent1 = new Intent(Map_Unassigned_Activity.this, Map_Main_Activity.class);
+//        startActivity(intent1);
+//        moveTaskToBack(true);
+//        finish();
+//        System.exit(0);
+
+        super.onBackPressed();
     }
 
 
@@ -735,7 +743,7 @@ public class Map_Unassigned_Activity extends AppCompatActivity implements OnMapR
     }
 
 
-    private void AssignMode() {
+    private void EnterAssetNumber() {
 
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -824,7 +832,7 @@ public class Map_Unassigned_Activity extends AppCompatActivity implements OnMapR
                     public void onClick(DialogInterface dialog, int id) {
 
                         multipledata();
-                        AssignMode();
+                        EnterAssetNumber();
 
 
                     }
@@ -853,19 +861,19 @@ public class Map_Unassigned_Activity extends AppCompatActivity implements OnMapR
     }
 
     private void multipledata() {
-//        Intent inty = new Intent(Map_Unassigned_Activity.this, Spinner_Unassigned_Attribute.class);
-//        inty.putExtra("key_one", ipaddress3);
-//        startActivity(inty);
+        Intent inty = new Intent(Map_Unassigned_Activity.this, Spinner_Unassigned_Attribute.class);
+        inty.putExtra("key_one", ipaddress3);
+        startActivity(inty);
 
-        Intent intent = new Intent(Map_Unassigned_Activity.this, Spinner_Unassigned_Attribute.class);
-        for (int i = 0; i < ipaddress3.size(); i++) {
-            intent.putExtra("doubleValue_e1", ipaddress3.get(i));
-            intent.putExtra("doubleValue_e2", latitude2.get(i));
-            intent.putExtra("doubleValue_e3", longitude2.get(i));
-            startActivity(intent);
-
-
-        }
+//        Intent intent = new Intent(Map_Unassigned_Activity.this, Spinner_Unassigned_Attribute.class);
+//        for (int i = 0; i < ipaddress3.size(); i++) {
+//            intent.putExtra("doubleValue_e1", ipaddress3.get(i));
+//            intent.putExtra("doubleValue_e2", latitude2.get(i));
+//            intent.putExtra("doubleValue_e3", longitude2.get(i));
+//            startActivity(intent);
+//
+//
+//        }
 
 
     }
