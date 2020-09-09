@@ -274,18 +274,18 @@ public class Map_Unassigned_Activity extends AppCompatActivity implements OnMapR
 
     }
 //
-//    @Override
-    public void onBackPressed() {
-//        moveTaskToBack(true);
-
-//        Intent intent1 = new Intent(Map_Unassigned_Activity.this, Map_Main_Activity.class);
-//        startActivity(intent1);
-//        moveTaskToBack(true);
-//        finish();
-//        System.exit(0);
-
-        super.onBackPressed();
-    }
+////    @Override
+//    public void onBackPressed() {
+////        moveTaskToBack(true);
+//
+////        Intent intent1 = new Intent(Map_Unassigned_Activity.this, Map_Main_Activity.class);
+////        startActivity(intent1);
+////        moveTaskToBack(true);
+////        finish();
+////        System.exit(0);
+//
+//        super.onBackPressed();
+//    }
 
 
     @Override

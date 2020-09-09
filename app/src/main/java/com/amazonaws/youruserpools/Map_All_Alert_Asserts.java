@@ -117,7 +117,7 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
     private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
     private ClusterManager<Cluster_items> mClusterManager;
     private static final int URL_RED_Alert = R.string.RedAlertStatus;
-    private ImageView mGps;
+    private ImageView mGps,ref;
 
     String data;
 
@@ -137,7 +137,7 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
 
         mGps = (ImageView) findViewById(R.id.ic_gps);
         et = (AutoCompleteTextView) findViewById(R.id.editText);
-
+        ref = (ImageView) findViewById(R.id.ic_refresh);
 
         getLocationPermission();
         if (gMap != null) {
@@ -247,6 +247,7 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
             public void onClick(View view) {
                 Log.d(TAG1, "onClick: clicked gps icon");
                 getDeviceLocation();
+//                Referesh();
 
             }
         });
@@ -256,7 +257,14 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
 
         mClusterManager.setRenderer(renderer);
 
+        ref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Referesh();
+
+            }
+        });
 
 
     }
@@ -320,7 +328,9 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
         //Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng)      // Sets the center of the map to Mountain View
-                .zoom(17)                   // Sets the zoom
+                .zoom(18)                   // Sets the zoom
+                .bearing(90)                // Sets the orientation of the camera to east
+                .tilt(90)                   // Sets the tilt of the camera to 30 degrees
                 .build();                   // Creates a CameraPosition from the builder
         gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         hideSoftKeyboard();
@@ -460,6 +470,14 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
     @Override
     public boolean onMarkerClick(Marker marker) {
         ipaddr = marker.getTitle();
+
+        LatLng ll = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(ll)      // Sets the center of the map to Mountain View
+                .zoom(17)                   // Sets the zoom
+                .build();                   // Creates a CameraPosition from the builder
+        gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         InfoWndowAdapter markerInfoWindowAdapter = new InfoWndowAdapter(getApplicationContext());
         gMap.setInfoWindowAdapter(markerInfoWindowAdapter);
         mulitpleMarker();
@@ -879,7 +897,11 @@ public class Map_All_Alert_Asserts extends AppCompatActivity  implements  Google
     public boolean onClusterItemClick(Cluster_items clusteritems) {
 
 
-
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(clusteritems.getPosition())      // Sets the center of the map to Mountain View
+                .zoom(17)                   // Sets the zoom
+                .build();                   // Creates a CameraPosition from the builder
+        gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
         return true;

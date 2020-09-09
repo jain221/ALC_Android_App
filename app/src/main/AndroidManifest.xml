@@ -26,45 +26,45 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".additon_mass"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="Add Additional Mass"
+            android:parentActivityName=".Map_Assigned_Activity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".Map_Alert_Activity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets Alerts"
-            android:parentActivityName=".Map_Main_Activity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Map_All_Alert_Asserts"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets Alerts"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:noHistory="true"
-            android:parentActivityName=".Map_Main_Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Enter_Assert_Number"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Enter Asset ID"
-            android:parentActivityName=".Map_Main_Activity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Assign_info_Windo_Edit" />
         <activity
             android:name=".Map_Assigned_Activity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assigned Assets"
-            android:noHistory="true"
-            android:parentActivityName=".Map_Main_Activity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Map_Unassigned_Activity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Unassigned Assets"
-            android:noHistory="true"
-            android:parentActivityName=".Map_Main_Activity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".SplashScreen_Activity"
             android:label="ISD"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,8 +72,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
@@ -95,17 +93,17 @@
         <activity
             android:name=".Login_Page"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Map_Main_Activity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:noHistory = "true"
             android:label="MAP"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".UserActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -113,7 +111,6 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Information"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Spinner_Unassigned_Attribute"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -123,34 +120,38 @@
             android:name=".Map_All_UnassignedData"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Assets View Map"
-            android:parentActivityName=".Map_Main_Activity"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Replace_Node_Map"
+        <activity
+            android:name=".Replace_Node_Map"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Replace Asset"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:parentActivityName=".Map_Assigned_Activity"/>
+            android:parentActivityName=".Map_Assigned_Activity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Replace_Latern_Attribute"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Edit Lantern Manufacture"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:parentActivityName=".Map_Assigned_Activity"/>
+            android:parentActivityName=".Map_Assigned_Activity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Replace_Column_Attribute"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Edit Asset Data"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:parentActivityName=".Map_Assigned_Activity"/>
-        <activity android:name=".Video_Instruction_Activity"
+            android:parentActivityName=".Map_Assigned_Activity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".Video_Instruction_Activity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Instruction Video"
-            android:parentActivityName=".Login_Page"/>
+            android:parentActivityName=".Login_Page" />
         <activity
             android:name=".Email_Activity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Email ISD"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:parentActivityName=".Map_Main_Activity"/>
+            android:parentActivityName=".Map_Main_Activity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".All_Assets_Info_Wndow" />
-
     </application>
 
 </manifest>

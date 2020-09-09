@@ -285,3 +285,21 @@ class lantern_model {
         return lantern_model;
     }
 }
+
+class attach_mass {
+    private int id;
+    private String type;
+
+    public attach_mass(int id, String type) {
+        this.id = id;
+        this.type = type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+}

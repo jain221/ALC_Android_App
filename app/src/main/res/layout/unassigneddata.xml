@@ -74,6 +74,20 @@ android:layout_height="match_parent"
             <!--android:imeOptions="actionSearch"/>-->
 
         </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/ic_refresh"
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginBottom="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/refereshbutton" />
     </RelativeLayout>
 
 
@@ -84,7 +98,7 @@ android:layout_height="match_parent"
         android:layout_below="@id/relLayout1"
         android:layout_alignParentRight="true"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="29dp"
+        android:layout_marginRight="12dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_gps" />
 

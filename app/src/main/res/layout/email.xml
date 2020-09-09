@@ -11,7 +11,7 @@
         android:id="@+id/textTo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="12dp"
         android:layout_marginStart="2dp"
         android:background="@drawable/text_border_selector"
         android:text="To:"

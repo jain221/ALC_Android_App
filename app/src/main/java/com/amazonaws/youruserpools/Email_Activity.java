@@ -69,7 +69,7 @@ public class Email_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendMail();
-//                onBackPressed();
+                onBackPressed();
             }
         });
     }

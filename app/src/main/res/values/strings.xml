@@ -40,7 +40,7 @@
     <string name="GreenRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectGreenColor</string>
     <string name="YellowRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectYelloRagStatis</string>
     <string name="RedRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectRagRedStatus</string>
-
+    <string name="GetAttributeData">https://8z4byrt6fc.execute-api.eu-west-1.amazonaws.com/BackendAPIS/GetAttributeData</string>
     <string name="title_activity_splash">splashActivity</string>
 
 

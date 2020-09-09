@@ -181,7 +181,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
     private static final int URL_RED_Alert = R.string.RedAlertStatus ;
     private static final int URL_RED_Rag_Status = R.string.RedRagStatus ;
     private static final int URL_Yellow_Rag_Status = R.string.YellowRagStatus ;
-    private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
+    private static final String URL_Data = "https://8z4byrt6fc.execute-api.eu-west-1.amazonaws.com/BackendAPIS/GetAttributeData";
 
 
     TextView ipaddress;
@@ -220,7 +220,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_main);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 //         Set toolbar for this screen
 //        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
@@ -826,12 +826,17 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
             public void onClick(View view) {
                 Log.d(TAG1, "onClick: clicked gps icon");
                 getDeviceLocation();
+                Referesh();
             }
         });
 
     }
 
-
+    private void Referesh() {
+        finish();
+        startActivity(getIntent());
+        handler.post(refresh);
+    }
 
 
     private void getMarker(String url, final float color, final String status) {
@@ -1397,19 +1402,18 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
 
 
-    @Override
-    public void onBackPressed() {
-
-//        moveTaskToBack(true);
-        exit();
-    }
+//    @Override
+//    public void onBackPressed() {
+//
+////        moveTaskToBack(true);
+//        exit();
+//    }
 
 
 
     // Sign out user
     private void signOut() {
         user.signOut();
-//        moveTaskToBack(true);
         exit();
     }
 

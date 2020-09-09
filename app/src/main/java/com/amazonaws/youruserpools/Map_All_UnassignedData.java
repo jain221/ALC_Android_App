@@ -111,7 +111,7 @@ public class Map_All_UnassignedData extends AppCompatActivity  implements OnMapR
     private static final String URL_Data = "https://brh4n8g8q9.execute-api.eu-west-1.amazonaws.com/default/GetAttributeData";
     private ClusterManager<Cluster_items> mClusterManager;
 
-    private ImageView mGps;
+    private ImageView mGps,ref;
 
     String data;
 
@@ -132,6 +132,8 @@ public class Map_All_UnassignedData extends AppCompatActivity  implements OnMapR
         setContentView(R.layout.unassigneddata);
 
         mGps = (ImageView) findViewById(R.id.ic_gps);
+        ref = (ImageView) findViewById(R.id.ic_refresh);
+
         et = (AutoCompleteTextView) findViewById(R.id.editText);
         Button menubar = findViewById(R.id.bar);
         menubar.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +243,17 @@ public class Map_All_UnassignedData extends AppCompatActivity  implements OnMapR
             public void onClick(View view) {
                 Log.d(TAG1, "onClick: clicked gps icon");
                 getDeviceLocation();
+                clickMarer();
+
+
+            }
+        });
+
+        ref.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Referesh();
 
             }
         });
@@ -275,7 +288,7 @@ public class Map_All_UnassignedData extends AppCompatActivity  implements OnMapR
                             Log.d(TAG1, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
 
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                            moveCamera1(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM);
                             latt= currentLocation.getLatitude();
                             logg=currentLocation.getLongitude();
@@ -292,18 +305,12 @@ public class Map_All_UnassignedData extends AppCompatActivity  implements OnMapR
             Log.e(TAG1, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
     }
-
-
-
- // Set Parameter for moving camera.
-
-    private void moveCamera(LatLng latLng, float zoom) {
+    private void moveCamera1(LatLng latLng, float zoom) {
         Log.d(TAG1, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
 
-
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,20));
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
 
 // Zoom in, animating the camera.
         gMap.animateCamera(CameraUpdateFactory.zoomIn());
@@ -314,11 +321,21 @@ public class Map_All_UnassignedData extends AppCompatActivity  implements OnMapR
         //Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng)      // Sets the center of the map to Mountain View
-                .zoom(17)                   // Sets the zoom
+                .zoom(18)                   // Sets the zoom
+                .bearing(90)                // Sets the orientation of the camera to east
+                .tilt(90)                   // Sets the tilt of the camera to 30 degrees
                 .build();                   // Creates a CameraPosition from the builder
         gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
         hideSoftKeyboard();
     }
+
+
+
+
+    // Set Parameter for moving camera.
+
 
     private void initMap() {
         Log.d(TAG1, "initMap: initializing map");
@@ -704,11 +721,19 @@ public class Map_All_UnassignedData extends AppCompatActivity  implements OnMapR
     public boolean onClusterItemClick(Cluster_items clusteritems) {
 
 
+
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(clusteritems.getPosition())      // Sets the center of the map to Mountain View
+                .zoom(17)                   // Sets the zoom
+                .build();                   // Creates a CameraPosition from the builder
+        gMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         mulitpleMarker();
 
 
         return true;
     }
+
 
     @Override
     public void onClusterItemInfoWindowClick(Cluster_items clusteritems) {
@@ -742,13 +767,63 @@ public class Map_All_UnassignedData extends AppCompatActivity  implements OnMapR
 
 
     }
+
+    private void clickMarer(){
+
+        showStartDialogallData();
+        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(final Marker marker1) {
+
+
+
+                if (prevMarker1 != null) {
+                    marker1.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    latit = String.valueOf(marker1.getPosition().latitude);
+                    longgg = String.valueOf(marker1.getPosition().longitude);
+                    ipaddr = marker1.getTitle();
+                    Set<String> set = new HashSet<>(ipaddress3);
+                    ipaddress3.clear();
+                    ipaddress3.addAll(set);
+                    ipaddress3.remove(ipaddr);
+
+                }
+
+
+
+                if(!marker1.equals(prevMarker1)) {
+
+
+                    marker1.setIcon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.greycolor));
+                    prevMarker1 = marker1;
+                    latit = String.valueOf(marker1.getPosition().latitude);
+                    longgg = String.valueOf(marker1.getPosition().longitude);
+                    ipaddr = marker1.getTitle();
+                    ipaddress3.add(ipaddr);
+                    Set<String> set = new HashSet<>(ipaddress3);
+                    ipaddress3.clear();
+                    ipaddress3.addAll(set);
+                    latitude2.add(String.valueOf(latit));
+                    longitude2.add(String.valueOf(longgg));
+
+                }
+
+                size= ipaddress3.size();
+                showStartDialogallData1();
+
+                return true;
+            }
+        });
+
+    }
     private void mulitpleMarker() {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
 //        builder1.setIcon(R.drawable.refereshbutton);
 //        builder1.setCancelable(false);
         builder1.setTitle("Multiple Data");
-        builder1.setMessage("->This is View Mode"+ "\n->Please Zoom IN,If you want to Add Multiple data Please click on Yes button");
+        builder1.setMessage("You want to Assigned data to Unassigned Assets ?");
         builder1.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -827,7 +902,7 @@ public class Map_All_UnassignedData extends AppCompatActivity  implements OnMapR
 
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Click on each Asset for Adding Multiple data");
+        builder1.setMessage("Click on each Asset for Adding data");
         AlertDialog alert11 = builder1.create();
         alert11.show();
 

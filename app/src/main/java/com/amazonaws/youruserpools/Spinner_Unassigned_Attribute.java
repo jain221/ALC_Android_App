@@ -1,6 +1,7 @@
 package com.amazonaws.youruserpools;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -385,6 +386,12 @@ public class Spinner_Unassigned_Attribute extends AppCompatActivity implements A
 
     }
 
+//    public void onBackPressed(){
+//        Intent intent = new Intent(Spinner_Unassigned_Attribute.this,Map_All_UnassignedData.class);
+//        startActivity(intent);
+//
+//
+//    }
 
     private void Getlatern(String lanternS) {
 

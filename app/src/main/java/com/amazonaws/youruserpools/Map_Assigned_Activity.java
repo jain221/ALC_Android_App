@@ -316,17 +316,17 @@ public class Map_Assigned_Activity extends AppCompatActivity implements OnMapRea
 
     }
 
-    @Override
-    public void onBackPressed() {
-//        moveTaskToBack(true);
-
-//        Intent intent1 = new Intent(Map_Unassigned_Activity.this, Map_Main_Activity.class);
-//        startActivity(intent1);
-//        moveTaskToBack(true);
-//        finish();
-//        System.exit(0);
-        super.onBackPressed();
-    }
+//    @Override
+//    public void onBackPressed() {
+////        moveTaskToBack(true);
+//
+////        Intent intent1 = new Intent(Map_Unassigned_Activity.this, Map_Main_Activity.class);
+////        startActivity(intent1);
+////        moveTaskToBack(true);
+////        finish();
+////        System.exit(0);
+//        super.onBackPressed();
+//    }
 //    @Override
 //    public void onBackPressed() {
 ////        moveTaskToBack(true);
@@ -396,6 +396,7 @@ public class Map_Assigned_Activity extends AppCompatActivity implements OnMapRea
             public void onClick(View view) {
                 Log.d(TAG1, "onClick: clicked gps icon");
                 getDeviceLocation();
+                Referesh();
             }
         });
 
@@ -749,20 +750,29 @@ public class Map_Assigned_Activity extends AppCompatActivity implements OnMapRea
         dialog.setContentView(R.layout.dialog_reassigned);
 
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogSlideAnim;
-//        Button btndialog = (Button) dialog.findViewById(R.id.btndialog);
-//        btndialog.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
+
+
+        Button addtionmass = (Button) dialog.findViewById(R.id.addtionmass);
+        addtionmass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String lat = latit;
+                String lng = longgg;
+                String ipaddress = ipaddr;
+
+                Intent intent = new Intent(Map_Assigned_Activity.this, additon_mass.class);
+                //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
+                intent.putExtra("doubleValue_e1", ipaddress);
+                intent.putExtra("doubleValue_e2", lat);
+                intent.putExtra("doubleValue_e3", lng);
+
+                startActivity(intent);
+//                showStartDialogallData1();
 //                dialog.dismiss();
-//                Intent intent = getIntent();
-//                overridePendingTransition(0, 0);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//                finish();
-//                overridePendingTransition(0, 0);
-//                startActivity(intent);
-//            }
-//        });
+
+            }
+        });
         Button NodeReplace = (Button) dialog.findViewById(R.id.RFoundationRep);
         NodeReplace.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -879,6 +889,60 @@ public class Map_Assigned_Activity extends AppCompatActivity implements OnMapRea
             }
         });
     }
+
+    private void showStartDialogallData1() {
+
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("Add Additional Mass");
+        builder1.setMessage("Do you want to add another Additional Mass");
+        builder1.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        String ipaddress = ipaddr;
+
+                        Intent intent = new Intent(Map_Assigned_Activity.this, additon_mass.class);
+                        //intent.putExtra("ListViewValue", IdList.get(Integer.parseInt(ID)).toString());
+                        intent.putExtra("doubleValue_e1", ipaddress);
+
+
+                        startActivity(intent);
+
+
+                    }
+                });
+
+
+
+        builder1.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+               dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder1.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+
+
+        wmlp.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        wmlp.x = 100;   //x position
+        wmlp.y = 10;   //y position
+
+        dialog.show();
+
+
+        Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setTextColor(Color.BLACK);
+
+        Button buttonbackground2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        buttonbackground2.setTextColor(Color.BLACK);
+
+
+
+    }
+
 
 
 

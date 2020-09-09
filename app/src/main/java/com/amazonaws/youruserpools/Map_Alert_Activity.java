@@ -290,12 +290,12 @@ public class Map_Alert_Activity extends AppCompatActivity implements OnMapReadyC
 
 
     }
-    @Override
-    public void onBackPressed() {
-//        moveTaskToBack(true);
-
-        super.onBackPressed();
-    }
+//    @Override
+//    public void onBackPressed() {
+////        moveTaskToBack(true);
+//
+//        super.onBackPressed();
+//    }
 //@Override
 ////public void onBackPressed() {
 ////        moveTaskToBack(true);
@@ -349,6 +349,7 @@ public class Map_Alert_Activity extends AppCompatActivity implements OnMapReadyC
             public void onClick(View view) {
                 Log.d(TAG1, "onClick: clicked gps icon");
                 getDeviceLocation();
+                Referesh();
             }
         });
 
