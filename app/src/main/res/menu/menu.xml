@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!--<item-->
+        <!--android:id="@+id/add"-->
+        <!--android:orderInCategory="200"-->
+        <!--android:title="Update"-->
+        <!--android:icon="@drawable/add"-->
+        <!--app:showAsAction="ifRoom"></item>-->
+
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="100"
+        android:icon="@drawable/sync"
+        android:title="Refresh"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/mapTypeNone"
+        android:title="@string/map_type_none"/>
+    <item
+        android:id="@+id/mapTypeNormal"
+        android:title="@string/map_type_normal"/>
+    <item
+        android:id="@+id/mapTypeTerrain"
+        android:title="@string/map_type_terrain"/>
+    <item
+        android:id="@+id/mapTypeSatellite"
+        android:title="@string/map_type_satellite"/>
+
+    <item
+        android:id="@+id/mapTypeHybrid"
+        android:title="@string/map_type_hybrid"/>
+    <item
+        android:id="@+id/stationList"
+        android:title="Station List"/>
+
+
+</menu>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="2dp"
+    android:text="Androchunk"
+    android:textColor="@android:color/holo_red_light"
+    android:background="@drawable/spinner_selected"
+    android:textSize="17sp">
+
+</CheckedTextView>

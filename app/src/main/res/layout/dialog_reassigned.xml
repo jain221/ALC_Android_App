@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:gravity="center"
+    android:background="@color/toolbar_them"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@color/toolbar_background"
+        android:onClick="FoundationRepair"
+        android:text="Modify Asset"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="18dp" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacehight"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+
+    <Button
+        android:id="@+id/addtionmass"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buttonhight"
+        android:text="Add Additional Mass"
+        android:background="@drawable/plainbutton"
+        android:textAllCaps="false"
+        android:textSize="@dimen/textsizespinner" />
+
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacehight"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+
+
+    <Button
+        android:id="@+id/Rlatern"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buttonhight"
+        android:text="Edit Asset Number"
+        android:background="@drawable/plainbutton"
+        android:textAllCaps="false"
+        android:textSize="@dimen/textsizespinner" />
+
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacehight"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+
+    <Button
+        android:id="@+id/RFoundationRep"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/buttonhight"
+        android:background="@drawable/plainbutton"
+        android:onClick="FoundationRepair"
+        android:text="Node Replacement "
+        android:textAllCaps="false"
+        android:textSize="@dimen/textsizespinner" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacehight"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+    <Button
+        android:id="@+id/EditChar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buttonhight"
+        android:text="Lantern Replacement "
+        android:background="@drawable/plainbutton"
+        android:onClick="editLatentCharch"
+        android:textAllCaps="false"
+        android:textSize="@dimen/textsizespinner" />
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacehight"
+        android:layout_below="@+id/log"
+        android:background="#000"
+        android:layout_alignStart="@+id/log" />
+
+
+    <Button
+        android:id="@+id/RColume"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buttonhight"
+        android:text="Asset Replacement"
+        android:background="@drawable/plainbutton"
+        android:textAllCaps="false"
+        android:onClick="ReplaceColume"
+        android:textSize="@dimen/textsizespinner" />
+
+
+
+
+</LinearLayout>

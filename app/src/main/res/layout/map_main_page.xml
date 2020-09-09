@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.amazonaws.youruserpools.MapWrapperLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_relative_layout"
+    android:layout_width="match_parent"
+android:background="#fff"
+    android:layout_height="match_parent"
+
+
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="-3dp"
+            android:layout_marginTop="107dp"
+            tools:context=".Map_Main_Activity" />
+
+        <RelativeLayout
+            android:id="@+id/relLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/button"
+            android:elevation="10dp">
+
+            <Button
+                android:id="@+id/bar"
+                android:layout_width="34dp"
+                android:layout_height="36dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/ic_menu_black"
+                android:onClick="findLocation" />
+
+
+            <RelativeLayout
+                android:id="@+id/relLayou"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/all_rounded"
+                android:elevation="10dp">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="34dp"
+                android:layout_height="36dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/ic_action_name"
+                android:onClick="findLocation" />
+
+
+            <AutoCompleteTextView
+                android:id="@+id/editText"
+                android:layout_width="531dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/button"
+                android:background="@null"
+                android:hint="  Enter Address, City or Postcode"
+                android:inputType="textVisiblePassword"
+                android:textColor="@color/toolbar_background"
+                android:textColorHint="@color/toolbar_background"
+                android:textSize="20sp" />
+            <!--android:imeOptions="actionSearch"/>-->
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ic_gps"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="125dp"
+            android:layout_marginRight="10dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_gps" />
+
+
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:buttonTint="@color/radioCircle"
+        android:checkedButton="@+id/radioButton3"
+        android:orientation="horizontal">
+
+
+        <RadioButton
+            android:id="@+id/alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:text="Alert Assets"
+            android:buttonTint="@color/radioCircle"
+            android:textColor="@color/toolbar_background"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="149dp"
+            android:layout_height="match_parent"
+            android:layout_alignTop="@+id/radioGroup"
+            android:buttonTint="@color/radioCircle"
+            android:text="Assigned Assets     "
+            android:textColor="@color/toolbar_background"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="159dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:text="Unassigned Assets          "
+            android:textColor="@color/toolbar_background"
+            android:buttonTint="@color/radioCircle"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/radioGroup"
+            android:layout_alignEnd="@+id/radioGroup"
+            android:text="All Assets"
+            android:textColor="@color/toolbar_background"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+
+    </RadioGroup>
+
+</com.amazonaws.youruserpools.MapWrapperLayout>

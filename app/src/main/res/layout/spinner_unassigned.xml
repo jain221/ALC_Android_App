@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#f5f4f5"
+    tools:context=".Spinner_Unassigned_Attribute">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="left"
+        android:background="#f5f4f5"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ipadddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Column Attribute"
+            android:textColor="#37A51C"
+            android:textSize="22sp" />
+
+        <Space
+            android:id="@+id/sks122"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_below="@+id/ipadddress"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="-1dp"
+            android:background="#fff" />
+
+        <RelativeLayout
+            android:id="@+id/Row1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:background="@drawable/spinnerrow">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:text="Asset Manufacturer - "
+                android:textColor="#000"
+                android:textSize="@dimen/textsizespinner" />
+
+
+            <Spinner
+                android:id="@+id/ColumManf"
+
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner"
+
+                />
+
+
+        </RelativeLayout>
+
+            <Space
+                android:id="@+id/sks1"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row1"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp" />
+
+        <RelativeLayout
+            android:id="@+id/Row2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks1"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:text="Raise And Lower - "
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner" />
+
+            <Spinner
+                android:id="@+id/RaiseandLow"
+
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner"/>
+
+
+        </RelativeLayout>
+
+            <Space
+                android:id="@+id/sks2"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row2"
+                android:layout_alignParentStart="true"
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp" />
+
+        <RelativeLayout
+            android:id="@+id/Row3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks2"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asset Material - "
+
+
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner" />
+
+            <Spinner
+                android:id="@+id/columeMaterial"
+
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+
+        </RelativeLayout>
+
+            <Space
+                android:id="@+id/sks3"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row3"
+                android:layout_alignParentStart="true"
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp" />
+
+        <RelativeLayout
+            android:id="@+id/Row4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks3"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/columetypetxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="Asset type - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/ColumeType"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+
+        </RelativeLayout>
+            <Space
+                android:id="@+id/sks4"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row4"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="4dp"
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks4"
+            android:background="@drawable/spinnerrow">
+            <TextView
+                android:id="@+id/hight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
+                android:text="Asset Height Ground - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/ColumeHeight"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+
+        </RelativeLayout>
+
+
+
+            <Space
+                android:id="@+id/sks5"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row5"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks4"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/doors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number Of Doors - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/NumberDoor"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+
+        </RelativeLayout>
+
+
+            <Space
+                android:id="@+id/sks6"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row6"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks6"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/deminsion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Door Dimensions - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/DoorDimension"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+        </RelativeLayout>
+
+
+            <Space
+                android:id="@+id/sks7"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row7"
+                android:layout_alignParentStart="true"
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks7"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Foundation Type - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/FoundatType"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner"/>
+
+        </RelativeLayout>
+            <Space
+                android:id="@+id/sks8"
+                android:layout_width="match_parent"
+
+                android:layout_below="@+id/Row8"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks8"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/braket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bracket Type - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/BracketType"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner"/>
+
+        </RelativeLayout>
+
+            <Space
+                android:id="@+id/sks9"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row9"
+                android:layout_alignParentStart="true"
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks9"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/braketlength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bracket(s) Length -"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/BracketLength"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+
+        </RelativeLayout>
+            <Space
+                android:id="@+id/sks10"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row10"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"
+                />
+
+        <RelativeLayout
+            android:id="@+id/Row11"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks10"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Est. Asset Age -"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/ColumeAge"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner"/>
+
+        </RelativeLayout>
+            <Space
+                android:id="@+id/sks12"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/Row11"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"
+                />
+
+
+        <RelativeLayout
+            android:id="@+id/Row12"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks12"
+            android:background="@drawable/spinnerrow">
+
+
+            <TextView
+                android:id="@+id/costa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Installation within 5km of Coast -"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/Coast"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+
+        </RelativeLayout>
+            <Space
+                android:id="@+id/sks15"
+                android:layout_width="wrap_content"
+
+                android:layout_below="@+id/textView13"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="-20dp"
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row13"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks15"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/manfu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lantern Manufacturer - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/lantern_manufacturer"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+
+
+        </RelativeLayout>
+            <Space
+                android:id="@+id/sks13"
+                android:layout_width="589dp"
+                android:layout_below="@+id/Row14"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row14"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks13"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/AssetU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asset Use - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/asset_use"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+
+        </RelativeLayout>
+
+
+            <Space
+                android:id="@+id/sks18"
+                android:layout_width="589dp"
+
+                android:layout_below="@+id/textView14"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row17"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks18"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lantern Model - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <Spinner
+                android:id="@+id/model_latenr"
+                android:layout_width="@dimen/spinnerwidth"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:textSize="@dimen/textsizespinner" />
+
+        </RelativeLayout>
+
+
+        <Space
+            android:id="@+id/sks16"
+            android:layout_width="589dp"
+
+            android:layout_below="@+id/Row17"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+
+            android:layout_height="@dimen/spacehight"
+            android:background="@color/spacespinner"
+            android:layout_marginTop="0dp"/>
+
+
+        <RelativeLayout
+            android:id="@+id/Row15"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks16"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asset Number - "
+                android:visibility="visible"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+
+            <EditText
+                android:id="@+id/editName"
+                android:layout_width="194dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:hint=" Enter Number "
+                android:nextFocusDown="@+id/editStationName"
+                android:textColor="@color/displyaResult"
+                android:textSize="@dimen/textsizespinner"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+            <Space
+                android:id="@+id/sks19"
+                android:layout_width="589dp"
+
+                android:layout_below="@+id/Row15"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row16"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks19"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/stationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter Station Name - "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/editStationName"
+
+                android:layout_width="250dp"
+                android:layout_height="35sp"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:background="#fff"
+                android:hint="Enter Station Name "
+                android:textColor="@color/displyaResult"
+                android:textSize="@dimen/textsizespinner" />
+
+
+        </RelativeLayout>
+
+            <Space
+                android:id="@+id/sks20"
+                android:layout_width="589dp"
+                android:layout_below="@+id/Row15"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_height="@dimen/spacehight"
+                android:background="@color/spacespinner"
+                android:layout_marginTop="0dp"/>
+
+        <Button
+
+            android:id="@+id/btnSave"
+            android:layout_width="193dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sks20"
+            android:layout_gravity="center"
+            android:layout_alignParentStart="true"
+
+
+            android:background="@drawable/button"
+            android:text="SAVE" />
+
+
+    </LinearLayout>
+</ScrollView>

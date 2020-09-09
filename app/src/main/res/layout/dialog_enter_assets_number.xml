@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_main"
+android:layout_width="match_parent"
+android:background="@color/grey_100"
+android:layout_height="match_parent"
+    tools:context=".Enter_Assert_Number">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".editeColumeNumber"
+    android:background="@color/radioCircle">
+
+
+
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="290dp"
+        android:layout_height="@dimen/buttonhight"
+        android:layout_marginTop="15dp"
+        android:hint="Enter Asset ID "
+        android:background="@drawable/plainbutton"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="20dp" />
+
+    <Button
+
+        android:id="@+id/btnback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/plainbutton"
+        android:layout_alignStart="@+id/editName"
+        android:layout_below="@+id/editName"
+        android:text="CAncel" />
+
+    <Button
+
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignEnd="@+id/editName"
+        android:background="@drawable/plainbutton"
+        android:layout_below="@+id/editName"
+        android:text="SAVE" />
+
+    <TextView
+    android:id="@+id/t3"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btnback"
+        android:textColor="@color/displyaResult"
+    android:textSize="18dp" />
+
+</RelativeLayout>
+
+</ScrollView>

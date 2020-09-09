@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">Cognito Identity</string>
+    <string name="app_main_screen">Sign in</string>
+    <string name="app_main_screen_title">Cognito Identity</string>
+    <string name="app_main_desc">A sample app to showcase Cognito Identity and the SDK for Android.</string>
+    <string name="nav_drawer_open">Open navigation drawer</string>
+    <string name="nav_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_user">UserActivity</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="Menu">Menu</string>
+    <string name="pick_MFA">MFA Options</string>
+    <string name="title_activity_about_app">AboutApp</string>
+    <string name="about">This APP is used to Send the Colume Attribute details into the Database.</string>
+    <string name="more_info">For any help from Admin, User can contact us on 01639852502 </string>
+    <string name="title_activity_sign_up_confirm">SignUpConfirm</string>
+    <string name="title_activity_mfa">MFAActivity</string>
+    <string name="title_activity_choose_mfa">ChooseMFA</string>
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_change_password">ChangePasswordActivity</string>
+    <string name="title_activity_verify">VerifyActivity</string>
+    <string name="title_activity_add_attribute">AddAttributeActivity</string>
+    <string name="title_activity_device_settings">DeviceSettings</string>
+    <string name="title_activity_new_password">NewPassword</string>
+    <string name="title_activity_google_maps">Map</string>
+    <string name="map_type_none">None</string>
+    <string name="map_type_normal">Normal</string>
+    <string name="map_type_terrain">Terrain</string>
+    <string name="map_type_satellite">Satellite</string>
+    <string name="map_type_hybrid">Hybrid</string>
+    <string name="map_type_Stree">Street</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="fcm_message">FCM Message</string>
+    <string name="default_notification_channel_name" translatable="true">Weather</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="textVisiblePassword">done</string>
+    <string name="RedAlertStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectRedColor</string>
+    <string name="AmberRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectedamberColor</string>
+    <string name="GreenRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectGreenColor</string>
+    <string name="YellowRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectYelloRagStatis</string>
+    <string name="RedRagStatus">https://wwf5avjfai.execute-api.eu-west-1.amazonaws.com/ISDMAPDATA/SelectRagRedStatus</string>
+    <string name="GetAttributeData">https://8z4byrt6fc.execute-api.eu-west-1.amazonaws.com/BackendAPIS/GetAttributeData</string>
+    <string name="title_activity_splash">splashActivity</string>
+
+
+    <style name="Widget" />
+
+    <style name="Widget.TextInputLayout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/input_width</item>
+        <item name="android:textColorHint">@color/color_input_hint</item>
+    </style>
+
+    <style name="Widget.TextEdit">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColorHighlight">@color/color_text_highlight</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColorHint">@color/color_input_hint</item>
+        <item name="android:background">@drawable/input_state</item>
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:padding">@dimen/text_padding</item>
+    </style>
+
+    <style name="Widget.Hint">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <string name="sign_up_label">Sign Up</string>
+    <string name="log_in_label">Log In</string>
+
+    <string name="sign_up_or_label"> Sign Up </string>
+    <string name="log_in_or_label"> Log In </string>
+
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Email</string>
+    <string name="confirm_hint">Confirm Password</string>
+
+    <string name="or"> Or </string>
+    <string name="title_activity_email">emailActivity</string>
+</resources>

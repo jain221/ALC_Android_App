@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.amazonaws:aws-android-sdk-apigateway-core:2.7.7@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-apigateway-core/2.7.7/ca2e5ba915649f75bada3e5b902d086b2abfbe1d/aws-android-sdk-apigateway-core-2.7.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-apigateway-core/2.7.7/12586ba92396f89f34bd5792d63c5c29a566ac8f/aws-android-sdk-apigateway-core-2.7.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
