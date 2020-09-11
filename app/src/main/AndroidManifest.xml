@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <permission
         android:name="com.amazonaws.youruserpools.permission.MAPS_RECEIVE"
@@ -96,6 +96,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".Map_Main_Activity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="MAP"
@@ -145,6 +150,55 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Instruction Video"
             android:parentActivityName=".Login_Page" />
+
+        <activity
+            android:name=".RegisterUser"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AboutApp"
+            android:label="@string/title_activity_about_app"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SignUpConfirm"
+            android:label="@string/title_activity_sign_up_confirm"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MFAActivity"
+            android:label="@string/title_activity_mfa"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="@string/title_activity_forgot_password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:label="@string/title_activity_change_password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".VerifyActivity"
+            android:label="@string/title_activity_verify"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddAttributeActivity"
+            android:label="@string/title_activity_add_attribute"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DeviceSettings"
+            android:label="@string/title_activity_device_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NewPassword"
+            android:label="@string/title_activity_new_password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChooseMFA"
+            android:label="@string/title_activity_choose_mfa"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Email_Activity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -152,6 +206,7 @@
             android:parentActivityName=".Map_Main_Activity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".All_Assets_Info_Wndow" />
+
     </application>
 
 </manifest>

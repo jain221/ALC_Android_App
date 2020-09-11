@@ -51,4 +51,9 @@
     <dimen name="unfolded_size">26sp</dimen>
     <dimen name="text_padding">16dp</dimen>
     <dimen name="input_width">220dp</dimen>
+
+
+
+
+
 </resources>

@@ -37,14 +37,14 @@ import java.util.Map;
 import java.util.Set;
 
 public class Cognito_Connection {
-    private static final String TAG = "Cognito_Connection";
+    private static final String TAG = "Cognito_Connection.";
     // App settings
 
     private static List<String> attributeDisplaySeq;
     private static Map<String, String> signUpFieldsC2O;
     private static Map<String, String> signUpFieldsO2C;
 
-    private static Cognito_Connection cognitoConnection;
+    private static Cognito_Connection appHelper;
     private static CognitoUserPool userPool;
     private static String user;
     private static CognitoDevice newDevice;
@@ -71,6 +71,10 @@ public class Cognito_Connection {
     private static List<ItemToDisplay> mfaOptions;
     private static List<String> mfaAllOptionsCode;
 
+    // The lines below allow app users to register in your Cognito User Pool. Use
+    // a Cognito Identity Pool to control the user's access to your account resources.
+    // https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html
+
     // Change the next three lines of code to run this demo on your user pool
 
     /**
@@ -81,7 +85,7 @@ public class Cognito_Connection {
     /**
      * Add you app id
      */
-    private static final String clientId = "1vodbc9d6rhuq3n04r9lt4hf8g";
+    private static final String clientId ="1vodbc9d6rhuq3n04r9lt4hf8g";
 
     /**
      * App secret associated with your app id - if the App id does not have an associated App secret,
@@ -112,18 +116,27 @@ public class Cognito_Connection {
     public static void init(Context context) {
         setData();
 
-        if (cognitoConnection != null && userPool != null) {
+        if (appHelper != null && userPool != null) {
             return;
         }
 
-        if (cognitoConnection == null) {
-            cognitoConnection = new Cognito_Connection();
+        if (appHelper == null) {
+            appHelper = new Cognito_Connection();
         }
 
         if (userPool == null) {
 
             // Create a user pool with default ClientConfiguration
             userPool = new CognitoUserPool(context, userPoolId, clientId, clientSecret, cognitoRegion);
+
+            // This will also work
+            /*
+            ClientConfiguration clientConfiguration = new ClientConfiguration();
+            AmazonCognitoIdentityProvider cipClient = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), clientConfiguration);
+            cipClient.setRegion(Region.getRegion(cognitoRegion));
+            userPool = new CognitoUserPool(context, userPoolId, clientId, clientSecret, cipClient);
+            */
+
 
         }
 
@@ -153,15 +166,29 @@ public class Cognito_Connection {
         return signUpFieldsC2O;
     }
 
+    public static  Map<String, String> getSignUpFieldsO2C() {
+        return signUpFieldsO2C;
+    }
+
+    public static List<String> getAttributeDisplaySeq() {
+        return attributeDisplaySeq;
+    }
 
     public static void setCurrSession(CognitoUserSession session) {
         currSession = session;
     }
 
+    public static  CognitoUserSession getCurrSession() {
+        return currSession;
+    }
 
     public static void setUserDetails(CognitoUserDetails details) {
         userDetails = details;
         refreshWithSync();
+    }
+
+    public static  CognitoUserDetails getUserDetails() {
+        return userDetails;
     }
 
     public static String getCurrUser() {
@@ -172,7 +199,45 @@ public class Cognito_Connection {
         user = newUser;
     }
 
+    public static boolean isPhoneVerified() {
+        return phoneVerified;
+    }
 
+    public static boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public static boolean isPhoneAvailable() {
+        return phoneAvailable;
+    }
+
+    public static boolean isEmailAvailable() {
+        return emailAvailable;
+    }
+
+    public static void setPhoneVerified(boolean phoneVerif) {
+        phoneVerified = phoneVerif;
+    }
+
+    public static void setEmailVerified(boolean emailVerif) {
+        emailVerified = emailVerif;
+    }
+
+    public static void setPhoneAvailable(boolean phoneAvail) {
+        phoneAvailable = phoneAvail;
+    }
+
+    public static void setEmailAvailable(boolean emailAvail) {
+        emailAvailable = emailAvail;
+    }
+
+    public static void clearCurrUserAttributes() {
+        currUserAttributes.clear();
+    }
+
+    public static void addCurrUserattribute(String attribute) {
+        currUserAttributes.add(attribute);
+    }
 
     public static List<String> getNewAvailableOptions() {
         List<String> newOption = new ArrayList<String>();
@@ -217,6 +282,12 @@ public class Cognito_Connection {
         return  currDisplayedItems.get(position);
     }
 
+    public static ItemToDisplay getDeviceForDisplay(int position) {
+        if (position >= trustedDevices.size()) {
+            return new ItemToDisplay(" ", " ", " ", Color.BLACK, Color.DKGRAY, Color.parseColor("#37A51C"), 0, null);
+        }
+        return trustedDevices.get(position);
+    }
 
     public static ItemToDisplay getUserAttributeForFirstLogInCheck(int position) {
         return firstTimeLogInDetails.get(position);
@@ -281,9 +352,71 @@ public class Cognito_Connection {
         newDevice = device;
     }
 
+    public static void setDevicesForDisplay(List<CognitoDevice> devicesList) {
+        trustedDevicesCount = 0;
+        thisDeviceTrustState = false;
+        deviceDetails = devicesList;
+        trustedDevices = new ArrayList<ItemToDisplay>();
+        for(CognitoDevice device: devicesList) {
+            if (thisDevice != null && thisDevice.getDeviceKey().equals(device.getDeviceKey())) {
+                thisDeviceTrustState = true;
+            } else {
+                ItemToDisplay item = new ItemToDisplay("", device.getDeviceName(), device.getCreateDate().toString(), Color.BLACK, Color.DKGRAY, Color.parseColor("#329AD6"), 0, null);
+                item.setDataDrawable("checked");
+                trustedDevices.add(item);
+                trustedDevicesCount++;
+            }
+        }
+    }
 
+    public static CognitoDevice getDeviceDetail(int position) {
+        if (position <= trustedDevicesCount) {
+            return deviceDetails.get(position);
+        } else {
+            return null;
+        }
+    }
 
+    public static void setMfaOptionsForDisplay(List<String> options, Map<String, String> parameters) {
+        mfaAllOptionsCode = options;
+        mfaOptions = new ArrayList<ItemToDisplay>();
+        String textToDisplay = "";
+        for (String option: options) {
+            if ("SMS_MFA".equals(option)) {
+                textToDisplay = "Send SMS";
+                if (parameters.containsKey("CODE_DELIVERY_DESTINATION")) {
+                    textToDisplay = textToDisplay + " to "+ parameters.get("CODE_DELIVERY_DESTINATION");
+                }
+            } else if ("SOFTWARE_TOKEN_MFA".equals(option)) {
+                textToDisplay = "Use TOTP";
+                if (parameters.containsKey("FRIENDLY_DEVICE_NAME")) {
+                    textToDisplay = textToDisplay + ": " + parameters.get("FRIENDLY_DEVICE_NAME");
+                }
+            }
+            ItemToDisplay item = new ItemToDisplay("", textToDisplay, "", Color.BLACK, Color.DKGRAY, Color.parseColor("#329AD6"), 0, null);
+            mfaOptions.add(item);
+            textToDisplay = "Unsupported MFA";
+        }
+    }
 
+    public static List<String> getAllMfaOptions() {
+        return mfaAllOptionsCode;
+    }
+
+    public static String getMfaOptionCode(int position) {
+        return mfaAllOptionsCode.get(position);
+    }
+
+    public static ItemToDisplay getMfaOptionForDisplay(int position) {
+        if (position >= mfaOptions.size()) {
+            return new ItemToDisplay(" ", " ", " ", Color.BLACK, Color.DKGRAY, Color.parseColor("#37A51C"), 0, null);
+        }
+        return mfaOptions.get(position);
+    }
+
+    public static int getMfaOptionsCount() {
+        return mfaOptions.size();
+    }
 
     //public static
 
@@ -291,7 +424,17 @@ public class Cognito_Connection {
         return newDevice;
     }
 
+    public static CognitoDevice getThisDevice() {
+        return thisDevice;
+    }
 
+    public static void setThisDevice(CognitoDevice device) {
+        thisDevice = device;
+    }
+
+    public static boolean getThisDeviceTrustState() {
+        return thisDeviceTrustState;
+    }
 
     private static void setData() {
         // Set attribute display sequence
@@ -373,11 +516,11 @@ public class Cognito_Connection {
                 if(det.contains("email")) {
                     if(emailVerified) {
                         item.setDataDrawable("checked");
-                        item.setMessageText("Email Set");
+                        item.setMessageText("Email verified");
                     }
                     else {
                         item.setDataDrawable("not_checked");
-                        item.setMessageText("Email Set");
+                        item.setMessageText("Email not verified");
                         item.setMessageColor(Color.parseColor("#E94700"));
                     }
                 }
@@ -385,11 +528,11 @@ public class Cognito_Connection {
                 if(det.contains("phone_number")) {
                     if(phoneVerified) {
                         item.setDataDrawable("checked");
-                        item.setMessageText("Phone number Set");
+                        item.setMessageText("Phone number verified");
                     }
                     else {
                         item.setDataDrawable("not_checked");
-                        item.setMessageText("Phone number Set");
+                        item.setMessageText("Phone number not verified");
                         item.setMessageColor(Color.parseColor("#E94700"));
                     }
                 }
@@ -401,5 +544,13 @@ public class Cognito_Connection {
         }
     }
 
+    private static void modifyAttribute(String attributeName, String newValue) {
+        //
+
+    }
+
+    private static void deleteAttribute(String attributeName) {
+
+    }
 }
 

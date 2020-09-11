@@ -20,7 +20,7 @@ public class SplashScreen_Activity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen_Activity.this, Login_Page.class);
+                Intent intent = new Intent(SplashScreen_Activity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
