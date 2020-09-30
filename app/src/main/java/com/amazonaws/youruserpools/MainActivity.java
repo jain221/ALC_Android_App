@@ -20,7 +20,9 @@ package com.amazonaws.youruserpools;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -33,6 +35,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -76,34 +81,96 @@ public class MainActivity extends AppCompatActivity {
     // User Details
     private String username;
     private String password;
-
+    Animation animAlpha;
     // Mandatory overrides first
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login_page);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
-        // Set toolbar for this screen
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
-        main_title.setText("Sign in");
-        setSupportActionBar(toolbar);
+//        // Set toolbar for this screen
+//        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+//        toolbar.setTitle("");
+//        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+//        main_title.setText("Sign in");
+//        setSupportActionBar(toolbar);
 
-        // Set navigation drawer for this screen
-        mDrawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
-        mDrawer.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-        nDrawer = (NavigationView) findViewById(R.id.nav_view);
-        setNavDrawer();
+//        // Set navigation drawer for this screen
+//        mDrawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+//        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+//        mDrawer.addDrawerListener(mDrawerToggle);
+//        mDrawerToggle.syncState();
+//        nDrawer = (NavigationView) findViewById(R.id.nav_view);
+//        setNavDrawer();
 
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart", true);
+
+
+        animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
+        showStartDialog();
         // Initialize application
         Cognito_Connection.init(getApplicationContext());
         initApp();
         findCurrent();
     }
+
+    public void email(View view) {
+
+        Intent intent = new Intent(MainActivity.this, Email_Activity.class);
+        startActivity(intent);
+
+    }
+
+    public void infomation(View view) {
+
+        Intent intent = new Intent(MainActivity.this, Contact_Us_Page.class);
+        startActivity(intent);
+    }
+
+    public void instructionv(View view) {
+        Intent intent = new Intent(MainActivity.this, Video_Instruction_Activity.class);
+        startActivity(intent);
+    }
+
+    private void showStartDialog() {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("ISD APP Instruction Video")
+                .setMessage("Would you like to See Video for User Instruction")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent internt = new Intent(MainActivity.this, Video_Instruction_Activity.class);
+                        startActivity(internt);
+//                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog dialog = builder1.create();
+        dialog.show();
+        Button buttonbackground1 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground1.setTextColor(Color.BLACK);
+
+        Button buttonbackground2 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        buttonbackground2.setTextColor(Color.BLACK);
+
+
+
+
+//        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putBoolean("firstStart", false);
+//        editor.apply();
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -240,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Login if a user is already present
     public void logIn(View view) {
+        view.startAnimation(animAlpha);
         signInUser();
     }
 

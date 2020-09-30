@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#f5f4f5"
+    tools:context=".additon_mass">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="left"
+        android:background="#f5f4f5"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ipadddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Additional Mass Attachment"
+        android:textColor="#37A51C"
+        android:textSize="22sp" />
+
+    <Space
+        android:id="@+id/sks122"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_below="@+id/ipadddress"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-1dp"
+        android:background="#fff" />
+
+    <RelativeLayout
+        android:id="@+id/Row1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:background="@drawable/spinnerrow">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:text="Mass Type - "
+        android:textColor="#000"
+        android:textSize="@dimen/textsizespinner" />
+
+
+    <Spinner
+        android:id="@+id/temporary"
+        android:layout_width="@dimen/spinnerwidth"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacespinner"
+        android:textSize="@dimen/textsizespinner"
+
+        />
+
+    </RelativeLayout>
+
+        <Space
+            android:id="@+id/sks2"
+            android:layout_width="589dp"
+            android:layout_below="@+id/Row1"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+
+            android:layout_height="@dimen/spacehight"
+            android:background="@color/spacespinner"
+            android:layout_marginTop="0dp"/>
+
+
+        <RelativeLayout
+            android:id="@+id/Row4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks2"
+            android:background="@drawable/spinnerrow">
+
+            <TextView
+                android:id="@+id/assetname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter Additional Attachment Name- "
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+
+                android:textColor="@color/displyatext"
+                android:textSize="@dimen/textsizespinner"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/editname"
+
+                android:layout_width="250dp"
+                android:layout_height="35sp"
+                android:layout_marginLeft="@dimen/spacespinner"
+                android:background="#fff"
+                android:hint="Enter Name "
+                android:textColor="@color/displyaResult"
+                android:textSize="@dimen/textsizespinner" />
+
+
+        </RelativeLayout>
+
+        <Space
+            android:id="@+id/sks6"
+            android:layout_width="589dp"
+            android:layout_below="@+id/Row4"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_height="@dimen/spacehight"
+            android:background="@color/spacespinner"
+            android:layout_marginTop="0dp"/>
+
+
+    <RelativeLayout
+        android:id="@+id/Row2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/sks2"
+        android:background="@drawable/spinnerrow">
+
+        <TextView
+            android:id="@+id/mass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Additional Mass- "
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+
+            android:textColor="@color/displyatext"
+            android:textSize="@dimen/textsizespinner"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/editmass"
+
+            android:layout_width="250dp"
+            android:layout_height="35sp"
+            android:layout_marginLeft="@dimen/spacespinner"
+            android:background="#fff"
+            android:hint="Enter Mass "
+            android:textColor="@color/displyaResult"
+            android:textSize="@dimen/textsizespinner" />
+
+
+    </RelativeLayout>
+
+        <Space
+            android:id="@+id/sks3"
+            android:layout_width="589dp"
+            android:layout_below="@+id/Row2"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_height="@dimen/spacehight"
+            android:background="@color/spacespinner"
+            android:layout_marginTop="0dp"/>
+
+        <RelativeLayout
+            android:id="@+id/Row3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sks3"
+            android:background="@drawable/spinnerrow">
+
+        <TextView
+            android:id="@+id/hight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Height- "
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:textColor="@color/displyatext"
+            android:textSize="@dimen/textsizespinner"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/editheight"
+            android:layout_width="250dp"
+            android:layout_height="35sp"
+            android:layout_marginLeft="@dimen/spacespinner"
+            android:background="#fff"
+            android:hint="Enter Height "
+            android:textColor="@color/displyaResult"
+            android:textSize="@dimen/textsizespinner" />
+
+        </RelativeLayout>
+
+        <Space
+            android:id="@+id/sks4"
+            android:layout_width="589dp"
+
+            android:layout_below="@+id/Row3"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+
+            android:layout_height="@dimen/spacehight"
+            android:background="@color/spacespinner"
+            android:layout_marginTop="0dp"/>
+
+        <Button
+
+            android:id="@+id/btnSave"
+            android:layout_width="193dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_below="@+id/sks4"
+            android:layout_gravity="center"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/button"
+            android:text="SAVE" />
+
+
+    </LinearLayout>
+</ScrollView>

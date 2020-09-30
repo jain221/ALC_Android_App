@@ -82,6 +82,7 @@ public class Cognito_Connection {
      */
     private static final String userPoolId = "eu-west-1_KYhwN9TAQ";
 
+
     /**
      * Add you app id
      */
@@ -92,13 +93,28 @@ public class Cognito_Connection {
      * set the App secret to null.
      * e.g. clientSecret = null;
      */
-    private static final String clientSecret = null;
 
+    private static final String clientSecret = null;
+//
+//    /**
+//     * Set Your User Pools region.
+//     * e.g. if your user pools are in US East (N Virginia) then set cognitoRegion = Regions.US_EAST_1.
+//     */
+    private static final Regions cognitoRegion = Regions.EU_WEST_1;
+//.........................................................................................................
+            //development
+
+
+//    private static final String userPoolId = "eu-west-2_wnRNdfHt3";
+//    private static final String clientId = "5o5c0a5trr5lgtqrud95jt7164";
+//    private static final String clientSecret = "1jkoqchtfg5lnmctqeouohesuo4vq3p0toa7ui04lfdul016h4b4";
+//    private static final Regions cognitoRegion = Regions.EU_WEST_2;
+ //.............................................................................................................
     /**
      * Set Your User Pools region.
      * e.g. if your user pools are in US East (N Virginia) then set cognitoRegion = Regions.US_EAST_1.
      */
-    private static final Regions cognitoRegion = Regions.EU_WEST_1;
+
 
     // User details from the service
     private static CognitoUserSession currSession;

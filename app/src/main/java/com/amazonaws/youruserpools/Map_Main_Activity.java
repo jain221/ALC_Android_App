@@ -430,9 +430,8 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
         // Find which item was selected
         switch(item.getItemId()) {
 
-
-            case R.id.nav_user_verify_attribute:
-                attributesVerification();
+            case R.id.nav_personal_details:
+                personal_details();
                 break;
 
             case R.id.nav_reassigned_assets:
@@ -462,10 +461,58 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
                 break;
 
             case R.id.nav_user_sign_out:
-
                 signOut();
                 break;
+
+            case R.id.nav_user_add_attribute:
+                // Add a new attribute
+                addAttribute();
+                break;
+
+            case R.id.nav_user_change_password:
+                // Change password
+                changePassword();
+                break;
+            case R.id.nav_user_verify_attribute:
+                // Confirm new user
+                // confirmUser();
+                attributesVerification();
+                break;
+            case R.id.nav_user_settings:
+                // Show user settings
+                showSettings();
+                break;
+
+            case R.id.nav_user_trusted_devices:
+                showTrustedDevices();
+                break;
+
         }
+    }
+
+    private void showTrustedDevices() {
+        Intent trustedDevicesActivity = new Intent(this, DeviceSettings.class);
+        startActivity(trustedDevicesActivity);
+    }
+
+    private void showSettings() {
+        Intent userSettingsActivity = new Intent(this,SettingsActivity.class);
+        startActivityForResult(userSettingsActivity, 20);
+    }
+
+    private void addAttribute() {
+        Intent addAttrbutesActivity = new Intent(this,AddAttributeActivity.class);
+        startActivityForResult(addAttrbutesActivity, 22);
+    }
+
+    private void changePassword() {
+        Intent changePssActivity = new Intent(this, ChangePasswordActivity.class);
+        startActivity(changePssActivity);
+    }
+
+    private void attributesVerification() {
+        Intent attrbutesActivity = new Intent(this,VerifyActivity.class);
+        startActivityForResult(attrbutesActivity, 21);
     }
 
     @Override
@@ -498,7 +545,7 @@ public class Map_Main_Activity extends AppCompatActivity implements OnMapReadyCa
 
 
     // Verify attributes
-    private void attributesVerification() {
+    private void personal_details() {
         Intent attrbutesActivity = new Intent(this,UserActivity.class);
         startActivityForResult(attrbutesActivity, 21);
     }
